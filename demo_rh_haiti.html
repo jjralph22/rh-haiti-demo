@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Système RH Haïtien — Démo Entreprise Nationale S.A.</title>
+<style>
+  :root {
+    --navy:#0D2B5E; --blue:#185FA5; --lblue:#D6E8F7; --lblue2:#EAF3FB;
+    --green:#0F6E56; --lgreen:#D4EDE7; --purple:#534AB7; --lpurp:#EEEDFE;
+    --amber:#854F0B; --lamber:#FEF3C7; --red:#A32D2D; --lred:#FCEBEB;
+    --grey:#F4F5F7; --lgrey:#D0D5DD; --dgrey:#6B7280;
+    --text:#1A1A2E; --text2:#6B7280; --text3:#9CA3AF;
+    --bg:#FFFFFF; --bg2:#F8F9FA; --bg3:#F1F3F5;
+    --border:#E5E7EB; --border2:#D1D5DB;
+    --radius:8px; --radius-sm:5px; --radius-lg:12px;
+    --shadow:0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#F0F2F5; color:var(--text); font-size:14px; }
+
+  /* ── LAYOUT ── */
+  .app { display:grid; grid-template-columns:220px 1fr; min-height:100vh; }
+  .sidebar { background:var(--navy); color:#fff; display:flex; flex-direction:column; position:fixed; left:0; top:0; bottom:0; width:220px; z-index:10; overflow-y:auto; }
+  .main { margin-left:220px; display:flex; flex-direction:column; min-height:100vh; }
+
+  /* ── SIDEBAR ── */
+  .brand { padding:18px 16px 14px; border-bottom:1px solid rgba(255,255,255,.1); }
+  .brand-logo { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+  .brand-icon { width:34px; height:34px; border-radius:8px; background:rgba(255,255,255,.15); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+  .brand-name { font-size:13px; font-weight:600; line-height:1.3; }
+  .brand-sub { font-size:10px; opacity:.6; }
+  .user-card { padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.1); display:flex; align-items:center; gap:10px; }
+  .user-av { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; flex-shrink:0; }
+  .user-name { font-size:12px; font-weight:500; }
+  .user-role { font-size:10px; opacity:.6; margin-top:1px; }
+  .nav-section { padding:14px 16px 4px; font-size:9px; font-weight:600; opacity:.5; text-transform:uppercase; letter-spacing:.08em; }
+  .nav-item { display:flex; align-items:center; gap:9px; padding:8px 16px; font-size:12px; cursor:pointer; color:rgba(255,255,255,.7); transition:all .12s; border-left:2px solid transparent; }
+  .nav-item:hover { background:rgba(255,255,255,.08); color:#fff; }
+  .nav-item.active { background:rgba(255,255,255,.12); color:#fff; border-left-color:#60A5FA; font-weight:500; }
+  .nav-ic { width:16px; text-align:center; font-size:14px; flex-shrink:0; }
+  .nav-badge { margin-left:auto; background:#EF4444; color:#fff; font-size:9px; font-weight:600; padding:1px 6px; border-radius:10px; }
+  .nav-footer { margin-top:auto; padding:12px 16px; font-size:10px; opacity:.4; border-top:1px solid rgba(255,255,255,.1); }
+
+  /* ── TOPBAR ── */
+  .topbar { background:#fff; border-bottom:1px solid var(--border); padding:12px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; box-shadow:var(--shadow); }
+  .page-title { font-size:15px; font-weight:600; color:var(--text); }
+  .page-sub { font-size:11px; color:var(--text2); margin-top:2px; }
+  .topbar-right { display:flex; align-items:center; gap:12px; }
+  .role-pill { display:flex; gap:3px; background:var(--bg2); border-radius:20px; padding:3px; border:1px solid var(--border); }
+  .rp-btn { padding:4px 12px; border-radius:16px; border:none; background:transparent; font-size:10px; font-weight:500; cursor:pointer; color:var(--text2); transition:all .12s; }
+  .rp-btn.active { color:#fff; }
+  .taux-badge { font-size:11px; color:var(--text2); background:var(--bg2); padding:5px 10px; border-radius:6px; border:1px solid var(--border); }
+
+  /* ── CONTENT ── */
+  .content { padding:24px; flex:1; }
+  .screen { display:none; }
+  .screen.active { display:block; }
+
+  /* ── COMPONENTS ── */
+  .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); padding:16px 18px; margin-bottom:16px; box-shadow:var(--shadow); }
+  .card-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px; }
+  .card-title { font-size:13px; font-weight:600; color:var(--text); }
+  .badge { display:inline-flex; align-items:center; padding:3px 9px; border-radius:20px; font-size:10px; font-weight:600; }
+  .b-ok   { background:#DCFCE7; color:#166534; }
+  .b-warn { background:#FEF3C7; color:#92400E; }
+  .b-info { background:#DBEAFE; color:#1E40AF; }
+  .b-pur  { background:#EDE9FE; color:#5B21B6; }
+  .b-red  { background:#FEE2E2; color:#991B1B; }
+  .b-neu  { background:var(--bg2); color:var(--text2); }
+
+  .stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+  .stat-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); padding:14px 16px; box-shadow:var(--shadow); }
+  .stat-val { font-size:26px; font-weight:700; line-height:1; }
+  .stat-lbl { font-size:11px; color:var(--text2); margin-top:4px; }
+  .stat-icon { font-size:20px; margin-bottom:8px; }
+
+  .alert { padding:10px 14px; border-radius:var(--radius); font-size:12px; margin-bottom:14px; display:flex; align-items:flex-start; gap:8px; border-left:3px solid; }
+  .alert.ok     { background:#F0FDF4; color:#166534; border-color:#22C55E; }
+  .alert.info   { background:#EFF6FF; color:#1E40AF; border-color:#3B82F6; }
+  .alert.warn   { background:#FFFBEB; color:#92400E; border-color:#F59E0B; }
+  .alert.pur    { background:#F5F3FF; color:#5B21B6; border-color:#8B5CF6; }
+  .alert.err    { background:#FEF2F2; color:#991B1B; border-color:#EF4444; }
+
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th { padding:8px 12px; background:var(--bg2); border:1px solid var(--border); font-weight:600; color:var(--text2); text-align:left; font-size:11px; }
+  td { padding:8px 12px; border:1px solid var(--border); color:var(--text); vertical-align:middle; }
+  tr:nth-child(even) td { background:var(--bg2); }
+  tr:hover td { background:#EFF6FF; }
+
+  .btn { padding:7px 14px; border-radius:var(--radius-sm); border:1px solid var(--border); background:#fff; color:var(--text2); font-size:12px; cursor:pointer; transition:all .12s; font-weight:500; }
+  .btn:hover { background:var(--bg2); }
+  .btn-primary { background:var(--blue); color:#fff; border-color:var(--blue); }
+  .btn-primary:hover { background:#1252A0; }
+  .btn-green   { background:var(--green); color:#fff; border-color:var(--green); }
+  .btn-red     { background:var(--red); color:#fff; border-color:var(--red); }
+  .btn-purple  { background:var(--purple); color:#fff; border-color:var(--purple); }
+  .btn-amber   { background:var(--amber); color:#fff; border-color:var(--amber); }
+
+  input, select, textarea { width:100%; padding:8px 10px; border:1px solid var(--border2); border-radius:var(--radius-sm); font-size:12px; font-family:inherit; color:var(--text); background:#fff; }
+  input:focus, select:focus, textarea:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(24,95,165,.1); }
+  textarea { resize:vertical; min-height:60px; }
+  input[readonly] { background:var(--bg2); color:var(--text2); }
+  label { font-size:11px; font-weight:500; color:var(--text2); display:block; margin-bottom:4px; }
+  .fg { margin-bottom:12px; }
+  .req { color:var(--red); }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+
+  .form-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow); }
+  .form-hdr { padding:16px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; background:var(--bg2); }
+  .form-body { padding:18px; }
+  .form-ftr { padding:12px 18px; border-top:1px solid var(--border); display:flex; gap:8px; background:var(--bg2); }
+
+  .step-track { display:flex; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border); margin-bottom:18px; }
+  .st { flex:1; padding:7px; text-align:center; font-size:10px; font-weight:500; color:var(--text2); background:var(--bg2); border-right:1px solid var(--border); }
+  .st:last-child { border-right:none; }
+  .st.cur { color:#fff; font-weight:600; }
+  .st.done { background:#DCFCE7; color:#166534; }
+
+  .sal-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:4px 0; }
+  .sal-opt { border:2px solid var(--border); border-radius:var(--radius); padding:10px; text-align:center; cursor:pointer; font-size:12px; font-weight:600; color:var(--text2); transition:all .12s; }
+  .sal-opt.avec { border-color:var(--blue); background:#EFF6FF; color:#1E40AF; }
+  .sal-opt.sans { border-color:var(--green); background:#F0FDF4; color:#166534; }
+
+  .success-screen { text-align:center; padding:32px 16px; }
+  .success-icon { font-size:40px; margin-bottom:12px; }
+  .success-title { font-size:16px; font-weight:600; color:var(--text); margin-bottom:6px; }
+  .success-sub { font-size:12px; color:var(--text2); margin-bottom:16px; }
+  .ref-tag { display:inline-block; padding:6px 16px; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-sm); font-family:monospace; font-size:13px; font-weight:600; }
+
+  .pipeline { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); margin-top:10px; }
+  .pl-step { padding:8px; text-align:center; font-size:10px; font-weight:500; background:var(--bg2); color:var(--text2); border-right:1px solid var(--border); }
+  .pl-step:last-child { border-right:none; }
+  .pl-step.done { background:#DCFCE7; color:#166534; }
+  .pl-step.cur  { color:#fff; }
+  .pl-step.wait { background:var(--bg2); color:var(--text3); }
+
+  .dom-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:8px; margin:10px 0; }
+  .dom-c { border:2px solid var(--border); border-radius:var(--radius); padding:10px 6px; text-align:center; cursor:pointer; transition:all .12s; }
+  .dom-c:hover { border-color:#93C5FD; background:#EFF6FF; }
+  .dom-c.sel { border-width:2px; }
+  .dom-ic { font-size:20px; display:block; margin-bottom:4px; }
+  .dom-lb { font-size:10px; font-weight:500; line-height:1.3; }
+
+  .toast { position:fixed; bottom:24px; right:24px; background:#166534; color:#fff; padding:12px 18px; border-radius:var(--radius); font-size:12px; font-weight:500; box-shadow:0 4px 12px rgba(0,0,0,.15); z-index:100; display:none; max-width:340px; }
+  .toast.show { display:block; animation:fadeIn .2s; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  .tl { display:flex; flex-direction:column; }
+  .tl-item { display:flex; gap:12px; padding-bottom:14px; position:relative; }
+  .tl-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; margin-top:2px; z-index:1; }
+  .tl-line { position:absolute; left:5px; top:14px; bottom:0; width:2px; background:var(--border); }
+  .tl-item:last-child .tl-line { display:none; }
+  .tl-title { font-size:12px; font-weight:600; color:var(--text); }
+  .tl-sub { font-size:11px; color:var(--text2); margin-top:2px; }
+
+  @media(max-width:768px) {
+    .app { grid-template-columns:1fr; }
+    .sidebar { position:relative; width:100%; height:auto; }
+    .main { margin-left:0; }
+    .stat-grid { grid-template-columns:repeat(2,1fr); }
+    .two-col, .three-col { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- ══ SIDEBAR ══════════════════════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-logo">
+      <div class="brand-icon">EN</div>
+      <div>
+        <div class="brand-name">Entreprise Nationale</div>
+        <div class="brand-sub">S.A. · Port-au-Prince, Haïti</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-card">
+    <div class="user-av" id="sb-av" style="background:#534AB7">AD</div>
+    <div>
+      <div class="user-name" id="sb-name">Admin Système</div>
+      <div class="user-role" id="sb-role">Administrateur</div>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section">Principal</div>
+    <div class="nav-item active" onclick="nav('dashboard',this)"><span class="nav-ic">⊞</span> Dashboard</div>
+    <div class="nav-item" onclick="nav('formulaires',this)"><span class="nav-ic">✏</span> Formulaires <span class="nav-badge">27</span></div>
+    <div class="nav-item" onclick="nav('demandes',this)"><span class="nav-ic">◎</span> Mes demandes</div>
+
+    <div class="nav-section" id="ns-admin">Admin / RH</div>
+    <div class="nav-item" id="ni-setup" onclick="nav('setup',this)"><span class="nav-ic">⚙</span> Setup entreprise</div>
+    <div class="nav-item" id="ni-validation" onclick="nav('validation',this)"><span class="nav-ic">✔</span> Validations <span class="nav-badge" id="val-nb">3</span></div>
+    <div class="nav-item" id="ni-payroll" onclick="nav('payroll',this)"><span class="nav-ic">💰</span> Payroll</div>
+    <div class="nav-item" id="ni-employes" onclick="nav('employes',this)"><span class="nav-ic">◉</span> Employés</div>
+
+    <div class="nav-section">Système</div>
+    <div class="nav-item" id="ni-audit" onclick="nav('audit',this)"><span class="nav-ic">🔍</span> Audit log</div>
+    <div class="nav-section">Mon espace</div>
+    <div class="nav-item" onclick="nav('profil',this)"><span class="nav-ic">👤</span> Mon profil</div>
+  </nav>
+
+  <div class="nav-footer">
+    Double payroll USD · HTG · G 132.50 / $1
+  </div>
+</aside>
+
+<!-- ══ MAIN ═════════════════════════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="pt">Dashboard</div>
+      <div class="page-sub" id="ps">Bienvenue · Mardi 28 avril 2026</div>
+    </div>
+    <div class="topbar-right">
+      <div class="role-pill" id="role-pill"></div>
+      <div class="taux-badge">BRH : G 132.50 / $1</div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="screen active" id="s-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val" style="color:var(--blue)">348</div><div class="stat-lbl">Employés actifs</div></div>
+        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" style="color:var(--green)">237</div><div class="stat-lbl">Présents aujourd'hui</div></div>
+        <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber)">3</div><div class="stat-lbl">Demandes en attente</div></div>
+        <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-val" style="color:var(--red)">2</div><div class="stat-lbl">Documents expirant</div></div>
+      </div>
+      <div class="alert warn">⚠ 2 documents expirent dans moins de 10 jours — Passeport Jean-Marc (15/05) · Visa Pierre (30/06)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">Demandes récentes</div><span class="badge b-warn">3 en cours</span></div>
+          <div class="tl">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div><div><div class="tl-title">Congé annuel — Jean-Marc Romain</div><div class="tl-sub">DEM-2026-0847 · En attente superviseur</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div><div><div class="tl-title">Prêt $500 — Pierre Moreau</div><div class="tl-sub">PRET-2026-0042 · En révision RH Manager</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div><div class="tl-title">Attestation visa — Carla Mervil</div><div class="tl-sub">ATT-COM-2026-0031 · Approuvée ✓</div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">Double payroll — Juin 2026</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#EFF6FF;border-radius:var(--radius);border:1px solid #BFDBFE">
+              <div><div style="font-size:12px;font-weight:600;color:var(--blue)">Payroll USD</div><div style="font-size:11px;color:var(--text2)">237 employés · Masse brute</div></div>
+              <div style="font-size:18px;font-weight:700;color:var(--blue)">$842K</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#F0FDF4;border-radius:var(--radius);border:1px solid #86EFAC">
+              <div><div style="font-size:12px;font-weight:600;color:var(--green)">Payroll HTG</div><div style="font-size:11px;color:var(--text2)">111 employés · Masse brute</div></div>
+              <div style="font-size:18px;font-weight:700;color:var(--green)">G 111M</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:4px">
+              <div style="background:#EFF6FF;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--blue)">ONA</div><div>6%·6%</div></div>
+              <div style="background:#F0FDF4;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--green)">CAS</div><div>3%·4%</div></div>
+              <div style="background:#F5F3FF;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--purple)">CFGDCT</div><div>2%·2%</div></div>
+              <div style="background:#FFFBEB;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--amber)">FDU</div><div>0.5%</div></div>
+              <div style="background:#FEF2F2;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--red)">IRI</div><div>0–30%</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FORMULAIRES ── -->
+    <div class="screen" id="s-formulaires">
+      <div class="alert ok">✓ Accès universel — Tout employé peut remplir et soumettre n'importe quel formulaire, quel que soit son rôle.</div>
+      <div id="form-list">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px">
+          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('conge')"><div style="font-size:18px;margin-bottom:8px">📅</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Congé annuel</div><div style="font-size:10px;color:var(--text2)">Cat. A/B/C · 48h</div></div>
+          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('visa')"><div style="font-size:18px;margin-bottom:8px">✈️</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Attestation visa</div><div style="font-size:10px;color:var(--text2)">Ambassades · 3 jours</div></div>
+          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('pret')"><div style="font-size:18px;margin-bottom:8px">💵</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Demande de prêt</div><div style="font-size:10px;color:var(--text2)">USD ou HTG · 5 jours</div></div>
+          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('sortie')"><div style="font-size:18px;margin-bottom:8px">🚪</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Autorisation sortie</div><div style="font-size:10px;color:var(--text2)">Max 2h · Immédiat</div></div>
+          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('hsup')"><div style="font-size:18px;margin-bottom:8px">⏰</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Heures supplémentaires</div><div style="font-size:10px;color:var(--text2)">Avec motif · 48h</div></div>
+          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('travail')"><div style="font-size:18px;margin-bottom:8px">📄</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Attestation de travail</div><div style="font-size:10px;color:var(--text2)">Avec/sans salaire · 3j</div></div>
+          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('bancaire')"><div style="font-size:18px;margin-bottom:8px">🏦</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Attestation bancaire</div><div style="font-size:10px;color:var(--text2)">Prêt / compte · 3j</div></div>
+          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('maladie')"><div style="font-size:18px;margin-bottom:8px">🤒</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Congé maladie</div><div style="font-size:10px;color:var(--text2)">Certificat médical</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--text2);text-align:center;margin-top:12px">8 formulaires sur 27 disponibles · Cliquez pour remplir</div>
+      </div>
+      <div id="form-active" style="display:none"></div>
+    </div>
+
+    <!-- ── DEMANDES ── -->
+    <div class="screen" id="s-demandes">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+        <div class="stat-card"><div class="stat-val" style="color:var(--amber);font-size:20px">3</div><div class="stat-lbl">En attente</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--green);font-size:20px">7</div><div class="stat-lbl">Approuvées</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--red);font-size:20px">1</div><div class="stat-lbl">Refusées</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--blue);font-size:20px">11</div><div class="stat-lbl">Total 2026</div></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Historique de mes demandes</div></div>
+        <table>
+          <tr><th>Référence</th><th>Type</th><th>Soumis le</th><th>Étape circuit</th><th>Statut</th></tr>
+          <tr><td><code>DEM-2026-0847</code></td><td>Congé annuel 5j</td><td>27/04/2026</td><td>2/4 — Superviseur</td><td><span class="badge b-warn">Attente sup.</span></td></tr>
+          <tr><td><code>PRET-2026-0042</code></td><td>Prêt $500 USD</td><td>25/04/2026</td><td>3/4 — RH Manager</td><td><span class="badge b-pur">Révision RH</span></td></tr>
+          <tr><td><code>ATT-COM-2026-0031</code></td><td>Attestation visa</td><td>26/04/2026</td><td>4/4 — Direction</td><td><span class="badge b-ok">Approuvée ✓</span></td></tr>
+          <tr><td><code>DEM-2026-0742</code></td><td>Congé maladie</td><td>10/03/2026</td><td>—</td><td><span class="badge b-red">Refusée</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── SETUP ── -->
+    <div class="screen" id="s-setup">
+      <div class="alert pur">⚙ Setup initial — configuré une seule fois par l'Administrateur lors de la création de l'entreprise.</div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:16px" id="setup-steps">
+        <div class="st done" onclick="gostep(1)">1 · Infos</div>
+        <div class="st done" onclick="gostep(2)">2 · RH</div>
+        <div class="st cur" id="st3" style="background:var(--purple)" onclick="gostep(3)">3 · Domaine</div>
+        <div class="st" onclick="gostep(4)">4 · Devise</div>
+        <div class="st" onclick="gostep(5)">5 · Admin</div>
+        <div class="st" onclick="gostep(6)">6 · Confirm.</div>
+      </div>
+      <div id="setup-content"></div>
+    </div>
+
+    <!-- ── VALIDATION ── -->
+    <div class="screen" id="s-validation">
+      <div class="alert info" id="val-info">ℹ Les demandes arrivent ici après soumission par l'employé. Vous pouvez aussi valider via le lien dans votre email (token).</div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-title" id="val-title">Demandes à viser</div><span class="badge b-warn" id="val-count">3 en attente</span></div>
+        <div id="val-list"></div>
+      </div>
+    </div>
+
+    <!-- ── PAYROLL ── -->
+    <div class="screen" id="s-payroll">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+        <div class="stat-card"><div class="stat-val" style="color:var(--blue)">237</div><div class="stat-lbl">Employés USD</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--green)">111</div><div class="stat-lbl">Employés HTG</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--blue);font-size:20px">$842K</div><div class="stat-lbl">Masse brute USD</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--green);font-size:20px">G 111M</div><div class="stat-lbl">Masse brute HTG</div></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Bulletins USD — Juin 2026</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-primary" onclick="toast('Payroll USD lancé — 237 bulletins générés · Emails envoyés')">Lancer USD</button>
+            <button class="btn btn-green" onclick="toast('Payroll HTG lancé — 111 bulletins en gourdes générés')">Lancer HTG</button>
+          </div>
+        </div>
+        <table>
+          <tr><th>Employé</th><th>Brut</th><th>H. sup.</th><th>Réductions</th><th>Taxes</th><th>Net USD</th><th>Équiv. HTG</th><th>PDF</th></tr>
+          <tr><td><strong>Jean-Marc Romain</strong></td><td style="color:var(--blue)">$1 500</td><td style="color:var(--green)">+$183</td><td style="color:var(--red)">-$285</td><td style="color:var(--red)">-$399</td><td><strong>$999</strong></td><td style="color:var(--text2)">G 132 368</td><td><button class="btn" style="font-size:10px;padding:3px 8px" onclick="toast('PDF BUL-USD-2026-06-0128 généré · SHA-256 signé')">🖨 PDF</button></td></tr>
+          <tr><td><strong>Carla Mervil</strong></td><td style="color:var(--blue)">$1 800</td><td style="color:var(--green)">+$56</td><td style="color:var(--red)">-$80</td><td style="color:var(--red)">-$479</td><td><strong>$1 297</strong></td><td style="color:var(--text2)">G 171 853</td><td><button class="btn" style="font-size:10px;padding:3px 8px" onclick="toast('PDF BUL-USD-2026-06-0076 généré')">🖨 PDF</button></td></tr>
+          <tr><td><strong>Pierre Moreau</strong></td><td style="color:var(--blue)">$2 200</td><td style="color:var(--green)">+$113</td><td style="color:var(--red)">-$0</td><td style="color:var(--red)">-$588</td><td><strong>$1 725</strong></td><td style="color:var(--text2)">G 228 563</td><td><button class="btn" style="font-size:10px;padding:3px 8px" onclick="toast('PDF BUL-USD-2026-06-0099 généré')">🖨 PDF</button></td></tr>
+        </table>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Bulletin HTG — Nadège Charles</div>
+          <table>
+            <tr><th>Employé</th><th>Brut HTG</th><th>H. sup.</th><th>Taxes</th><th>Net HTG</th><th>Équiv. USD</th><th>PDF</th></tr>
+            <tr><td><strong>Nadège Charles</strong></td><td style="color:var(--green)">G 198 750</td><td style="color:var(--green)">+G 13 043</td><td style="color:var(--red)">-G 59 120</td><td><strong>G 172 840</strong></td><td style="color:var(--text2)">$1 305</td><td><button class="btn" style="font-size:10px;padding:3px 8px" onclick="toast('PDF BUL-HTG-2026-06-0044 généré en gourdes')">🖨 PDF</button></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EMPLOYÉS ── -->
+    <div class="screen" id="s-employes">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Tous les employés — 348</div><button class="btn btn-primary" onclick="toast('Formulaire d\'ajout employé ouvert')">+ Ajouter</button></div>
+        <table>
+          <tr><th>Matricule</th><th>Nom</th><th>Rôle</th><th>Département</th><th>Salaire</th><th>Devise</th><th>Catégorie</th><th>Statut</th></tr>
+          <tr><td><code>EMP-2010-0001</code></td><td><strong>Marie Celcis</strong></td><td><span class="badge b-pur">Admin</span></td><td>RH</td><td>$5 000</td><td>USD</td><td>Cat. C</td><td><span class="badge b-ok">Actif</span></td></tr>
+          <tr><td><code>EMP-2015-0010</code></td><td><strong>Jean-Pierre Fils</strong></td><td><span class="badge b-ok">RH Manager</span></td><td>RH</td><td>$3 500</td><td>USD</td><td>Cat. C</td><td><span class="badge b-ok">Actif</span></td></tr>
+          <tr><td><code>EMP-2018-0025</code></td><td><strong>Roody Joseph</strong></td><td><span class="badge b-warn">Superviseur</span></td><td>IT</td><td>$2 500</td><td>USD</td><td>Cat. B</td><td><span class="badge b-ok">Actif</span></td></tr>
+          <tr><td><code>EMP-2023-0128</code></td><td><strong>Jean-Marc Romain</strong></td><td><span class="badge b-neu">HR Support</span></td><td>IT</td><td>$1 500</td><td>USD</td><td>Cat. A</td><td><span class="badge b-ok">Actif</span></td></tr>
+          <tr><td><code>EMP-2020-0076</code></td><td><strong>Carla Mervil</strong></td><td><span class="badge b-neu">HR Support</span></td><td>Finance</td><td>$1 800</td><td>USD</td><td>Cat. A</td><td><span class="badge b-ok">Actif</span></td></tr>
+          <tr><td><code>EMP-2008-0044</code></td><td><strong>Nadège Charles</strong></td><td><span class="badge b-neu">HR Support</span></td><td>Finance</td><td>G 198 750</td><td>HTG</td><td>Cat. C</td><td><span class="badge b-ok">Actif</span></td></tr>
+          <tr><td><code>EMP-2021-0099</code></td><td><strong>Pierre Moreau</strong></td><td><span class="badge b-neu">HR Support</span></td><td>Opérations</td><td>$2 200</td><td>USD</td><td>Cat. A</td><td><span class="badge b-ok">Actif</span></td></tr>
+        </table>
+        <div style="font-size:11px;color:var(--text2);text-align:center;margin-top:8px">7 sur 348 employés affichés</div>
+      </div>
+    </div>
+
+    <!-- ── AUDIT ── -->
+    <div class="screen" id="s-audit">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Journal d'audit — immuable</div><span class="badge b-red">Lecture seule</span></div>
+        <table>
+          <tr><th>#</th><th>Action</th><th>Utilisateur</th><th>Table</th><th>Source</th><th>IP</th><th>Horodatage</th></tr>
+          <tr><td><code>44821</code></td><td><span class="badge b-info">LOGIN</span></td><td>Admin Système</td><td>—</td><td>web</td><td>192.168.1.10</td><td>28/04 09h02</td></tr>
+          <tr><td><code>44820</code></td><td><span class="badge b-pur">TOKEN_USE</span></td><td>Roody Joseph</td><td>demandes</td><td>email_token</td><td>10.0.0.5</td><td>27/04 11h34</td></tr>
+          <tr><td><code>44819</code></td><td><span class="badge b-warn">PAYROLL</span></td><td>Jean-Pierre Fils</td><td>paie</td><td>web</td><td>192.168.1.22</td><td>30/06 10h14</td></tr>
+          <tr><td><code>44818</code></td><td><span class="badge b-pur">PRINT</span></td><td>Jean-Pierre Fils</td><td>demandes</td><td>web</td><td>192.168.1.22</td><td>27/04 11h30</td></tr>
+          <tr><td><code>44817</code></td><td><span class="badge b-warn">UPDATE</span></td><td>Admin Système</td><td>employes</td><td>web</td><td>192.168.1.10</td><td>27/04 10h55</td></tr>
+          <tr><td><code>44816</code></td><td><span class="badge b-ok">CREATE</span></td><td>Admin Système</td><td>employes</td><td>web</td><td>192.168.1.10</td><td>26/04 15h22</td></tr>
+          <tr><td><code>44815</code></td><td><span class="badge b-ok">SETUP</span></td><td>Admin Système</td><td>entreprises</td><td>web</td><td>192.168.1.10</td><td>01/01 08h00</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── PROFIL ── -->
+    <div class="screen" id="s-profil">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:16px">
+          <div id="profil-av" style="width:56px;height:56px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff">AD</div>
+          <div>
+            <div style="font-size:16px;font-weight:600" id="profil-name">Admin Système</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px">Administrateur · Accès total · Entreprise Nationale S.A.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Matricule</div><div style="font-size:13px;font-weight:600" id="profil-mat">EMP-2010-0001</div></div>
+          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Devise paie</div><div style="font-size:13px;font-weight:600;color:var(--blue)">USD</div></div>
+          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--border2);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Solde congés 2026</div><div style="font-size:13px;font-weight:600;color:var(--green)">8 jours (Cat. C)</div></div>
+          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Secteur entreprise</div><div style="font-size:13px;font-weight:600;color:var(--purple)">Commerce · COM</div></div>
+          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Ancienneté</div><div style="font-size:13px;font-weight:600">16 ans</div></div>
+          <div style="background:#FEF2F2;padding:10px 12px;border-radius:var(--radius);border:1px solid #FECACA"><div style="font-size:10px;color:var(--red)">Aucun doc. expirant</div><div style="font-size:13px;font-weight:600;color:var(--green)">Tous valides ✓</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DONNÉES ──────────────────────────────────────────────────────────────────
+const ROLES = {
+  admin: { label:'Admin',       color:'#534AB7', init:'AD', name:'Admin Système',    role:'Administrateur',          mat:'EMP-2010-0001' },
+  mgr:   { label:'RH Manager',  color:'#0F6E56', init:'MC', name:'Marie Celcis',     role:'RH Manager',              mat:'EMP-2015-0010' },
+  sup:   { label:'Superviseur', color:'#854F0B', init:'RJ', name:'Roody Joseph',     role:'Superviseur IT',          mat:'EMP-2018-0025' },
+  emp:   { label:'Employé',     color:'#185FA5', init:'JM', name:'Jean-Marc Romain', role:'Technicien Senior IT',    mat:'EMP-2023-0128' },
+};
+
+const DOMAINES = [
+  {id:'commerce',ic:'🏪',lb:'Commerce',c:'#185FA5'},
+  {id:'finance',ic:'🏦',lb:'Finance',c:'#0F6E56'},
+  {id:'sante',ic:'🏥',lb:'Santé',c:'#A32D2D'},
+  {id:'education',ic:'🎓',lb:'Éducation',c:'#534AB7'},
+  {id:'btp',ic:'🏗️',lb:'BTP',c:'#854F0B'},
+  {id:'tech',ic:'💻',lb:'Tech & IT',c:'#185FA5'},
+  {id:'transport',ic:'🚛',lb:'Transport',c:'#633806'},
+  {id:'ong',ic:'🌍',lb:'ONG / Intl',c:'#0F6E56'},
+  {id:'public',ic:'🏛️',lb:'Secteur pub.',c:'#0C447C'},
+  {id:'tourisme',ic:'🏨',lb:'Tourisme',c:'#993C1D'},
+  {id:'agri',ic:'🌾',lb:'Agriculture',c:'#3B6D11'},
+  {id:'media',ic:'📡',lb:'Médias',c:'#534AB7'},
+  {id:'juridique',ic:'⚖️',lb:'Droit',c:'#444441'},
+  {id:'immobilier',ic:'🏠',lb:'Immobilier',c:'#712B13'},
+  {id:'energie',ic:'⚡',lb:'Énergie',c:'#27500A'},
+  {id:'autre',ic:'⚙️',lb:'Autre',c:'#5F5E5A'},
+];
+
+let currentRole = 'admin';
+let selectedDom = 'commerce';
+let setupStep = 3;
+let valDone = [false, false, false];
+
+// ── RÔLES ─────────────────────────────────────────────────────────────────────
+function buildRolePill() {
+  const c = document.getElementById('role-pill');
+  c.innerHTML = '';
+  Object.entries(ROLES).forEach(([id,r]) => {
+    const b = document.createElement('button');
+    b.className = 'rp-btn' + (id === currentRole ? ' active' : '');
+    b.textContent = r.label;
+    if (id === currentRole) b.style.background = r.color;
+    b.onclick = () => switchRole(id);
+    c.appendChild(b);
+  });
+}
+
+function switchRole(id) {
+  currentRole = id;
+  const r = ROLES[id];
+  document.getElementById('sb-av').textContent = r.init;
+  document.getElementById('sb-av').style.background = r.color;
+  document.getElementById('sb-name').textContent = r.name;
+  document.getElementById('sb-role').textContent = r.role;
+  document.getElementById('profil-av').textContent = r.init;
+  document.getElementById('profil-av').style.background = r.color;
+  document.getElementById('profil-name').textContent = r.name;
+  document.getElementById('profil-mat').textContent = r.mat;
+  document.getElementById('ps').textContent = 'Bienvenue, ' + r.name.split(' ')[0] + ' · Mardi 28 avril 2026';
+  const isRH = id === 'admin' || id === 'mgr' || id === 'sup';
+  ['ni-setup','ni-validation','ni-payroll','ni-employes','ni-audit'].forEach(nid => {
+    const el = document.getElementById(nid);
+    if (el) el.style.display = isRH ? 'flex' : 'none';
+  });
+  document.getElementById('ns-admin').style.display = isRH ? 'block' : 'none';
+  if (id === 'sup') {
+    document.getElementById('val-title').textContent = 'Demandes à viser — Superviseur';
+    document.getElementById('val-info').textContent = 'ℹ Vous êtes l\'étape 2/4. Visez les demandes de votre équipe avant qu\'elles atteignent le RH Manager.';
+  } else if (id === 'mgr') {
+    document.getElementById('val-title').textContent = 'Validation RH Manager — Étape 3/4';
+    document.getElementById('val-info').textContent = 'ℹ Vous ne recevez que les demandes déjà visées par le superviseur. Validez puis imprimez pour la Direction.';
+  } else {
+    document.getElementById('val-title').textContent = 'Toutes les demandes — Administrateur';
+    document.getElementById('val-info').textContent = 'ℹ Accès complet à toutes les demandes, tous les employés, sans restriction.';
+  }
+  buildRolePill();
+  buildValList();
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function nav(id, el) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  const titles = {
+    dashboard:'Dashboard', formulaires:'Mes formulaires', demandes:'Mes demandes',
+    setup:'Setup entreprise', validation:'File de validation', payroll:'Payroll USD + HTG',
+    employes:'Tous les employés', audit:'Journal d\'audit', profil:'Mon profil'
+  };
+  document.getElementById('pt').textContent = titles[id] || id;
+  if (id === 'formulaires') {
+    document.getElementById('form-list').style.display = 'block';
+    document.getElementById('form-active').style.display = 'none';
+  }
+  if (id === 'setup') gostep(setupStep);
+}
+
+// ── FORMULAIRES ───────────────────────────────────────────────────────────────
+function openForm(type) {
+  document.getElementById('form-list').style.display = 'none';
+  document.getElementById('form-active').style.display = 'block';
+  const r = ROLES[currentRole];
+  const forms = {
+    conge: { icon:'📅', name:'Demande de congé annuel', color:'#0F6E56',
+      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#0F6E56">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
+      <div class="fg"><label>Régime de congé <span class="req">*</span></label><select><option>15 jours consécutifs — Cat. A (moins de 10 ans)</option><option>21 jours consécutifs — Cat. B (10 à 14 ans)</option><option>15 jours ouvrables — Cat. C (15 ans et plus)</option></select></div>
+      <div class="two-col"><div class="fg"><label>Date de début <span class="req">*</span></label><input type="date" value="2026-06-20"></div><div class="fg"><label>Date de fin <span class="req">*</span></label><input type="date" value="2026-06-24"></div></div>
+      <div class="fg"><label>Intérimaire désigné</label><input type="text" placeholder="Nom du collègue remplaçant"></div>
+      <div class="fg"><label>Solde disponible</label><input value="14 jours restants (Cat. A)" readonly></div>
+      <div class="fg"><label>Observations</label><textarea placeholder="Informations complémentaires..."></textarea></div>` },
+    visa: { icon:'✈️', name:'Attestation pour visa / voyage', color:'#534AB7',
+      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#534AB7">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
+      <div class="fg"><label>Ambassade / Consulat <span class="req">*</span></label><input type="text" placeholder="ex: Ambassade des États-Unis, Port-au-Prince"></div>
+      <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option selected>Anglais</option></select></div><div class="fg"><label>Pays de destination</label><input type="text" placeholder="États-Unis"></div></div>
+      <div class="fg"><label>Mention du salaire</label>
+        <div class="sal-row">
+          <div class="sal-opt avec" id="sal-a" onclick="toggleSal('avec')">☑ AVEC SALAIRE<br><small>Montant mentionné</small></div>
+          <div class="sal-opt" id="sal-s" onclick="toggleSal('sans')">☐ SANS SALAIRE<br><small>Emploi seul</small></div>
+        </div></div>
+      <div class="fg" id="sal-det"><label>Type de salaire</label><select><option>Salaire brut mensuel</option><option>Salaire net mensuel</option><option>Les deux</option></select></div>
+      <div class="fg"><label>Devise</label><select><option>USD ($)</option><option>HTG (G)</option></select></div>` },
+    pret: { icon:'💵', name:'Demande de prêt', color:'#854F0B',
+      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#854F0B">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
+      <div class="two-col"><div class="fg"><label>Devise <span class="req">*</span></label><select><option>USD — Dollar américain</option><option>HTG — Gourde haïtienne</option></select></div><div class="fg"><label>Montant <span class="req">*</span></label><input type="number" placeholder="500" value="500"></div></div>
+      <div class="two-col"><div class="fg"><label>Mensualités</label><select><option>3 mois</option><option selected>6 mois</option><option>9 mois</option><option>12 mois</option></select></div><div class="fg"><label>Motif <span class="req">*</span></label><select><option selected>Urgence médicale</option><option>Scolarité</option><option>Logement</option></select></div></div>
+      <div class="fg"><label>Mensualité calculée</label><input value="$83.33 / mois pendant 6 mois" readonly></div>
+      <div class="fg"><label>Détails</label><textarea placeholder="Décrivez la situation..."></textarea></div>` },
+    sortie: { icon:'🚪', name:'Autorisation de sortie', color:'#A32D2D',
+      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#A32D2D">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
+      <div class="alert warn" style="margin-bottom:12px">⚠ Maximum 2 heures. Cas d'urgence uniquement — non récurrent.</div>
+      <div class="fg"><label>Date <span class="req">*</span></label><input type="date" value="2026-04-28"></div>
+      <div class="three-col"><div class="fg"><label>Heure de sortie <span class="req">*</span></label><input placeholder="14h00"></div><div class="fg"><label>Retour prévu</label><input placeholder="16h00"></div><div class="fg"><label>Durée</label><input placeholder="2h"></div></div>
+      <div class="fg"><label>Motif <span class="req">*</span></label><select><option>Rendez-vous médical</option><option>Démarche administrative</option><option>Mission professionnelle</option><option>Urgence familiale</option></select></div>
+      <div class="fg"><label>Détail</label><textarea placeholder="Précisez si nécessaire..."></textarea></div>` },
+    hsup: { icon:'⏰', name:'Heures supplémentaires', color:'#993C1D',
+      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#993C1D">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
+      <div class="fg"><label>Date <span class="req">*</span></label><input type="date" value="2026-04-28"></div>
+      <div class="two-col"><div class="fg"><label>Heure début <span class="req">*</span></label><input placeholder="17h00"></div><div class="fg"><label>Heure fin <span class="req">*</span></label><input placeholder="20h00"></div></div>
+      <div class="fg"><label>Majoration</label><select><option>+50% (jours normaux)</option><option>+100% (dimanche / férié)</option><option>+25% (samedi matin)</option></select></div>
+      <div class="fg"><label>Motif obligatoire <span class="req">*</span></label><textarea placeholder="ex: Migration serveur urgente — bon de travail #BT-0412"></textarea></div>` },
+    travail: { icon:'📄', name:'Attestation de travail', color:'#534AB7',
+      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#534AB7">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
+      <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text" placeholder="ex: Banque Scotia Haïti"></div>
+      <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option>Créole haïtien</option><option>Anglais</option></select></div><div class="fg"><label>Nb d'exemplaires</label><select><option>1</option><option>2</option><option>3</option></select></div></div>
+      <div class="fg"><label>Mention du salaire</label>
+        <div class="sal-row"><div class="sal-opt" id="st-a" onclick="toggleSalT('avec')">☐ AVEC SALAIRE</div><div class="sal-opt sans" id="st-s" onclick="toggleSalT('sans')">☑ SANS SALAIRE</div></div></div>
+      <div class="fg"><label>Objet / Motif</label><textarea placeholder="ex: Demande de prêt immobilier"></textarea></div>` },
+    bancaire: { icon:'🏦', name:'Attestation bancaire', color:'#534AB7',
+      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#534AB7">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
+      <div class="fg"><label>Banque destinataire <span class="req">*</span></label><input type="text" placeholder="ex: BNC Haïti"></div>
+      <div class="fg"><label>Objet</label><select><option>Demande de prêt</option><option>Ouverture de compte</option><option>Carte de crédit</option></select></div>
+      <div class="fg"><label>Mention du salaire</label>
+        <div class="sal-row"><div class="sal-opt avec">☑ AVEC SALAIRE</div><div class="sal-opt">☐ SANS SALAIRE</div></div></div>
+      <div class="two-col"><div class="fg"><label>Type</label><select><option>Salaire brut mensuel</option><option>Salaire net mensuel</option></select></div><div class="fg"><label>Devise</label><select><option>USD ($)</option><option>HTG (G)</option></select></div></div>` },
+    maladie: { icon:'🤒', name:'Congé maladie', color:'#A32D2D',
+      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#A32D2D">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
+      <div class="two-col"><div class="fg"><label>Date de début <span class="req">*</span></label><input type="date"></div><div class="fg"><label>Date de retour prévue <span class="req">*</span></label><input type="date"></div></div>
+      <div class="fg"><label>Médecin traitant</label><input type="text" placeholder="Nom du médecin"></div>
+      <div class="fg"><label>Référence certificat médical</label><input type="text" placeholder="N° du document"></div>
+      <div class="fg"><label>Observations</label><textarea></textarea></div>` },
+  };
+  const f = forms[type];
+  if (!f) return;
+  document.getElementById('form-active').innerHTML = `
+    <div class="form-card">
+      <div class="form-hdr">
+        <div style="font-size:22px">${f.icon}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600">${f.name}</div>
+          <div style="font-size:11px;color:var(--text2)">Soumis par ${r.name} (${r.role}) · Accès universel confirmé</div>
+        </div>
+        <button class="btn" onclick="backToList()">← Retour</button>
+      </div>
+      <div class="form-body">
+        <div class="alert ok" style="margin-bottom:14px">✓ Rôle : <strong>${r.role}</strong> — Accès universel à ce formulaire</div>
+        ${f.body}
+      </div>
+      <div class="form-ftr">
+        <button class="btn" onclick="backToList()">Annuler</button>
+        <button class="btn" style="flex:1;background:${f.color};color:#fff;border-color:${f.color}" onclick="submitForm('${type}')">Soumettre la demande →</button>
+      </div>
+    </div>`;
+}
+
+function backToList() {
+  document.getElementById('form-list').style.display = 'block';
+  document.getElementById('form-active').style.display = 'none';
+}
+
+function toggleSal(c) {
+  const a = document.getElementById('sal-a'), s = document.getElementById('sal-s'), d = document.getElementById('sal-det');
+  if (c === 'avec') { a.className='sal-opt avec'; a.innerHTML='☑ AVEC SALAIRE<br><small>Montant mentionné</small>'; s.className='sal-opt'; s.innerHTML='☐ SANS SALAIRE<br><small>Emploi seul</small>'; if(d) d.style.display='block'; }
+  else { s.className='sal-opt sans'; s.innerHTML='☑ SANS SALAIRE<br><small>Emploi seul</small>'; a.className='sal-opt'; a.innerHTML='☐ AVEC SALAIRE<br><small>Montant mentionné</small>'; if(d) d.style.display='none'; }
+}
+function toggleSalT(c) {
+  const a = document.getElementById('st-a'), s = document.getElementById('st-s');
+  if (c === 'avec') { a.className='sal-opt avec'; a.textContent='☑ AVEC SALAIRE'; s.className='sal-opt'; s.textContent='☐ SANS SALAIRE'; }
+  else { s.className='sal-opt sans'; s.textContent='☑ SANS SALAIRE'; a.className='sal-opt'; a.textContent='☐ AVEC SALAIRE'; }
+}
+
+function submitForm(type) {
+  const cats = { conge:'DEM', visa:'ATT', pret:'PRET', sortie:'AUT', hsup:'DEM', travail:'ATT', bancaire:'ATT', maladie:'DEM' };
+  const ref = (cats[type]||'DEM') + '-2026-' + Math.floor(Math.random()*9000+1000);
+  document.getElementById('form-active').innerHTML = `
+    <div class="form-card">
+      <div class="form-body">
+        <div class="success-screen">
+          <div class="success-icon">✅</div>
+          <div class="success-title">Demande soumise avec succès !</div>
+          <div class="success-sub">Circuit de validation déclenché — 4 étapes obligatoires</div>
+          <div class="ref-tag">${ref}</div>
+          <div class="pipeline" style="margin-top:16px">
+            <div class="pl-step done">1 ✓ Soumis</div>
+            <div class="pl-step cur" style="background:var(--amber)">2 ⏳ Superviseur</div>
+            <div class="pl-step wait">3 — RH Manager</div>
+            <div class="pl-step wait">4 — Direction</div>
+          </div>
+          <div style="font-size:11px;color:var(--text2);margin-top:12px">Email envoyé au superviseur avec lien de validation (token email)</div>
+          <div style="margin-top:16px"><button class="btn" onclick="backToList()">← Autres formulaires</button></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── VALIDATION ────────────────────────────────────────────────────────────────
+const VAL_DATA = [
+  {ic:'📅', name:'Congé annuel — Jean-Marc Romain', ref:'DEM-2026-0847', meta:'5 jours · 20–24 juin · IT · Solde: 14j'},
+  {ic:'📄', name:'Attestation visa — Carla Mervil',  ref:'ATT-COM-2026-0031', meta:'Ambassade USA · Finance · Sans salaire'},
+  {ic:'💵', name:'Prêt $500 USD — Pierre Moreau',    ref:'PRET-2026-0042', meta:'Urgence médicale · Opérations · 6 mensualités'},
+];
+
+function buildValList() {
+  const isRH = currentRole === 'mgr' || currentRole === 'admin';
+  const c = document.getElementById('val-list');
+  let remaining = valDone.filter(v => !v).length;
+  document.getElementById('val-count').textContent = remaining + ' en attente';
+  c.innerHTML = VAL_DATA.map((v, i) => valDone[i]
+    ? `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;opacity:.5"><span style="font-size:16px">${v.ic}</span><div style="flex:1"><div style="font-size:12px;font-weight:500">${v.name}</div><div style="font-size:10px;color:var(--text2)">${v.ref} · Traité</div></div><span class="badge b-ok">Traité ✓</span></div>`
+    : `<div style="border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:10px">
+        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">
+          <span style="font-size:16px">${v.ic}</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600">${v.name}</div><div style="font-size:10px;color:var(--text2)">${v.ref} · ${v.meta}</div></div>
+          <span class="badge b-warn">À ${isRH ? 'valider' : 'viser'}</span>
+        </div>
+        <div class="fg" style="margin-bottom:8px"><label>Motif / Commentaire <span class="req">*</span> obligatoire</label><textarea id="m${i}" style="min-height:44px" placeholder="Saisissez votre motif avant de valider ou refuser..."></textarea></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="valAction(${i},'ok')" style="font-size:11px">✓ ${isRH ? 'Valider' : 'Viser — Approuver'}</button>
+          <button class="btn btn-red" onclick="valAction(${i},'ko')" style="font-size:11px">✗ Refuser</button>
+          ${isRH ? `<button class="btn btn-purple" onclick="valAction(${i},'print')" style="font-size:11px">🖨 Valider & Imprimer</button>` : ''}
+          <button class="btn" onclick="valAction(${i},'info')" style="font-size:11px">? Infos requises</button>
+        </div>
+      </div>`
+  ).join('') || `<div style="text-align:center;padding:24px;color:var(--text2)">Aucune demande en attente</div>`;
+}
+
+function valAction(i, action) {
+  const motif = document.getElementById('m' + i)?.value?.trim();
+  if (!motif) {
+    document.getElementById('m' + i).style.borderColor = 'var(--red)';
+    document.getElementById('m' + i).placeholder = '⚠ Le motif est obligatoire !';
+    return;
+  }
+  valDone[i] = true;
+  const msgs = {
+    ok:'Demande approuvée · Transmise à l\'étape suivante · Email envoyé',
+    ko:'Demande refusée · Employé notifié par email avec le motif',
+    print:'Validée · PDF généré · Envoyé à l\'imprimante pour la Direction',
+    info:'Informations demandées à l\'employé · Demande en attente',
+  };
+  toast(msgs[action] || 'Action enregistrée');
+  buildValList();
+}
+
+// ── SETUP ─────────────────────────────────────────────────────────────────────
+const SETUP_STEPS = {
+  1: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 1 — Informations de la société</div><span class="badge b-pur">1/6</span></div>
+    <div class="two-col"><div class="fg"><label>Raison sociale <span class="req">*</span></label><input value="Entreprise Nationale S.A."></div><div class="fg"><label>Forme juridique</label><select><option selected>Société Anonyme (S.A.)</option><option>S.A.R.L.</option><option>ONG</option><option>Institution publique</option></select></div></div>
+    <div class="two-col"><div class="fg"><label>NIF Haïtien <span class="req">*</span></label><input value="HT-0042-2019"></div><div class="fg"><label>Département (Haïti) <span class="req">*</span></label><select><option selected>Ouest</option><option>Nord</option><option>Sud</option><option>Artibonite</option><option>Centre</option></select></div></div>
+    <div class="fg"><label>Adresse complète</label><input value="Rue Magny, Pétion-Ville, Port-au-Prince"></div>
+    <div class="two-col"><div class="fg"><label>Téléphone</label><input value="+509 3700 0042"></div><div class="fg"><label>Email officiel</label><input value="info@entreprise-nationale.com"></div></div>
+    <div class="fg"><label>Directeur Général</label><input value="Jean-Robert Baptiste"></div>
+    <div style="display:flex;justify-content:flex-end;margin-top:4px"><button class="btn btn-purple" onclick="gostep(2)">Étape suivante →</button></div></div>`,
+
+  2: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 2 — Paramètres RH</div><span class="badge b-pur">2/6</span></div>
+    <div class="two-col"><div class="fg"><label>Taille entreprise</label><select><option>Micro (1–9)</option><option>Petite (10–49)</option><option selected>Moyenne (50–249)</option><option>Grande (250+)</option></select></div><div class="fg"><label>Délai alerte documents (jours)</label><input type="number" value="10"></div></div>
+    <div class="two-col"><div class="fg"><label>Délai max validation (h)</label><input type="number" value="48"></div><div class="fg"><label>Convention collective</label><select><option selected>Code du travail haïtien</option><option>Convention bancaire</option><option>Convention enseignement</option></select></div></div>
+    <div class="fg"><label>Jours ouvrés</label><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
+      ${['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi matin'].map((j,i)=>`<label style="font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px"><input type="checkbox" ${i<5?'checked':''} style="width:auto"> ${j}</label>`).join('')}</div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px"><button class="btn" onclick="gostep(1)">← Précédent</button><button class="btn btn-purple" onclick="gostep(3)">Étape suivante →</button></div></div>`,
+
+  3: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 3 — Domaine d'activité</div><span class="badge b-pur">3/6</span></div>
+    <div class="alert info">Ce choix adapte automatiquement les formulaires d'attestation, les champs sectoriels et les références des formulaires.</div>
+    <div class="fg"><label>Sélectionnez le domaine principal <span class="req">*</span></label></div>
+    <div class="dom-grid" id="dom-g"></div>
+    <div id="dom-impact" style="display:none;margin-top:10px"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:10px"><button class="btn" onclick="gostep(2)">← Précédent</button><button class="btn btn-purple" onclick="gostep(4)">Étape suivante →</button></div></div>`,
+
+  4: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 4 — Devise & Taux de change</div><span class="badge b-pur">4/6</span></div>
+    <div class="alert warn">Le taux BRH est figé à chaque génération de bulletin. Il s'applique aux bulletins futurs uniquement.</div>
+    <div class="two-col"><div class="fg"><label>Devise principale <span class="req">*</span></label><select><option>USD uniquement</option><option>HTG uniquement</option><option selected>USD + HTG (double payroll)</option></select></div><div class="fg"><label>Taux BRH actuel (HTG / 1 USD)</label><input type="number" value="132.50" step="0.01"></div></div>
+    <div class="fg"><label>Taxes haïtiennes activées</label>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:6px">
+        <div style="background:#EFF6FF;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#1E40AF">ONA</div><div>6% · 6%</div></div>
+        <div style="background:#F0FDF4;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#166534">CAS</div><div>3% · 4%</div></div>
+        <div style="background:#F5F3FF;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#5B21B6">CFGDCT</div><div>2% · 2%</div></div>
+        <div style="background:#FFFBEB;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#92400E">FDU</div><div>— · 0.5%</div></div>
+        <div style="background:#FEF2F2;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#991B1B">IRI</div><div>0–30%</div></div>
+      </div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px"><button class="btn" onclick="gostep(3)">← Précédent</button><button class="btn btn-purple" onclick="gostep(5)">Étape suivante →</button></div></div>`,
+
+  5: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 5 — Compte Administrateur</div><span class="badge b-pur">5/6</span></div>
+    <div class="alert err">⚠ Mot de passe temporaire : <strong>"admin"</strong> — Changement forcé dès le premier login.</div>
+    <div class="two-col"><div class="fg"><label>Nom & Prénom Admin <span class="req">*</span></label><input value="Marie Celcis"></div><div class="fg"><label>Email Admin <span class="req">*</span></label><input value="admin@entreprise-nationale.com"></div></div>
+    <div class="fg"><label>Mot de passe temporaire</label><input value="admin" readonly></div>
+    <div class="fg"><label>Politique de sécurité</label>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-top:5px;font-size:12px">
+        <label style="cursor:pointer;display:flex;align-items:center;gap:6px"><input type="checkbox" checked style="width:auto"> Minimum 12 caractères</label>
+        <label style="cursor:pointer;display:flex;align-items:center;gap:6px"><input type="checkbox" checked style="width:auto"> Majuscule + chiffre + caractère spécial</label>
+        <label style="cursor:pointer;display:flex;align-items:center;gap:6px"><input type="checkbox" style="width:auto"> Expiration tous les 90 jours</label>
+      </div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px"><button class="btn" onclick="gostep(4)">← Précédent</button><button class="btn btn-purple" onclick="gostep(6)">Étape suivante →</button></div></div>`,
+
+  6: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 6 — Récapitulatif & Confirmation</div><span class="badge b-ok">Prêt</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Société</div><div style="font-weight:600">Entreprise Nationale S.A.</div></div>
+      <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">NIF</div><div style="font-weight:600">HT-0042-2019</div></div>
+      <div style="background:#F5F3FF;padding:10px 12px;border-radius:var(--radius);border:1px solid #DDD6FE"><div style="font-size:10px;color:#5B21B6">Domaine</div><div style="font-weight:600;color:var(--purple)" id="recap-dom">Commerce & Distribution</div></div>
+      <div style="background:#F0FDF4;padding:10px 12px;border-radius:var(--radius);border:1px solid #86EFAC"><div style="font-size:10px;color:#166534">Payroll</div><div style="font-weight:600;color:var(--green)">Double USD + HTG · G 132.50</div></div>
+      <div style="background:#EFF6FF;padding:10px 12px;border-radius:var(--radius);border:1px solid #BFDBFE"><div style="font-size:10px;color:#1E40AF">Admin</div><div style="font-weight:600;color:var(--blue)">Marie Celcis</div></div>
+      <div style="background:#F0FDF4;padding:10px 12px;border-radius:var(--radius);border:1px solid #86EFAC"><div style="font-size:10px;color:#166534">Formulaires</div><div style="font-weight:600;color:var(--green)">27 universels + sectoriels activés</div></div>
+    </div>
+    <div class="alert ok">Toutes les configurations sont valides. Cliquez "Lancer le système" pour initialiser.</div>
+    <div style="display:flex;justify-content:space-between"><button class="btn" onclick="gostep(5)">← Précédent</button><button class="btn btn-green" onclick="launchSystem()">🚀 Lancer le système →</button></div></div>`,
+};
+
+function gostep(n) {
+  setupStep = n;
+  document.getElementById('setup-content').innerHTML = SETUP_STEPS[n] || '';
+  document.querySelectorAll('.st').forEach((s, i) => {
+    s.classList.remove('done', 'cur');
+    s.style.background = '';
+    s.style.color = '';
+    if (i + 1 < n) { s.classList.add('done'); }
+    else if (i + 1 === n) { s.classList.add('cur'); s.style.background = 'var(--purple)'; s.style.color = '#fff'; }
+  });
+  if (n === 3) buildDomGrid();
+}
+
+function buildDomGrid() {
+  const g = document.getElementById('dom-g');
+  if (!g) return;
+  g.innerHTML = DOMAINES.map(d => `
+    <div class="dom-c ${d.id === selectedDom ? 'sel' : ''}" data-id="${d.id}" style="${d.id===selectedDom?'border-color:'+d.c+';background:'+d.c+'18':''}" onclick="selectDom('${d.id}')">
+      <span class="dom-ic">${d.ic}</span>
+      <div class="dom-lb">${d.lb}</div>
+    </div>`).join('');
+  showDomImpact(DOMAINES.find(d => d.id === selectedDom));
+}
+
+function selectDom(id) {
+  selectedDom = id;
+  const d = DOMAINES.find(x => x.id === id);
+  document.querySelectorAll('.dom-c').forEach(c => {
+    if (c.dataset.id === id) { c.classList.add('sel'); c.style.borderColor = d.c; c.style.background = d.c + '18'; }
+    else { c.classList.remove('sel'); c.style.borderColor = ''; c.style.background = ''; }
+  });
+  showDomImpact(d);
+  const rd = document.getElementById('recap-dom');
+  if (rd) rd.textContent = d.lb;
+}
+
+function showDomImpact(d) {
+  const box = document.getElementById('dom-impact');
+  if (!box) return;
+  box.style.display = 'block';
+  box.innerHTML = `
+    <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Impact automatique</div>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="display:flex;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:var(--radius);font-size:12px;border-left:3px solid ${d.c}"><div>Référence formulaire : <strong>Form-Adm/Pers-005-${(d.id.toUpperCase().slice(0,3))}</strong></div></div>
+      <div style="display:flex;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:var(--radius);font-size:12px;border-left:3px solid ${d.c}"><div>Numéro de suivi : <strong>ATT-${d.id.toUpperCase().slice(0,3)}-2026-XXXX</strong></div></div>
+      <div style="display:flex;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:var(--radius);font-size:12px;border-left:3px solid ${d.c}"><div>Couleur accent du formulaire : <strong style="color:${d.c}">${d.c}</strong></div></div>
+    </div>`;
+}
+
+function launchSystem() {
+  toast('🚀 Système lancé — Schéma PostgreSQL créé · Email envoyé à Marie Celcis avec mdp temporaire · Forçage changement mdp activé');
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+buildRolePill();
+buildValList();
+gostep(3);
+</script>
+</body>
+</html>
