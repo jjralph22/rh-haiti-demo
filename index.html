@@ -363,70 +363,9 @@ tbody tr:last-child td{border-bottom:none}
 
   <div class="content">
 
-    <!-- ── DASHBOARD ──────────────────────────────────────────────────── -->
+    <!-- ── DASHBOARD (généré dynamiquement selon le rôle) ─────────────── -->
     <div class="screen active" id="s-dashboard">
-      <div class="stats-row">
-        <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-val" style="color:var(--blue)">348</div><div class="stat-lbl">Employés actifs</div><div class="stat-sub">237 USD · 111 HTG</div></div>
-        <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" style="color:var(--green)">312</div><div class="stat-lbl">Présents aujourd'hui</div><div class="stat-sub">89.7% taux de présence</div></div>
-        <div class="stat-card amber"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber)">3</div><div class="stat-lbl">Demandes en attente</div><div class="stat-sub">Circuit de validation</div></div>
-        <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" style="color:var(--red)">2</div><div class="stat-lbl">Documents expirant</div><div class="stat-sub">Alerte J-10</div></div>
-      </div>
-
-      <div class="alert warn">⚠️ <strong>Alerte documents :</strong> Passeport Jean-Marc expire le 15/05/2026 · Visa Pierre expire le 30/06/2026</div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
-
-        <div class="card card-pad">
-          <div class="card-hdr">
-            <div><div class="card-title">Demandes récentes</div><div class="card-sub">Suivi du circuit de validation</div></div>
-            <span class="badge b-warn">3 en cours</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:0">
-            <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div><div><div class="tl-title">Congé annuel — Jean-Marc Romain <span class="badge b-warn" style="margin-left:4px">Étape 2/4</span></div><div class="tl-sub">DEM-2026-0847 · 5 jours · 20–24 juin · En attente superviseur</div></div></div>
-            <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div><div><div class="tl-title">Prêt $500 USD — Pierre Moreau <span class="badge b-pur" style="margin-left:4px">Étape 3/4</span></div><div class="tl-sub">PRET-2026-0042 · Urgence médicale · En révision RH Manager</div></div></div>
-            <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div><div class="tl-title">Attestation visa — Carla Mervil <span class="badge b-ok" style="margin-left:4px">Approuvée</span></div><div class="tl-sub">ATT-COM-2026-0031 · Ambassade USA · Imprimée pour Direction</div></div></div>
-          </div>
-          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray200)">
-            <button class="btn btn-sm" onclick="nav('demandes',document.querySelector('.sb-item:nth-child(3)'))">Voir toutes les demandes →</button>
-          </div>
-        </div>
-
-        <div class="card card-pad">
-          <div class="card-hdr"><div><div class="card-title">Payroll — Juin 2026</div><div class="card-sub">Double devise USD + HTG</div></div></div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--lblue);border-radius:var(--radius);border:1.5px solid var(--lblue2)">
-              <div><div style="font-size:13px;font-weight:700;color:var(--blue)">Payroll USD</div><div style="font-size:11px;color:var(--gray500)">237 employés · Masse brute</div></div>
-              <div style="font-size:22px;font-weight:800;color:var(--blue)">$842 400</div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--lgreen);border-radius:var(--radius);border:1.5px solid var(--lgreen2)">
-              <div><div style="font-size:13px;font-weight:700;color:var(--green)">Payroll HTG</div><div style="font-size:11px;color:var(--gray500)">111 employés · Masse brute</div></div>
-              <div style="font-size:22px;font-weight:800;color:var(--green)">G 111.6M</div>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px">
-              <div style="background:var(--lblue);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--blue)">ONA</div><div style="font-size:9px;color:var(--gray500)">6%·6%</div></div>
-              <div style="background:var(--lgreen);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--green)">CAS</div><div style="font-size:9px;color:var(--gray500)">3%·4%</div></div>
-              <div style="background:var(--lpurp);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--purple)">CFGDCT</div><div style="font-size:9px;color:var(--gray500)">2%·2%</div></div>
-              <div style="background:var(--lamber);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--amber)">FDU</div><div style="font-size:9px;color:var(--gray500)">0.5%</div></div>
-              <div style="background:var(--lred);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--red)">IRI</div><div style="font-size:9px;color:var(--gray500)">0-30%</div></div>
-            </div>
-          </div>
-          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray200)">
-            <button class="btn btn-sm" onclick="nav('payroll',null)">Gérer le payroll →</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card card-pad">
-        <div class="card-hdr"><div><div class="card-title">Accès rapide — Formulaires</div><div class="card-sub">Cliquez pour remplir directement · Accès universel tous rôles</div></div><button class="btn btn-sm" onclick="nav('formulaires',null)">Voir les 27 →</button></div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px">
-          <div class="form-tile" onclick="openFormModal('conge')"><span class="ft-icon">📅</span><div class="ft-name">Congé annuel</div><div class="ft-desc">Cat. A/B/C</div><div class="ft-delay">⏱ 48h</div></div>
-          <div class="form-tile" onclick="openFormModal('visa')"><span class="ft-icon">✈️</span><div class="ft-name">Attestation visa</div><div class="ft-desc">Ambassades</div><div class="ft-delay">⏱ 3 jours</div></div>
-          <div class="form-tile" onclick="openFormModal('pret')"><span class="ft-icon">💵</span><div class="ft-name">Demande de prêt</div><div class="ft-desc">USD ou HTG</div><div class="ft-delay">⏱ 5 jours</div></div>
-          <div class="form-tile" onclick="openFormModal('sortie')"><span class="ft-icon">🚪</span><div class="ft-name">Autorisation sortie</div><div class="ft-desc">Max 2h</div><div class="ft-delay">⏱ Immédiat</div></div>
-          <div class="form-tile" onclick="openFormModal('travail')"><span class="ft-icon">📄</span><div class="ft-name">Attestation travail</div><div class="ft-desc">Avec/sans salaire</div><div class="ft-delay">⏱ 3 jours</div></div>
-          <div class="form-tile" onclick="openFormModal('hsup')"><span class="ft-icon">⏰</span><div class="ft-name">Heures supp.</div><div class="ft-desc">Avec motif</div><div class="ft-delay">⏱ 48h</div></div>
-        </div>
-      </div>
+      <div id="dashboard-content"></div>
     </div>
 
     <!-- ── FORMULAIRES ────────────────────────────────────────────────── -->
@@ -736,13 +675,212 @@ let CR='admin';
 let valDone=[false,false,false];
 let currentFormType='';
 
-// ── LOGIN ─────────────────────────────────────────────────────────────────────
+// ── DASHBOARD PAR RÔLE ────────────────────────────────────────────────────────
+function buildDashboard(){
+  const r=ROLES_DATA[CR];
+  const c=document.getElementById('dashboard-content');
+
+  // ── EMPLOYÉ STANDARD ──────────────────────────────────────────────────────
+  if(CR==='emp'){
+    c.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
+      <div class="stat-card green"><div class="stat-icon">📅</div><div class="stat-val" style="color:var(--green);font-size:22px">14</div><div class="stat-lbl">Jours de congé restants</div><div class="stat-sub">Catégorie A · 2026</div></div>
+      <div class="stat-card amber"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber);font-size:22px">2</div><div class="stat-lbl">Mes demandes en cours</div><div class="stat-sub">En attente de validation</div></div>
+      <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" style="color:var(--red);font-size:22px">1</div><div class="stat-lbl">Document à renouveler</div><div class="stat-sub">Passeport — J-17</div></div>
+    </div>
+    <div class="alert warn">⚠️ <strong>Mon passeport expire le 15/05/2026</strong> — Pensez à le renouveler rapidement.</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:20px">
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">Mes demandes récentes</div><div class="card-sub">Suivi de mes demandes uniquement</div></div><span class="badge b-warn">2 en cours</span></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div><div><div class="tl-title">Congé annuel — 5 jours <span class="badge b-warn" style="margin-left:4px">Étape 2/4</span></div><div class="tl-sub">DEM-2026-0847 · 20–24 juin · En attente de mon superviseur</div></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--ok,#16a34a)"></div><div><div class="tl-title">Attestation visa — USA <span class="badge b-ok" style="margin-left:4px">Approuvée ✓</span></div><div class="tl-sub">ATT-COM-2026-0031 · Disponible — Contactez le service RH</div></div></div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray200);display:flex;gap:8px">
+          <button class="btn btn-sm" onclick="nav('demandes',null)">Voir mes demandes →</button>
+          <button class="btn btn-primary btn-sm" onclick="nav('formulaires',null)">+ Nouvelle demande</button>
+        </div>
+      </div>
+      <div class="card card-pad">
+        <div class="card-hdr"><div class="card-title">Mon solde de congés</div></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--lgreen);border-radius:var(--radius);border:1px solid var(--lgreen2)"><span style="font-size:12px;font-weight:600;color:var(--green)">Droits 2026</span><span style="font-size:20px;font-weight:800;color:var(--green)">15j</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--lred);border-radius:var(--radius);border:1px solid var(--lred2)"><span style="font-size:12px;font-weight:600;color:var(--red)">Pris</span><span style="font-size:20px;font-weight:800;color:var(--red)">1j</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--lblue);border-radius:var(--radius);border:1px solid var(--lblue2)"><span style="font-size:12px;font-weight:600;color:var(--blue)">Restants</span><span style="font-size:20px;font-weight:800;color:var(--blue)">14j</span></div>
+          <div style="font-size:11px;color:var(--gray400);text-align:center;margin-top:4px">Catégorie A · Moins de 10 ans</div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-pad">
+      <div class="card-hdr"><div><div class="card-title">Mes formulaires — Accès rapide</div><div class="card-sub">Tous les formulaires sont accessibles — soumettez directement depuis ici</div></div><button class="btn btn-sm" onclick="nav('formulaires',null)">Voir les 27 →</button></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px">
+        <div class="form-tile" onclick="openFormModal('conge')"><span class="ft-icon">📅</span><div class="ft-name">Congé annuel</div><div class="ft-delay">⏱ 48h</div></div>
+        <div class="form-tile" onclick="openFormModal('sortie')"><span class="ft-icon">🚪</span><div class="ft-name">Autorisation sortie</div><div class="ft-delay">⏱ Immédiat</div></div>
+        <div class="form-tile" onclick="openFormModal('visa')"><span class="ft-icon">✈️</span><div class="ft-name">Attestation visa</div><div class="ft-delay">⏱ 3 jours</div></div>
+        <div class="form-tile" onclick="openFormModal('travail')"><span class="ft-icon">📄</span><div class="ft-name">Attestation travail</div><div class="ft-delay">⏱ 3 jours</div></div>
+        <div class="form-tile" onclick="openFormModal('pret')"><span class="ft-icon">💵</span><div class="ft-name">Demande de prêt</div><div class="ft-delay">⏱ 5 jours</div></div>
+        <div class="form-tile" onclick="openFormModal('hsup')"><span class="ft-icon">⏰</span><div class="ft-name">Heures supp.</div><div class="ft-delay">⏱ 48h</div></div>
+        <div class="form-tile" onclick="openFormModal('bancaire')"><span class="ft-icon">🏦</span><div class="ft-name">Attestation bancaire</div><div class="ft-delay">⏱ 3 jours</div></div>
+        <div class="form-tile" onclick="openFormModal('absence')"><span class="ft-icon">😔</span><div class="ft-name">Absence motivée</div><div class="ft-delay">⏱ Immédiat</div></div>
+      </div>
+    </div>`;
+
+  // ── SUPERVISEUR ───────────────────────────────────────────────────────────
+  } else if(CR==='sup'){
+    c.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+      <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-val" style="color:var(--blue);font-size:22px">12</div><div class="stat-lbl">Mon équipe</div><div class="stat-sub">Département IT</div></div>
+      <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" style="color:var(--green);font-size:22px">10</div><div class="stat-lbl">Présents aujourd'hui</div><div class="stat-sub">Mon département</div></div>
+      <div class="stat-card amber"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber);font-size:22px">3</div><div class="stat-lbl">Demandes à viser</div><div class="stat-sub">En attente de mon visa</div></div>
+      <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" style="color:var(--red);font-size:22px">1</div><div class="stat-lbl">Alerte document</div><div class="stat-sub">Mon équipe · J-10</div></div>
+    </div>
+    <div class="alert warn">⚠️ <strong>Action requise :</strong> 3 demandes de votre équipe attendent votre visa. Sans votre approbation, elles restent bloquées.</div>
+    <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px;margin-bottom:20px">
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">Demandes à viser — Mon équipe</div><div class="card-sub">Étape 2/4 · Votre visa est obligatoire</div></div><span class="badge b-warn">3 en attente</span></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div><div><div class="tl-title">Congé annuel — Jean-Marc Romain</div><div class="tl-sub">DEM-2026-0847 · 5 jours · 20–24 juin · <strong>Soumis il y a 1 jour</strong></div><button class="btn btn-primary btn-xs" style="margin-top:6px" onclick="nav('validation',null)">Viser maintenant →</button></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--red)"></div><div class="tl-line"></div><div><div class="tl-title">Prêt $500 — Pierre Moreau <span class="badge b-red" style="margin-left:4px">44h dépassées</span></div><div class="tl-sub">PRET-2026-0042 · Urgence médicale · En attente depuis 2 jours</div><button class="btn btn-primary btn-xs" style="margin-top:6px" onclick="nav('validation',null)">Traiter en urgence →</button></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div><div class="tl-title">Attestation visa — Carla Mervil</div><div class="tl-sub">ATT-COM-2026-0031 · Ambassade USA · Soumis hier</div><button class="btn btn-primary btn-xs" style="margin-top:6px" onclick="nav('validation',null)">Viser →</button></div></div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray200)">
+          <button class="btn btn-primary btn-sm" onclick="nav('validation',null)">Gérer toutes les validations →</button>
+        </div>
+      </div>
+      <div class="card card-pad">
+        <div class="card-hdr"><div class="card-title">État de mon équipe</div></div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--lgreen);border-radius:var(--radius)"><span style="font-size:12px;font-weight:600;color:var(--green)">Présents</span><span style="font-size:18px;font-weight:800;color:var(--green)">10</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--lamber);border-radius:var(--radius)"><span style="font-size:12px;font-weight:600;color:var(--amber)">Absents</span><span style="font-size:18px;font-weight:800;color:var(--amber)">1</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--lpurp);border-radius:var(--radius)"><span style="font-size:12px;font-weight:600;color:var(--purple)">En congé</span><span style="font-size:18px;font-weight:800;color:var(--purple)">1</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--lred);border-radius:var(--radius)"><span style="font-size:12px;font-weight:600;color:var(--red)">Retards</span><span style="font-size:18px;font-weight:800;color:var(--red)">0</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-pad">
+      <div class="card-hdr"><div><div class="card-title">Mes propres formulaires</div><div class="card-sub">Vous aussi pouvez soumettre des demandes — accès universel</div></div><button class="btn btn-sm" onclick="nav('formulaires',null)">Voir les 27 →</button></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px">
+        <div class="form-tile" onclick="openFormModal('conge')"><span class="ft-icon">📅</span><div class="ft-name">Congé annuel</div><div class="ft-delay">⏱ 48h</div></div>
+        <div class="form-tile" onclick="openFormModal('visa')"><span class="ft-icon">✈️</span><div class="ft-name">Attestation visa</div><div class="ft-delay">⏱ 3 jours</div></div>
+        <div class="form-tile" onclick="openFormModal('sortie')"><span class="ft-icon">🚪</span><div class="ft-name">Autorisation sortie</div><div class="ft-delay">⏱ Immédiat</div></div>
+        <div class="form-tile" onclick="openFormModal('pret')"><span class="ft-icon">💵</span><div class="ft-name">Demande de prêt</div><div class="ft-delay">⏱ 5 jours</div></div>
+      </div>
+    </div>`;
+
+  // ── RH MANAGER ────────────────────────────────────────────────────────────
+  } else if(CR==='mgr'){
+    c.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+      <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-val" style="color:var(--blue)">348</div><div class="stat-lbl">Effectif total</div><div class="stat-sub">237 USD · 111 HTG</div></div>
+      <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" style="color:var(--green)">312</div><div class="stat-lbl">Présents aujourd'hui</div><div class="stat-sub">89.7% de présence</div></div>
+      <div class="stat-card amber"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber)">3</div><div class="stat-lbl">À valider (étape 3)</div><div class="stat-sub">Déjà visées par sup.</div></div>
+      <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" style="color:var(--red)">2</div><div class="stat-lbl">Docs expirant J-10</div><div class="stat-sub">Alertes envoyées</div></div>
+    </div>
+    <div class="alert warn">⚠️ <strong>Documents expirants :</strong> Passeport Jean-Marc (15/05) · Visa Pierre (30/06) — Emails d'alerte envoyés.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">File de validation — Étape 3/4</div><div class="card-sub">Demandes visées par superviseur · Votre action requise</div></div><span class="badge b-warn">3 en attente</span></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div><div><div class="tl-title">Congé annuel — Jean-Marc Romain</div><div class="tl-sub">DEM-2026-0847 · Visé superviseur ✓ · Valider + Imprimer pour Direction</div><button class="btn btn-primary btn-xs" style="margin-top:6px" onclick="nav('validation',null)">Traiter →</button></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div><div><div class="tl-title">Prêt $500 USD — Pierre Moreau</div><div class="tl-sub">PRET-2026-0042 · Visé superviseur ✓ · Urgence médicale</div><button class="btn btn-primary btn-xs" style="margin-top:6px" onclick="nav('validation',null)">Traiter →</button></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div><div class="tl-title">Attestation visa — Carla Mervil <span class="badge b-ok" style="margin-left:4px">Traitée ✓</span></div><div class="tl-sub">ATT-COM-2026-0031 · Imprimée pour Direction</div></div></div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray200)">
+          <button class="btn btn-primary btn-sm" onclick="nav('validation',null)">Gérer les validations →</button>
+        </div>
+      </div>
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">Payroll — Juin 2026</div><div class="card-sub">Double devise USD + HTG</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--lblue);border-radius:var(--radius);border:1.5px solid var(--lblue2)">
+            <div><div style="font-size:13px;font-weight:700;color:var(--blue)">Payroll USD</div><div style="font-size:11px;color:var(--gray500)">237 employés · Masse brute</div></div>
+            <div style="font-size:20px;font-weight:800;color:var(--blue)">$842 400</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--lgreen);border-radius:var(--radius);border:1.5px solid var(--lgreen2)">
+            <div><div style="font-size:13px;font-weight:700;color:var(--green)">Payroll HTG</div><div style="font-size:11px;color:var(--gray500)">111 employés · Masse brute</div></div>
+            <div style="font-size:20px;font-weight:800;color:var(--green)">G 111.6M</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">
+            <div style="background:var(--lblue);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--blue)">ONA</div><div style="font-size:9px">6%·6%</div></div>
+            <div style="background:var(--lgreen);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--green)">CAS</div><div style="font-size:9px">3%·4%</div></div>
+            <div style="background:var(--lpurp);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--purple)">CFGDCT</div><div style="font-size:9px">2%·2%</div></div>
+            <div style="background:var(--lamber);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--amber)">FDU</div><div style="font-size:9px">0.5%</div></div>
+            <div style="background:var(--lred);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--red)">IRI</div><div style="font-size:9px">0–30%</div></div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--gray200)">
+          <button class="btn btn-primary btn-sm" onclick="nav('payroll',null)">Gérer le payroll →</button>
+        </div>
+      </div>
+    </div>
+    <div class="card card-pad">
+      <div class="card-hdr"><div><div class="card-title">Mes propres formulaires</div><div class="card-sub">Accès universel — vous pouvez aussi soumettre des demandes</div></div><button class="btn btn-sm" onclick="nav('formulaires',null)">Voir les 27 →</button></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px">
+        <div class="form-tile" onclick="openFormModal('conge')"><span class="ft-icon">📅</span><div class="ft-name">Congé annuel</div><div class="ft-delay">⏱ 48h</div></div>
+        <div class="form-tile" onclick="openFormModal('visa')"><span class="ft-icon">✈️</span><div class="ft-name">Attestation visa</div><div class="ft-delay">⏱ 3 jours</div></div>
+        <div class="form-tile" onclick="openFormModal('travail')"><span class="ft-icon">📄</span><div class="ft-name">Attestation travail</div><div class="ft-delay">⏱ 3 jours</div></div>
+        <div class="form-tile" onclick="openFormModal('pret')"><span class="ft-icon">💵</span><div class="ft-name">Demande de prêt</div><div class="ft-delay">⏱ 5 jours</div></div>
+      </div>
+    </div>`;
+
+  // ── ADMIN ─────────────────────────────────────────────────────────────────
+  } else {
+    c.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+      <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-val" style="color:var(--blue)">348</div><div class="stat-lbl">Effectif total</div><div class="stat-sub">237 USD · 111 HTG</div></div>
+      <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" style="color:var(--green)">312</div><div class="stat-lbl">Présents aujourd'hui</div><div class="stat-sub">89.7% de présence</div></div>
+      <div class="stat-card amber"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber)">3</div><div class="stat-lbl">Demandes en cours</div><div class="stat-sub">Toutes étapes</div></div>
+      <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" style="color:var(--red)">2</div><div class="stat-lbl">Docs expirant</div><div class="stat-sub">Alerte J-10</div></div>
+    </div>
+    <div class="alert warn">⚠️ <strong>Documents expirants :</strong> Passeport Jean-Marc (15/05) · Visa Pierre (30/06)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">Pipeline de validation — Toutes demandes</div><div class="card-sub">Vue Admin · Accès complet</div></div><span class="badge b-warn">3 en cours</span></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div><div><div class="tl-title">Congé annuel — Jean-Marc Romain <span class="badge b-warn" style="margin-left:4px">Étape 2/4</span></div><div class="tl-sub">DEM-2026-0847 · En attente superviseur</div></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div><div><div class="tl-title">Prêt $500 — Pierre Moreau <span class="badge b-pur" style="margin-left:4px">Étape 3/4</span></div><div class="tl-sub">PRET-2026-0042 · En révision RH Manager</div></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div><div class="tl-title">Attestation visa — Carla Mervil <span class="badge b-ok" style="margin-left:4px">Approuvée</span></div><div class="tl-sub">ATT-COM-2026-0031 · Imprimée pour Direction</div></div></div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray200)"><button class="btn btn-primary btn-sm" onclick="nav('validation',null)">Gérer les validations →</button></div>
+      </div>
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">Payroll — Juin 2026</div><div class="card-sub">Double devise · Accès total Admin</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--lblue);border-radius:var(--radius);border:1.5px solid var(--lblue2)"><div><div style="font-size:13px;font-weight:700;color:var(--blue)">Payroll USD</div><div style="font-size:11px;color:var(--gray500)">237 employés</div></div><div style="font-size:20px;font-weight:800;color:var(--blue)">$842 400</div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--lgreen);border-radius:var(--radius);border:1.5px solid var(--lgreen2)"><div><div style="font-size:13px;font-weight:700;color:var(--green)">Payroll HTG</div><div style="font-size:11px;color:var(--gray500)">111 employés</div></div><div style="font-size:20px;font-weight:800;color:var(--green)">G 111.6M</div></div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">
+            <div style="background:var(--lblue);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--blue)">ONA</div><div style="font-size:9px">6%·6%</div></div>
+            <div style="background:var(--lgreen);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--green)">CAS</div><div style="font-size:9px">3%·4%</div></div>
+            <div style="background:var(--lpurp);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--purple)">CFGDCT</div><div style="font-size:9px">2%·2%</div></div>
+            <div style="background:var(--lamber);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--amber)">FDU</div><div style="font-size:9px">0.5%</div></div>
+            <div style="background:var(--lred);border-radius:4px;padding:5px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--red)">IRI</div><div style="font-size:9px">0–30%</div></div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--gray200)"><button class="btn btn-primary btn-sm" onclick="nav('payroll',null)">Gérer le payroll →</button></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="card card-pad">
+        <div class="card-hdr"><div class="card-title">Accès rapide — Administration</div></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn btn-sm" style="justify-content:flex-start;gap:10px" onclick="nav('setup',null)">⚙️ Setup entreprise</button>
+          <button class="btn btn-sm" style="justify-content:flex-start;gap:10px" onclick="nav('employes',null)">👥 Gérer les employés</button>
+          <button class="btn btn-sm" style="justify-content:flex-start;gap:10px" onclick="nav('audit',null)">🔍 Journal d'audit</button>
+        </div>
+      </div>
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">Mes formulaires</div><div class="card-sub">Accès universel</div></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="form-tile" onclick="openFormModal('conge')"><span class="ft-icon">📅</span><div class="ft-name">Congé annuel</div><div class="ft-delay">⏱ 48h</div></div>
+          <div class="form-tile" onclick="openFormModal('visa')"><span class="ft-icon">✈️</span><div class="ft-name">Attestation visa</div><div class="ft-delay">⏱ 3j</div></div>
+          <div class="form-tile" onclick="openFormModal('pret')"><span class="ft-icon">💵</span><div class="ft-name">Demande de prêt</div><div class="ft-delay">⏱ 5j</div></div>
+          <div class="form-tile" onclick="openFormModal('sortie')"><span class="ft-icon">🚪</span><div class="ft-name">Sortie</div><div class="ft-delay">⏱ Immédiat</div></div>
+        </div>
+      </div>
+    </div>`;
+  }
+}
+
+
 function loginAs(role){
   CR=role;
   const r=ROLES_DATA[role];
   document.getElementById('login-page').style.display='none';
   document.getElementById('app').style.display='block';
   updateUserUI(r);
+  buildDashboard();
   buildValList();
   goStep(3);
 }
@@ -786,6 +924,7 @@ function nav(id,el){
   if(el) el.classList.add('active');
   const titles={dashboard:'Dashboard',formulaires:'Mes formulaires',demandes:'Mes demandes',setup:'Setup entreprise',validation:'File de validation',payroll:'Payroll USD + HTG',employes:'Tous les employés',audit:'Journal d\'audit',profil:'Mon profil'};
   document.getElementById('pt').textContent=titles[id]||id;
+  if(id==='dashboard') buildDashboard();
 }
 
 // ── FORMULAIRES ───────────────────────────────────────────────────────────────
