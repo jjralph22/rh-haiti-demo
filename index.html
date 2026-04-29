@@ -2,831 +2,1176 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Système RH Haïtien — Démo Entreprise Nationale S.A.</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Système RH — Entreprise Nationale S.A.</title>
 <style>
-  :root {
-    --navy:#0D2B5E; --blue:#185FA5; --lblue:#D6E8F7; --lblue2:#EAF3FB;
-    --green:#0F6E56; --lgreen:#D4EDE7; --purple:#534AB7; --lpurp:#EEEDFE;
-    --amber:#854F0B; --lamber:#FEF3C7; --red:#A32D2D; --lred:#FCEBEB;
-    --grey:#F4F5F7; --lgrey:#D0D5DD; --dgrey:#6B7280;
-    --text:#1A1A2E; --text2:#6B7280; --text3:#9CA3AF;
-    --bg:#FFFFFF; --bg2:#F8F9FA; --bg3:#F1F3F5;
-    --border:#E5E7EB; --border2:#D1D5DB;
-    --radius:8px; --radius-sm:5px; --radius-lg:12px;
-    --shadow:0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
-  }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#F0F2F5; color:var(--text); font-size:14px; }
+:root{
+  --navy:#0D2B5E;--blue:#185FA5;--blue2:#1252A0;--lblue:#EFF6FF;--lblue2:#DBEAFE;
+  --green:#0F6E56;--lgreen:#F0FDF4;--lgreen2:#DCFCE7;
+  --purple:#534AB7;--lpurp:#F5F3FF;--lpurp2:#EDE9FE;
+  --amber:#854F0B;--lamber:#FFFBEB;--lamber2:#FEF3C7;
+  --red:#A32D2D;--lred:#FEF2F2;--lred2:#FEE2E2;
+  --gray50:#F9FAFB;--gray100:#F3F4F6;--gray200:#E5E7EB;
+  --gray300:#D1D5DB;--gray400:#9CA3AF;--gray500:#6B7280;
+  --gray700:#374151;--gray800:#1F2937;--gray900:#111827;
+  --white:#FFFFFF;
+  --radius:8px;--radius-sm:6px;--radius-lg:12px;--radius-xl:16px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--gray100);color:var(--gray900);font-size:14px;line-height:1.5}
 
-  /* ── LAYOUT ── */
-  .app { display:grid; grid-template-columns:220px 1fr; min-height:100vh; }
-  .sidebar { background:var(--navy); color:#fff; display:flex; flex-direction:column; position:fixed; left:0; top:0; bottom:0; width:220px; z-index:10; overflow-y:auto; }
-  .main { margin-left:220px; display:flex; flex-direction:column; min-height:100vh; }
+/* ══ LOGIN ══════════════════════════════════════════════════════════════════ */
+#login-page{display:flex;min-height:100vh;background:linear-gradient(135deg,var(--navy) 0%,#1a3a6e 50%,#0a4080 100%)}
+.login-left{flex:1;display:flex;align-items:center;justify-content:center;padding:48px;position:relative;overflow:hidden}
+.login-left::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='30'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.login-brand{position:relative;z-index:1;max-width:400px}
+.login-logo{width:64px;height:64px;background:rgba(255,255,255,.15);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;margin-bottom:24px;border:1px solid rgba(255,255,255,.2)}
+.login-brand h1{font-size:32px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.2}
+.login-brand p{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:40px;line-height:1.6}
+.login-feature{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1)}
+.lf-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.lf-text{font-size:12px;color:rgba(255,255,255,.75);line-height:1.4}
+.lf-text strong{color:#fff;display:block;font-size:13px}
+.login-right{width:480px;background:#fff;display:flex;align-items:center;justify-content:center;padding:48px;box-shadow:var(--shadow-lg)}
+.login-form-wrap{width:100%;max-width:380px}
+.login-form-wrap h2{font-size:24px;font-weight:700;color:var(--gray900);margin-bottom:6px}
+.login-form-wrap p{font-size:13px;color:var(--gray500);margin-bottom:32px}
+.fg{margin-bottom:16px}
+.fg label{font-size:12px;font-weight:600;color:var(--gray700);display:block;margin-bottom:6px}
+.fg input,.fg select{width:100%;padding:10px 14px;border:1.5px solid var(--gray200);border-radius:var(--radius);font-size:14px;color:var(--gray900);background:#fff;transition:all .15s}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,95,165,.1)}
+.login-accounts{margin-bottom:24px}
+.login-accounts p{font-size:11px;font-weight:600;color:var(--gray400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.acc-btn{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border:1.5px solid var(--gray200);border-radius:var(--radius);background:#fff;cursor:pointer;transition:all .12s;margin-bottom:6px;text-align:left}
+.acc-btn:hover{border-color:var(--blue);background:var(--lblue)}
+.acc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.acc-name{font-size:12px;font-weight:600;color:var(--gray800)}
+.acc-role{font-size:10px;color:var(--gray500)}
+.btn-login{width:100%;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;margin-top:8px}
+.btn-login:hover{background:var(--blue2)}
 
-  /* ── SIDEBAR ── */
-  .brand { padding:18px 16px 14px; border-bottom:1px solid rgba(255,255,255,.1); }
-  .brand-logo { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
-  .brand-icon { width:34px; height:34px; border-radius:8px; background:rgba(255,255,255,.15); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
-  .brand-name { font-size:13px; font-weight:600; line-height:1.3; }
-  .brand-sub { font-size:10px; opacity:.6; }
-  .user-card { padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.1); display:flex; align-items:center; gap:10px; }
-  .user-av { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; flex-shrink:0; }
-  .user-name { font-size:12px; font-weight:500; }
-  .user-role { font-size:10px; opacity:.6; margin-top:1px; }
-  .nav-section { padding:14px 16px 4px; font-size:9px; font-weight:600; opacity:.5; text-transform:uppercase; letter-spacing:.08em; }
-  .nav-item { display:flex; align-items:center; gap:9px; padding:8px 16px; font-size:12px; cursor:pointer; color:rgba(255,255,255,.7); transition:all .12s; border-left:2px solid transparent; }
-  .nav-item:hover { background:rgba(255,255,255,.08); color:#fff; }
-  .nav-item.active { background:rgba(255,255,255,.12); color:#fff; border-left-color:#60A5FA; font-weight:500; }
-  .nav-ic { width:16px; text-align:center; font-size:14px; flex-shrink:0; }
-  .nav-badge { margin-left:auto; background:#EF4444; color:#fff; font-size:9px; font-weight:600; padding:1px 6px; border-radius:10px; }
-  .nav-footer { margin-top:auto; padding:12px 16px; font-size:10px; opacity:.4; border-top:1px solid rgba(255,255,255,.1); }
+/* ══ APP ════════════════════════════════════════════════════════════════════ */
+#app{display:none;min-height:100vh;display:none}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
 
-  /* ── TOPBAR ── */
-  .topbar { background:#fff; border-bottom:1px solid var(--border); padding:12px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; box-shadow:var(--shadow); }
-  .page-title { font-size:15px; font-weight:600; color:var(--text); }
-  .page-sub { font-size:11px; color:var(--text2); margin-top:2px; }
-  .topbar-right { display:flex; align-items:center; gap:12px; }
-  .role-pill { display:flex; gap:3px; background:var(--bg2); border-radius:20px; padding:3px; border:1px solid var(--border); }
-  .rp-btn { padding:4px 12px; border-radius:16px; border:none; background:transparent; font-size:10px; font-weight:500; cursor:pointer; color:var(--text2); transition:all .12s; }
-  .rp-btn.active { color:#fff; }
-  .taux-badge { font-size:11px; color:var(--text2); background:var(--bg2); padding:5px 10px; border-radius:6px; border:1px solid var(--border); }
+/* ── SIDEBAR ── */
+.sidebar{background:var(--navy);color:#fff;display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;width:240px;overflow-y:auto;z-index:20}
+.sb-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.sb-logo-ic{width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;border:1px solid rgba(255,255,255,.15)}
+.sb-logo-name{font-size:13px;font-weight:700;line-height:1.3}
+.sb-logo-sub{font-size:10px;opacity:.5}
+.sb-user{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.sb-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.sb-uname{font-size:12px;font-weight:600}
+.sb-urole{font-size:10px;opacity:.55;margin-top:1px}
+.sb-nav{padding:8px 0;flex:1}
+.sb-sec{padding:16px 18px 5px;font-size:9px;font-weight:700;opacity:.4;text-transform:uppercase;letter-spacing:.1em}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 18px;font-size:12px;cursor:pointer;color:rgba(255,255,255,.65);transition:all .12s;border-left:2.5px solid transparent;position:relative}
+.sb-item:hover{background:rgba(255,255,255,.07);color:#fff}
+.sb-item.active{background:rgba(255,255,255,.1);color:#fff;border-left-color:#60A5FA;font-weight:600}
+.sb-item-ic{width:18px;text-align:center;font-size:15px;flex-shrink:0}
+.sb-badge{margin-left:auto;background:#EF4444;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px}
+.sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;opacity:.35}
 
-  /* ── CONTENT ── */
-  .content { padding:24px; flex:1; }
-  .screen { display:none; }
-  .screen.active { display:block; }
+/* ── MAIN ── */
+.main-area{margin-left:240px;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid var(--gray200);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:var(--shadow-sm)}
+.topbar-left h1{font-size:16px;font-weight:700;color:var(--gray900)}
+.topbar-left p{font-size:11px;color:var(--gray500)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.taux-chip{background:var(--gray100);border:1px solid var(--gray200);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--gray600);font-weight:500}
+.notif-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gray200);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative}
+.notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#EF4444;border:2px solid #fff}
+.logout-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border:1.5px solid var(--gray200);border-radius:var(--radius);background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:var(--gray600)}
+.logout-btn:hover{background:var(--lred);border-color:var(--red);color:var(--red)}
 
-  /* ── COMPONENTS ── */
-  .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); padding:16px 18px; margin-bottom:16px; box-shadow:var(--shadow); }
-  .card-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px; }
-  .card-title { font-size:13px; font-weight:600; color:var(--text); }
-  .badge { display:inline-flex; align-items:center; padding:3px 9px; border-radius:20px; font-size:10px; font-weight:600; }
-  .b-ok   { background:#DCFCE7; color:#166534; }
-  .b-warn { background:#FEF3C7; color:#92400E; }
-  .b-info { background:#DBEAFE; color:#1E40AF; }
-  .b-pur  { background:#EDE9FE; color:#5B21B6; }
-  .b-red  { background:#FEE2E2; color:#991B1B; }
-  .b-neu  { background:var(--bg2); color:var(--text2); }
+/* ── CONTENT ── */
+.content{padding:24px;flex:1}
+.screen{display:none}.screen.active{display:block}
 
-  .stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
-  .stat-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); padding:14px 16px; box-shadow:var(--shadow); }
-  .stat-val { font-size:26px; font-weight:700; line-height:1; }
-  .stat-lbl { font-size:11px; color:var(--text2); margin-top:4px; }
-  .stat-icon { font-size:20px; margin-bottom:8px; }
+/* ── CARDS ── */
+.card{background:#fff;border:1px solid var(--gray200);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
+.card-pad{padding:20px 22px}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.card-title{font-size:14px;font-weight:700;color:var(--gray900)}
+.card-sub{font-size:12px;color:var(--gray500);margin-top:2px}
 
-  .alert { padding:10px 14px; border-radius:var(--radius); font-size:12px; margin-bottom:14px; display:flex; align-items:flex-start; gap:8px; border-left:3px solid; }
-  .alert.ok     { background:#F0FDF4; color:#166534; border-color:#22C55E; }
-  .alert.info   { background:#EFF6FF; color:#1E40AF; border-color:#3B82F6; }
-  .alert.warn   { background:#FFFBEB; color:#92400E; border-color:#F59E0B; }
-  .alert.pur    { background:#F5F3FF; color:#5B21B6; border-color:#8B5CF6; }
-  .alert.err    { background:#FEF2F2; color:#991B1B; border-color:#EF4444; }
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.stat-card{background:#fff;border:1px solid var(--gray200);border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card.blue::before{background:var(--blue)}
+.stat-card.green::before{background:var(--green)}
+.stat-card.amber::before{background:var(--amber)}
+.stat-card.red::before{background:var(--red)}
+.stat-card.purple::before{background:var(--purple)}
+.stat-icon{font-size:22px;margin-bottom:10px}
+.stat-val{font-size:28px;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:12px;color:var(--gray500);font-weight:500}
+.stat-sub{font-size:10px;color:var(--gray400);margin-top:3px}
 
-  table { width:100%; border-collapse:collapse; font-size:12px; }
-  th { padding:8px 12px; background:var(--bg2); border:1px solid var(--border); font-weight:600; color:var(--text2); text-align:left; font-size:11px; }
-  td { padding:8px 12px; border:1px solid var(--border); color:var(--text); vertical-align:middle; }
-  tr:nth-child(even) td { background:var(--bg2); }
-  tr:hover td { background:#EFF6FF; }
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;gap:4px}
+.b-ok{background:#DCFCE7;color:#15803D}
+.b-warn{background:#FEF3C7;color:#B45309}
+.b-info{background:#DBEAFE;color:#1D4ED8}
+.b-pur{background:#EDE9FE;color:#6D28D9}
+.b-red{background:#FEE2E2;color:#B91C1C}
+.b-neu{background:var(--gray100);color:var(--gray600)}
+.b-navy{background:#E0E7FF;color:var(--navy)}
 
-  .btn { padding:7px 14px; border-radius:var(--radius-sm); border:1px solid var(--border); background:#fff; color:var(--text2); font-size:12px; cursor:pointer; transition:all .12s; font-weight:500; }
-  .btn:hover { background:var(--bg2); }
-  .btn-primary { background:var(--blue); color:#fff; border-color:var(--blue); }
-  .btn-primary:hover { background:#1252A0; }
-  .btn-green   { background:var(--green); color:#fff; border-color:var(--green); }
-  .btn-red     { background:var(--red); color:#fff; border-color:var(--red); }
-  .btn-purple  { background:var(--purple); color:#fff; border-color:var(--purple); }
-  .btn-amber   { background:var(--amber); color:#fff; border-color:var(--amber); }
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:var(--gray50);border-bottom:2px solid var(--gray200)}
+th{padding:10px 14px;font-weight:600;color:var(--gray600);text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--gray100);color:var(--gray800);vertical-align:middle}
+tbody tr:hover{background:var(--gray50)}
+tbody tr:last-child td{border-bottom:none}
 
-  input, select, textarea { width:100%; padding:8px 10px; border:1px solid var(--border2); border-radius:var(--radius-sm); font-size:12px; font-family:inherit; color:var(--text); background:#fff; }
-  input:focus, select:focus, textarea:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(24,95,165,.1); }
-  textarea { resize:vertical; min-height:60px; }
-  input[readonly] { background:var(--bg2); color:var(--text2); }
-  label { font-size:11px; font-weight:500; color:var(--text2); display:block; margin-bottom:4px; }
-  .fg { margin-bottom:12px; }
-  .req { color:var(--red); }
-  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--gray200);background:#fff;color:var(--gray700);font-size:12px;font-weight:600;cursor:pointer;transition:all .12s;white-space:nowrap}
+.btn:hover{background:var(--gray50)}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-primary:hover{background:var(--blue2)}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-purple{background:var(--purple);color:#fff;border-color:var(--purple)}
+.btn-amber{background:var(--amber);color:#fff;border-color:var(--amber)}
+.btn-sm{padding:5px 10px;font-size:11px}
+.btn-xs{padding:3px 8px;font-size:10px}
 
-  .form-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow); }
-  .form-hdr { padding:16px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; background:var(--bg2); }
-  .form-body { padding:18px; }
-  .form-ftr { padding:12px 18px; border-top:1px solid var(--border); display:flex; gap:8px; background:var(--bg2); }
+/* ── FORMS ── */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:6px}
+.form-tile{background:#fff;border:1.5px solid var(--gray200);border-radius:var(--radius-lg);padding:16px;cursor:pointer;transition:all .15s;position:relative}
+.form-tile:hover{border-color:var(--blue);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.ft-cat{position:absolute;top:10px;right:10px}
+.ft-icon{font-size:24px;margin-bottom:10px;display:block}
+.ft-name{font-size:12px;font-weight:700;color:var(--gray900);margin-bottom:3px;line-height:1.3}
+.ft-desc{font-size:10px;color:var(--gray500);line-height:1.4;margin-bottom:8px}
+.ft-delay{font-size:10px;color:var(--gray400);display:flex;align-items:center;gap:4px}
 
-  .step-track { display:flex; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border); margin-bottom:18px; }
-  .st { flex:1; padding:7px; text-align:center; font-size:10px; font-weight:500; color:var(--text2); background:var(--bg2); border-right:1px solid var(--border); }
-  .st:last-child { border-right:none; }
-  .st.cur { color:#fff; font-weight:600; }
-  .st.done { background:#DCFCE7; color:#166534; }
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius-xl);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-hdr{padding:20px 24px 16px;border-bottom:1px solid var(--gray200);display:flex;align-items:flex-start;gap:12px;position:sticky;top:0;background:#fff;z-index:1}
+.modal-hdr-ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.modal-hdr-title{font-size:15px;font-weight:700;color:var(--gray900)}
+.modal-hdr-sub{font-size:12px;color:var(--gray500);margin-top:2px}
+.modal-close{margin-left:auto;background:none;border:none;cursor:pointer;font-size:22px;color:var(--gray400);line-height:1;padding:2px}
+.modal-body{padding:20px 24px}
+.modal-ftr{padding:14px 24px;border-top:1px solid var(--gray200);display:flex;gap:8px;position:sticky;bottom:0;background:#fff}
+.fg{margin-bottom:14px}
+.fg label{font-size:11px;font-weight:600;color:var(--gray700);display:block;margin-bottom:5px}
+.req{color:var(--red)}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 12px;border:1.5px solid var(--gray200);border-radius:var(--radius-sm);font-size:13px;color:var(--gray900);background:#fff;transition:border .15s;font-family:inherit}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,95,165,.08)}
+.fg textarea{resize:vertical;min-height:70px}
+.fg input[readonly]{background:var(--gray50);color:var(--gray500);cursor:not-allowed}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 
-  .sal-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:4px 0; }
-  .sal-opt { border:2px solid var(--border); border-radius:var(--radius); padding:10px; text-align:center; cursor:pointer; font-size:12px; font-weight:600; color:var(--text2); transition:all .12s; }
-  .sal-opt.avec { border-color:var(--blue); background:#EFF6FF; color:#1E40AF; }
-  .sal-opt.sans { border-color:var(--green); background:#F0FDF4; color:#166534; }
+/* ── SALAIRE CHOICE ── */
+.sal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 14px}
+.sal-opt{border:2px solid var(--gray200);border-radius:var(--radius);padding:12px;text-align:center;cursor:pointer;transition:all .15s}
+.sal-opt:hover{border-color:var(--blue)}
+.sal-opt.avec{border-color:var(--blue);background:var(--lblue)}
+.sal-opt.sans{border-color:var(--green);background:var(--lgreen)}
+.sal-opt .so-check{font-size:22px;margin-bottom:4px}
+.sal-opt .so-title{font-size:12px;font-weight:700}
+.sal-opt .so-sub{font-size:10px;color:var(--gray500);margin-top:2px}
 
-  .success-screen { text-align:center; padding:32px 16px; }
-  .success-icon { font-size:40px; margin-bottom:12px; }
-  .success-title { font-size:16px; font-weight:600; color:var(--text); margin-bottom:6px; }
-  .success-sub { font-size:12px; color:var(--text2); margin-bottom:16px; }
-  .ref-tag { display:inline-block; padding:6px 16px; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-sm); font-family:monospace; font-size:13px; font-weight:600; }
+/* ── PIPELINE ── */
+.pipeline{display:flex;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--gray200);margin:12px 0}
+.pl-step{flex:1;padding:8px 6px;text-align:center;font-size:10px;font-weight:600;background:var(--gray100);color:var(--gray500);border-right:1px solid var(--gray200)}
+.pl-step:last-child{border-right:none}
+.pl-step.done{background:var(--lgreen2);color:#15803D}
+.pl-step.cur{color:#fff}
+.pl-step.wait{color:var(--gray400)}
 
-  .pipeline { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); margin-top:10px; }
-  .pl-step { padding:8px; text-align:center; font-size:10px; font-weight:500; background:var(--bg2); color:var(--text2); border-right:1px solid var(--border); }
-  .pl-step:last-child { border-right:none; }
-  .pl-step.done { background:#DCFCE7; color:#166534; }
-  .pl-step.cur  { color:#fff; }
-  .pl-step.wait { background:var(--bg2); color:var(--text3); }
+/* ── ALERT ── */
+.alert{padding:10px 14px;border-radius:var(--radius);font-size:12px;margin-bottom:14px;display:flex;align-items:flex-start;gap:8px;border-left:3px solid}
+.alert.ok{background:var(--lgreen);border-color:var(--green);color:#14532D}
+.alert.info{background:var(--lblue);border-color:var(--blue);color:#1E3A5F}
+.alert.warn{background:var(--lamber);border-color:var(--amber);color:#7C2D12}
+.alert.err{background:var(--lred);border-color:var(--red);color:#7F1D1D}
+.alert.pur{background:var(--lpurp);border-color:var(--purple);color:#3B0764}
 
-  .dom-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:8px; margin:10px 0; }
-  .dom-c { border:2px solid var(--border); border-radius:var(--radius); padding:10px 6px; text-align:center; cursor:pointer; transition:all .12s; }
-  .dom-c:hover { border-color:#93C5FD; background:#EFF6FF; }
-  .dom-c.sel { border-width:2px; }
-  .dom-ic { font-size:20px; display:block; margin-bottom:4px; }
-  .dom-lb { font-size:10px; font-weight:500; line-height:1.3; }
+/* ── SUCCESS ── */
+.success-box{text-align:center;padding:32px 20px}
+.success-icon{font-size:48px;margin-bottom:14px}
+.success-title{font-size:18px;font-weight:700;color:var(--gray900);margin-bottom:6px}
+.success-sub{font-size:13px;color:var(--gray500);margin-bottom:18px}
+.ref-tag{display:inline-block;padding:8px 18px;background:var(--gray100);border:1.5px solid var(--gray300);border-radius:var(--radius);font-family:monospace;font-size:14px;font-weight:700;letter-spacing:.05em}
 
-  .toast { position:fixed; bottom:24px; right:24px; background:#166534; color:#fff; padding:12px 18px; border-radius:var(--radius); font-size:12px; font-weight:500; box-shadow:0 4px 12px rgba(0,0,0,.15); z-index:100; display:none; max-width:340px; }
-  .toast.show { display:block; animation:fadeIn .2s; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+/* ── TIMELINE ── */
+.tl-item{display:flex;gap:12px;padding-bottom:16px;position:relative}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px;z-index:1}
+.tl-line{position:absolute;left:4px;top:14px;bottom:0;width:2px;background:var(--gray200)}
+.tl-item:last-child .tl-line{display:none}
+.tl-title{font-size:12px;font-weight:600;color:var(--gray900)}
+.tl-sub{font-size:11px;color:var(--gray500);margin-top:2px}
 
-  .tl { display:flex; flex-direction:column; }
-  .tl-item { display:flex; gap:12px; padding-bottom:14px; position:relative; }
-  .tl-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; margin-top:2px; z-index:1; }
-  .tl-line { position:absolute; left:5px; top:14px; bottom:0; width:2px; background:var(--border); }
-  .tl-item:last-child .tl-line { display:none; }
-  .tl-title { font-size:12px; font-weight:600; color:var(--text); }
-  .tl-sub { font-size:11px; color:var(--text2); margin-top:2px; }
+/* ── VAL CARD ── */
+.val-card{background:#fff;border:1.5px solid var(--gray200);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px;transition:all .15s}
+.val-card:hover{box-shadow:var(--shadow-md)}
+.val-card.done{opacity:.5;pointer-events:none}
+.val-card-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
 
-  @media(max-width:768px) {
-    .app { grid-template-columns:1fr; }
-    .sidebar { position:relative; width:100%; height:auto; }
-    .main { margin-left:0; }
-    .stat-grid { grid-template-columns:repeat(2,1fr); }
-    .two-col, .three-col { grid-template-columns:1fr; }
-  }
+/* ── DOMAIN GRID ── */
+.dom-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin:10px 0}
+.dom-card{border:1.5px solid var(--gray200);border-radius:var(--radius);padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s;background:#fff}
+.dom-card:hover{border-color:var(--blue)}
+.dom-card.sel{border-width:2px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--gray900);color:#fff;padding:12px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);z-index:200;display:none;max-width:360px;line-height:1.4}
+.toast.show{display:flex;align-items:center;gap:10px;animation:slideUp .2s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── PAYROLL TABLE ── */
+.pay-row{display:grid;align-items:center}
+.pay-row.hdr{background:var(--gray50);font-size:10px;font-weight:700;color:var(--gray500);text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--gray200)}
+.pay-row.data{border-bottom:1px solid var(--gray100);font-size:12px}
+.pay-row.data:hover{background:var(--gray50)}
+.pc{padding:10px 12px}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;width:100%;height:auto}
+  .main-area{margin-left:0}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
 
-<div class="app">
-
-<!-- ══ SIDEBAR ══════════════════════════════════════════════════════════════ -->
-<aside class="sidebar">
-  <div class="brand">
-    <div class="brand-logo">
-      <div class="brand-icon">EN</div>
-      <div>
-        <div class="brand-name">Entreprise Nationale</div>
-        <div class="brand-sub">S.A. · Port-au-Prince, Haïti</div>
+<!-- ══════════════════ LOGIN PAGE ══════════════════ -->
+<div id="login-page">
+  <div class="login-left">
+    <div class="login-brand">
+      <div class="login-logo">EN</div>
+      <h1>Système RH<br>Haïtien</h1>
+      <p>Plateforme complète de gestion des ressources humaines — Entreprise Nationale S.A., Port-au-Prince</p>
+      <div class="login-feature">
+        <div class="lf-icon">💰</div>
+        <div class="lf-text"><strong>Double Payroll USD + HTG</strong>Taxes haïtiennes ONA · CAS · CFGDCT · IRI</div>
+      </div>
+      <div class="login-feature">
+        <div class="lf-icon">📋</div>
+        <div class="lf-text"><strong>27 formulaires en ligne</strong>Accessibles à tous les employés · Circuit 4 étapes</div>
+      </div>
+      <div class="login-feature">
+        <div class="lf-icon">🔒</div>
+        <div class="lf-text"><strong>Sécurité & Audit</strong>JWT · bcrypt · AES-256 · Journal immuable</div>
       </div>
     </div>
   </div>
 
-  <div class="user-card">
-    <div class="user-av" id="sb-av" style="background:#534AB7">AD</div>
-    <div>
-      <div class="user-name" id="sb-name">Admin Système</div>
-      <div class="user-role" id="sb-role">Administrateur</div>
+  <div class="login-right">
+    <div class="login-form-wrap">
+      <h2>Connexion</h2>
+      <p>Choisissez un compte de démonstration ou saisissez vos identifiants</p>
+
+      <div class="login-accounts">
+        <p>Comptes démo</p>
+        <button class="acc-btn" onclick="loginAs('admin')">
+          <div class="acc-av" style="background:#534AB7">AD</div>
+          <div><div class="acc-name">Admin Système</div><div class="acc-role">Administrateur · Accès total · Setup</div></div>
+          <span style="margin-left:auto;font-size:10px;color:var(--gray400)">→</span>
+        </button>
+        <button class="acc-btn" onclick="loginAs('mgr')">
+          <div class="acc-av" style="background:#0F6E56">MC</div>
+          <div><div class="acc-name">Marie Celcis</div><div class="acc-role">RH Manager · Payroll · Validation étape 3</div></div>
+          <span style="margin-left:auto;font-size:10px;color:var(--gray400)">→</span>
+        </button>
+        <button class="acc-btn" onclick="loginAs('sup')">
+          <div class="acc-av" style="background:#854F0B">RJ</div>
+          <div><div class="acc-name">Roody Joseph</div><div class="acc-role">Superviseur IT · Validation étape 2</div></div>
+          <span style="margin-left:auto;font-size:10px;color:var(--gray400)">→</span>
+        </button>
+        <button class="acc-btn" onclick="loginAs('emp')">
+          <div class="acc-av" style="background:#185FA5">JM</div>
+          <div><div class="acc-name">Jean-Marc Romain</div><div class="acc-role">Employé · Formulaires · Mes demandes</div></div>
+          <span style="margin-left:auto;font-size:10px;color:var(--gray400)">→</span>
+        </button>
+      </div>
+
+      <div class="fg"><label>Email</label><input type="email" id="login-email" placeholder="email@entreprise.com"></div>
+      <div class="fg"><label>Mot de passe</label><input type="password" id="login-pw" placeholder="••••••••" value="admin"></div>
+      <button class="btn-login" onclick="loginAs('admin')">Se connecter</button>
+      <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--gray400)">Démo · Aucune donnée réelle</div>
     </div>
   </div>
+</div>
 
-  <nav>
-    <div class="nav-section">Principal</div>
-    <div class="nav-item active" onclick="nav('dashboard',this)"><span class="nav-ic">⊞</span> Dashboard</div>
-    <div class="nav-item" onclick="nav('formulaires',this)"><span class="nav-ic">✏</span> Formulaires <span class="nav-badge">27</span></div>
-    <div class="nav-item" onclick="nav('demandes',this)"><span class="nav-ic">◎</span> Mes demandes</div>
+<!-- ══════════════════ APP ══════════════════ -->
+<div id="app">
+<div class="layout">
 
-    <div class="nav-section" id="ns-admin">Admin / RH</div>
-    <div class="nav-item" id="ni-setup" onclick="nav('setup',this)"><span class="nav-ic">⚙</span> Setup entreprise</div>
-    <div class="nav-item" id="ni-validation" onclick="nav('validation',this)"><span class="nav-ic">✔</span> Validations <span class="nav-badge" id="val-nb">3</span></div>
-    <div class="nav-item" id="ni-payroll" onclick="nav('payroll',this)"><span class="nav-ic">💰</span> Payroll</div>
-    <div class="nav-item" id="ni-employes" onclick="nav('employes',this)"><span class="nav-ic">◉</span> Employés</div>
-
-    <div class="nav-section">Système</div>
-    <div class="nav-item" id="ni-audit" onclick="nav('audit',this)"><span class="nav-ic">🔍</span> Audit log</div>
-    <div class="nav-section">Mon espace</div>
-    <div class="nav-item" onclick="nav('profil',this)"><span class="nav-ic">👤</span> Mon profil</div>
-  </nav>
-
-  <div class="nav-footer">
-    Double payroll USD · HTG · G 132.50 / $1
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">
+      <div class="sb-logo-ic">EN</div>
+      <div>
+        <div class="sb-logo-name">Entreprise Nationale</div>
+        <div class="sb-logo-sub">S.A. · Port-au-Prince</div>
+      </div>
+    </div>
   </div>
+  <div class="sb-user">
+    <div class="sb-av" id="sb-av" style="background:#534AB7">AD</div>
+    <div><div class="sb-uname" id="sb-name">Admin Système</div><div class="sb-urole" id="sb-role">Administrateur</div></div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-sec">Principal</div>
+    <div class="sb-item active" onclick="nav('dashboard',this)"><span class="sb-item-ic">⊞</span> Dashboard</div>
+    <div class="sb-item" onclick="nav('formulaires',this)"><span class="sb-item-ic">📋</span> Formulaires <span class="sb-badge">27</span></div>
+    <div class="sb-item" onclick="nav('demandes',this)"><span class="sb-item-ic">📂</span> Mes demandes</div>
+    <div id="sec-rh" class="sb-sec">Gestion RH</div>
+    <div class="sb-item rh-only" id="ni-setup" onclick="nav('setup',this)"><span class="sb-item-ic">⚙️</span> Setup entreprise</div>
+    <div class="sb-item rh-only" id="ni-validation" onclick="nav('validation',this)"><span class="sb-item-ic">✅</span> Validations <span class="sb-badge" id="val-nb">3</span></div>
+    <div class="sb-item rh-only" id="ni-payroll" onclick="nav('payroll',this)"><span class="sb-item-ic">💰</span> Payroll</div>
+    <div class="sb-item rh-only" id="ni-employes" onclick="nav('employes',this)"><span class="sb-item-ic">👥</span> Employés</div>
+    <div class="sb-item rh-only" id="ni-audit" onclick="nav('audit',this)"><span class="sb-item-ic">🔍</span> Audit log</div>
+    <div class="sb-sec">Mon espace</div>
+    <div class="sb-item" onclick="nav('profil',this)"><span class="sb-item-ic">👤</span> Mon profil</div>
+  </div>
+  <div class="sb-footer">Double payroll USD · HTG · G 132.50 / $1</div>
 </aside>
 
-<!-- ══ MAIN ═════════════════════════════════════════════════════════════════ -->
-<div class="main">
-
-  <!-- Topbar -->
+<!-- MAIN -->
+<div class="main-area">
   <div class="topbar">
-    <div>
-      <div class="page-title" id="pt">Dashboard</div>
-      <div class="page-sub" id="ps">Bienvenue · Mardi 28 avril 2026</div>
+    <div class="topbar-left">
+      <h1 id="pt">Dashboard</h1>
+      <p id="ps">Mardi 28 avril 2026</p>
     </div>
     <div class="topbar-right">
-      <div class="role-pill" id="role-pill"></div>
-      <div class="taux-badge">BRH : G 132.50 / $1</div>
+      <div class="taux-chip">🇭🇹 BRH : G 132.50 / $1</div>
+      <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+      <button class="logout-btn" onclick="logout()">⬅ Déconnexion</button>
     </div>
   </div>
 
-  <!-- Content -->
   <div class="content">
 
-    <!-- ── DASHBOARD ── -->
+    <!-- ── DASHBOARD ──────────────────────────────────────────────────── -->
     <div class="screen active" id="s-dashboard">
-      <div class="stat-grid">
-        <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val" style="color:var(--blue)">348</div><div class="stat-lbl">Employés actifs</div></div>
-        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" style="color:var(--green)">237</div><div class="stat-lbl">Présents aujourd'hui</div></div>
-        <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber)">3</div><div class="stat-lbl">Demandes en attente</div></div>
-        <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-val" style="color:var(--red)">2</div><div class="stat-lbl">Documents expirant</div></div>
+      <div class="stats-row">
+        <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-val" style="color:var(--blue)">348</div><div class="stat-lbl">Employés actifs</div><div class="stat-sub">237 USD · 111 HTG</div></div>
+        <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" style="color:var(--green)">312</div><div class="stat-lbl">Présents aujourd'hui</div><div class="stat-sub">89.7% taux de présence</div></div>
+        <div class="stat-card amber"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber)">3</div><div class="stat-lbl">Demandes en attente</div><div class="stat-sub">Circuit de validation</div></div>
+        <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" style="color:var(--red)">2</div><div class="stat-lbl">Documents expirant</div><div class="stat-sub">Alerte J-10</div></div>
       </div>
-      <div class="alert warn">⚠ 2 documents expirent dans moins de 10 jours — Passeport Jean-Marc (15/05) · Visa Pierre (30/06)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div class="card">
-          <div class="card-hdr"><div class="card-title">Demandes récentes</div><span class="badge b-warn">3 en cours</span></div>
-          <div class="tl">
-            <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div><div><div class="tl-title">Congé annuel — Jean-Marc Romain</div><div class="tl-sub">DEM-2026-0847 · En attente superviseur</div></div></div>
-            <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div><div><div class="tl-title">Prêt $500 — Pierre Moreau</div><div class="tl-sub">PRET-2026-0042 · En révision RH Manager</div></div></div>
-            <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div><div class="tl-title">Attestation visa — Carla Mervil</div><div class="tl-sub">ATT-COM-2026-0031 · Approuvée ✓</div></div></div>
+
+      <div class="alert warn">⚠️ <strong>Alerte documents :</strong> Passeport Jean-Marc expire le 15/05/2026 · Visa Pierre expire le 30/06/2026</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+
+        <div class="card card-pad">
+          <div class="card-hdr">
+            <div><div class="card-title">Demandes récentes</div><div class="card-sub">Suivi du circuit de validation</div></div>
+            <span class="badge b-warn">3 en cours</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div><div><div class="tl-title">Congé annuel — Jean-Marc Romain <span class="badge b-warn" style="margin-left:4px">Étape 2/4</span></div><div class="tl-sub">DEM-2026-0847 · 5 jours · 20–24 juin · En attente superviseur</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div><div><div class="tl-title">Prêt $500 USD — Pierre Moreau <span class="badge b-pur" style="margin-left:4px">Étape 3/4</span></div><div class="tl-sub">PRET-2026-0042 · Urgence médicale · En révision RH Manager</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div><div class="tl-title">Attestation visa — Carla Mervil <span class="badge b-ok" style="margin-left:4px">Approuvée</span></div><div class="tl-sub">ATT-COM-2026-0031 · Ambassade USA · Imprimée pour Direction</div></div></div>
+          </div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray200)">
+            <button class="btn btn-sm" onclick="nav('demandes',document.querySelector('.sb-item:nth-child(3)'))">Voir toutes les demandes →</button>
           </div>
         </div>
-        <div class="card">
-          <div class="card-hdr"><div class="card-title">Double payroll — Juin 2026</div></div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#EFF6FF;border-radius:var(--radius);border:1px solid #BFDBFE">
-              <div><div style="font-size:12px;font-weight:600;color:var(--blue)">Payroll USD</div><div style="font-size:11px;color:var(--text2)">237 employés · Masse brute</div></div>
-              <div style="font-size:18px;font-weight:700;color:var(--blue)">$842K</div>
+
+        <div class="card card-pad">
+          <div class="card-hdr"><div><div class="card-title">Payroll — Juin 2026</div><div class="card-sub">Double devise USD + HTG</div></div></div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--lblue);border-radius:var(--radius);border:1.5px solid var(--lblue2)">
+              <div><div style="font-size:13px;font-weight:700;color:var(--blue)">Payroll USD</div><div style="font-size:11px;color:var(--gray500)">237 employés · Masse brute</div></div>
+              <div style="font-size:22px;font-weight:800;color:var(--blue)">$842 400</div>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#F0FDF4;border-radius:var(--radius);border:1px solid #86EFAC">
-              <div><div style="font-size:12px;font-weight:600;color:var(--green)">Payroll HTG</div><div style="font-size:11px;color:var(--text2)">111 employés · Masse brute</div></div>
-              <div style="font-size:18px;font-weight:700;color:var(--green)">G 111M</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--lgreen);border-radius:var(--radius);border:1.5px solid var(--lgreen2)">
+              <div><div style="font-size:13px;font-weight:700;color:var(--green)">Payroll HTG</div><div style="font-size:11px;color:var(--gray500)">111 employés · Masse brute</div></div>
+              <div style="font-size:22px;font-weight:800;color:var(--green)">G 111.6M</div>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:4px">
-              <div style="background:#EFF6FF;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--blue)">ONA</div><div>6%·6%</div></div>
-              <div style="background:#F0FDF4;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--green)">CAS</div><div>3%·4%</div></div>
-              <div style="background:#F5F3FF;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--purple)">CFGDCT</div><div>2%·2%</div></div>
-              <div style="background:#FFFBEB;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--amber)">FDU</div><div>0.5%</div></div>
-              <div style="background:#FEF2F2;border-radius:5px;padding:5px;text-align:center;font-size:10px"><div style="font-weight:600;color:var(--red)">IRI</div><div>0–30%</div></div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px">
+              <div style="background:var(--lblue);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--blue)">ONA</div><div style="font-size:9px;color:var(--gray500)">6%·6%</div></div>
+              <div style="background:var(--lgreen);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--green)">CAS</div><div style="font-size:9px;color:var(--gray500)">3%·4%</div></div>
+              <div style="background:var(--lpurp);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--purple)">CFGDCT</div><div style="font-size:9px;color:var(--gray500)">2%·2%</div></div>
+              <div style="background:var(--lamber);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--amber)">FDU</div><div style="font-size:9px;color:var(--gray500)">0.5%</div></div>
+              <div style="background:var(--lred);border-radius:var(--radius-sm);padding:6px;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--red)">IRI</div><div style="font-size:9px;color:var(--gray500)">0-30%</div></div>
             </div>
           </div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray200)">
+            <button class="btn btn-sm" onclick="nav('payroll',null)">Gérer le payroll →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">Accès rapide — Formulaires</div><div class="card-sub">Cliquez pour remplir directement · Accès universel tous rôles</div></div><button class="btn btn-sm" onclick="nav('formulaires',null)">Voir les 27 →</button></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px">
+          <div class="form-tile" onclick="openFormModal('conge')"><span class="ft-icon">📅</span><div class="ft-name">Congé annuel</div><div class="ft-desc">Cat. A/B/C</div><div class="ft-delay">⏱ 48h</div></div>
+          <div class="form-tile" onclick="openFormModal('visa')"><span class="ft-icon">✈️</span><div class="ft-name">Attestation visa</div><div class="ft-desc">Ambassades</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('pret')"><span class="ft-icon">💵</span><div class="ft-name">Demande de prêt</div><div class="ft-desc">USD ou HTG</div><div class="ft-delay">⏱ 5 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('sortie')"><span class="ft-icon">🚪</span><div class="ft-name">Autorisation sortie</div><div class="ft-desc">Max 2h</div><div class="ft-delay">⏱ Immédiat</div></div>
+          <div class="form-tile" onclick="openFormModal('travail')"><span class="ft-icon">📄</span><div class="ft-name">Attestation travail</div><div class="ft-desc">Avec/sans salaire</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('hsup')"><span class="ft-icon">⏰</span><div class="ft-name">Heures supp.</div><div class="ft-desc">Avec motif</div><div class="ft-delay">⏱ 48h</div></div>
         </div>
       </div>
     </div>
 
-    <!-- ── FORMULAIRES ── -->
+    <!-- ── FORMULAIRES ────────────────────────────────────────────────── -->
     <div class="screen" id="s-formulaires">
-      <div class="alert ok">✓ Accès universel — Tout employé peut remplir et soumettre n'importe quel formulaire, quel que soit son rôle.</div>
-      <div id="form-list">
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px">
-          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('conge')"><div style="font-size:18px;margin-bottom:8px">📅</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Congé annuel</div><div style="font-size:10px;color:var(--text2)">Cat. A/B/C · 48h</div></div>
-          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('visa')"><div style="font-size:18px;margin-bottom:8px">✈️</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Attestation visa</div><div style="font-size:10px;color:var(--text2)">Ambassades · 3 jours</div></div>
-          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('pret')"><div style="font-size:18px;margin-bottom:8px">💵</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Demande de prêt</div><div style="font-size:10px;color:var(--text2)">USD ou HTG · 5 jours</div></div>
-          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('sortie')"><div style="font-size:18px;margin-bottom:8px">🚪</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Autorisation sortie</div><div style="font-size:10px;color:var(--text2)">Max 2h · Immédiat</div></div>
-          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('hsup')"><div style="font-size:18px;margin-bottom:8px">⏰</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Heures supplémentaires</div><div style="font-size:10px;color:var(--text2)">Avec motif · 48h</div></div>
-          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('travail')"><div style="font-size:18px;margin-bottom:8px">📄</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Attestation de travail</div><div style="font-size:10px;color:var(--text2)">Avec/sans salaire · 3j</div></div>
-          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('bancaire')"><div style="font-size:18px;margin-bottom:8px">🏦</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Attestation bancaire</div><div style="font-size:10px;color:var(--text2)">Prêt / compte · 3j</div></div>
-          <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;background:#fff;transition:all .12s" onmouseover="this.style.borderColor='#93C5FD'" onmouseout="this.style.borderColor='var(--border)'" onclick="openForm('maladie')"><div style="font-size:18px;margin-bottom:8px">🤒</div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Congé maladie</div><div style="font-size:10px;color:var(--text2)">Certificat médical</div></div>
+      <div class="alert ok">✅ <strong>Accès universel :</strong> Tout employé peut remplir et soumettre n'importe quel formulaire, quel que soit son rôle.</div>
+
+      <div class="card card-pad" style="margin-bottom:16px">
+        <div class="card-hdr"><div><div class="card-title">📅 Congés</div></div></div>
+        <div class="form-grid">
+          <div class="form-tile" onclick="openFormModal('conge')"><span class="ft-icon">📅</span><div class="ft-name">Congé annuel</div><div class="ft-desc">Catégorie A/B/C selon ancienneté</div><div class="ft-delay">⏱ 48h · Universel</div></div>
+          <div class="form-tile" onclick="openFormModal('maladie')"><span class="ft-icon">🤒</span><div class="ft-name">Congé maladie</div><div class="ft-desc">Certificat médical requis +2j</div><div class="ft-delay">⏱ Immédiat</div></div>
+          <div class="form-tile" onclick="openFormModal('maternite')"><span class="ft-icon">👶</span><div class="ft-name">Maternité / Paternité</div><div class="ft-desc">Droits légaux haïtiens</div><div class="ft-delay">⏱ 15j avant</div></div>
+          <div class="form-tile" onclick="openFormModal('teletravail')"><span class="ft-icon">🏠</span><div class="ft-name">Télétravail</div><div class="ft-desc">Ponctuel ou récurrent</div><div class="ft-delay">⏱ 48h</div></div>
+          <div class="form-tile" onclick="openFormModal('sanssolde')"><span class="ft-icon">💼</span><div class="ft-name">Congé sans solde</div><div class="ft-desc">Non rémunéré · Dir. requis</div><div class="ft-delay">⏱ 7j avant</div></div>
+          <div class="form-tile" onclick="openFormModal('special')"><span class="ft-icon">⭐</span><div class="ft-name">Congé spécial 3j</div><div class="ft-desc">Deuil, mariage, naissance</div><div class="ft-delay">⏱ Immédiat</div></div>
         </div>
-        <div style="font-size:11px;color:var(--text2);text-align:center;margin-top:12px">8 formulaires sur 27 disponibles · Cliquez pour remplir</div>
       </div>
-      <div id="form-active" style="display:none"></div>
+
+      <div class="card card-pad" style="margin-bottom:16px">
+        <div class="card-hdr"><div><div class="card-title">📄 Attestations</div></div></div>
+        <div class="form-grid">
+          <div class="form-tile" onclick="openFormModal('travail')"><span class="ft-icon">📄</span><div class="ft-name">Attestation de travail</div><div class="ft-desc">Confirme la relation d'emploi</div><div class="ft-delay">⏱ 3j · Avec/sans salaire</div></div>
+          <div class="form-tile" onclick="openFormModal('salaire')"><span class="ft-icon">💰</span><div class="ft-name">Attestation de salaire</div><div class="ft-desc">Montant brut / net / annuel</div><div class="ft-delay">⏱ 3j · USD ou HTG</div></div>
+          <div class="form-tile" onclick="openFormModal('visa')"><span class="ft-icon">✈️</span><div class="ft-name">Attestation pour visa</div><div class="ft-desc">Ambassades et consulats</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('bancaire')"><span class="ft-icon">🏦</span><div class="ft-name">Attestation bancaire</div><div class="ft-desc">Prêt, compte, carte</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('etudes')"><span class="ft-icon">🎓</span><div class="ft-name">Attestation pour études</div><div class="ft-desc">Bourses, inscriptions</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('presence')"><span class="ft-icon">📆</span><div class="ft-name">Attestation de présence</div><div class="ft-desc">Période couverte</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('experience')"><span class="ft-icon">💼</span><div class="ft-name">Attestation d'expérience</div><div class="ft-desc">Parcours dans l'entreprise</div><div class="ft-delay">⏱ 5 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('nonredev')"><span class="ft-icon">🚫</span><div class="ft-name">Non-redevance</div><div class="ft-desc">Aucune dette envers l'ent.</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('finservice')"><span class="ft-icon">🔚</span><div class="ft-name">Fin de service</div><div class="ft-desc">Retraite, démission, fin</div><div class="ft-delay">⏱ 5 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('conduite')"><span class="ft-icon">✅</span><div class="ft-name">Bonne conduite</div><div class="ft-desc">Comportement exemplaire</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('dispo')"><span class="ft-icon">📡</span><div class="ft-name">Disponibilité</div><div class="ft-desc">Disponible pour missions</div><div class="ft-delay">⏱ 3 jours</div></div>
+        </div>
+      </div>
+
+      <div class="card card-pad" style="margin-bottom:16px">
+        <div class="card-hdr"><div><div class="card-title">💵 Prêts & Finances</div></div></div>
+        <div class="form-grid">
+          <div class="form-tile" onclick="openFormModal('pret')"><span class="ft-icon">💵</span><div class="ft-name">Demande de prêt</div><div class="ft-desc">USD ou HTG · Remboursement mensuel</div><div class="ft-delay">⏱ 5 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('avance')"><span class="ft-icon">💸</span><div class="ft-name">Avance sur salaire</div><div class="ft-desc">Récupérée sur prochain bulletin</div><div class="ft-delay">⏱ 48h</div></div>
+          <div class="form-tile" onclick="openFormModal('frais')"><span class="ft-icon">🧾</span><div class="ft-name">Remboursement frais</div><div class="ft-desc">Frais professionnels engagés</div><div class="ft-delay">⏱ 5 jours</div></div>
+        </div>
+      </div>
+
+      <div class="card card-pad" style="margin-bottom:16px">
+        <div class="card-hdr"><div><div class="card-title">🚪 Sorties & Présences</div></div></div>
+        <div class="form-grid">
+          <div class="form-tile" onclick="openFormModal('sortie')"><span class="ft-icon">🚪</span><div class="ft-name">Autorisation de sortie</div><div class="ft-desc">Pendant heures de travail · Max 2h</div><div class="ft-delay">⏱ Immédiat</div></div>
+          <div class="form-tile" onclick="openFormModal('hsup')"><span class="ft-icon">⏰</span><div class="ft-name">Heures supplémentaires</div><div class="ft-desc">Motif obligatoire par ligne</div><div class="ft-delay">⏱ 48h</div></div>
+          <div class="form-tile" onclick="openFormModal('pointage')"><span class="ft-icon">🔄</span><div class="ft-name">Correction pointage</div><div class="ft-desc">Oubli de badgeage</div><div class="ft-delay">⏱ 24h</div></div>
+          <div class="form-tile" onclick="openFormModal('absence')"><span class="ft-icon">😔</span><div class="ft-name">Absence motivée</div><div class="ft-desc">Deuil, urgence, événement</div><div class="ft-delay">⏱ Immédiat</div></div>
+        </div>
+      </div>
+
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">🗂️ RH & Administration</div></div></div>
+        <div class="form-grid">
+          <div class="form-tile" onclick="openFormModal('dossier')"><span class="ft-icon">📝</span><div class="ft-name">Modification dossier</div><div class="ft-desc">Adresse, contacts, documents</div><div class="ft-delay">⏱ 3 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('bulletin')"><span class="ft-icon">📋</span><div class="ft-name">Correction bulletin</div><div class="ft-desc">Erreur sur bulletin émis</div><div class="ft-delay">⏱ 5 jours</div></div>
+          <div class="form-tile" onclick="openFormModal('reclamation')"><span class="ft-icon">🏖️</span><div class="ft-name">Réclamation / Grievance</div><div class="ft-desc">Signaler un problème</div><div class="ft-delay">⏱ 5 jours</div></div>
+        </div>
+      </div>
     </div>
 
-    <!-- ── DEMANDES ── -->
+    <!-- ── DEMANDES ────────────────────────────────────────────────────── -->
     <div class="screen" id="s-demandes">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
-        <div class="stat-card"><div class="stat-val" style="color:var(--amber);font-size:20px">3</div><div class="stat-lbl">En attente</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--green);font-size:20px">7</div><div class="stat-lbl">Approuvées</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--red);font-size:20px">1</div><div class="stat-lbl">Refusées</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--blue);font-size:20px">11</div><div class="stat-lbl">Total 2026</div></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+        <div class="stat-card amber"><div class="stat-icon">⏳</div><div class="stat-val" style="color:var(--amber);font-size:22px">3</div><div class="stat-lbl">En attente</div></div>
+        <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" style="color:var(--green);font-size:22px">7</div><div class="stat-lbl">Approuvées</div></div>
+        <div class="stat-card red"><div class="stat-icon">❌</div><div class="stat-val" style="color:var(--red);font-size:22px">1</div><div class="stat-lbl">Refusées</div></div>
+        <div class="stat-card blue"><div class="stat-icon">📊</div><div class="stat-val" style="color:var(--blue);font-size:22px">11</div><div class="stat-lbl">Total 2026</div></div>
       </div>
       <div class="card">
-        <div class="card-hdr"><div class="card-title">Historique de mes demandes</div></div>
-        <table>
-          <tr><th>Référence</th><th>Type</th><th>Soumis le</th><th>Étape circuit</th><th>Statut</th></tr>
-          <tr><td><code>DEM-2026-0847</code></td><td>Congé annuel 5j</td><td>27/04/2026</td><td>2/4 — Superviseur</td><td><span class="badge b-warn">Attente sup.</span></td></tr>
-          <tr><td><code>PRET-2026-0042</code></td><td>Prêt $500 USD</td><td>25/04/2026</td><td>3/4 — RH Manager</td><td><span class="badge b-pur">Révision RH</span></td></tr>
-          <tr><td><code>ATT-COM-2026-0031</code></td><td>Attestation visa</td><td>26/04/2026</td><td>4/4 — Direction</td><td><span class="badge b-ok">Approuvée ✓</span></td></tr>
-          <tr><td><code>DEM-2026-0742</code></td><td>Congé maladie</td><td>10/03/2026</td><td>—</td><td><span class="badge b-red">Refusée</span></td></tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- ── SETUP ── -->
-    <div class="screen" id="s-setup">
-      <div class="alert pur">⚙ Setup initial — configuré une seule fois par l'Administrateur lors de la création de l'entreprise.</div>
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:16px" id="setup-steps">
-        <div class="st done" onclick="gostep(1)">1 · Infos</div>
-        <div class="st done" onclick="gostep(2)">2 · RH</div>
-        <div class="st cur" id="st3" style="background:var(--purple)" onclick="gostep(3)">3 · Domaine</div>
-        <div class="st" onclick="gostep(4)">4 · Devise</div>
-        <div class="st" onclick="gostep(5)">5 · Admin</div>
-        <div class="st" onclick="gostep(6)">6 · Confirm.</div>
-      </div>
-      <div id="setup-content"></div>
-    </div>
-
-    <!-- ── VALIDATION ── -->
-    <div class="screen" id="s-validation">
-      <div class="alert info" id="val-info">ℹ Les demandes arrivent ici après soumission par l'employé. Vous pouvez aussi valider via le lien dans votre email (token).</div>
-      <div class="card">
-        <div class="card-hdr"><div class="card-title" id="val-title">Demandes à viser</div><span class="badge b-warn" id="val-count">3 en attente</span></div>
-        <div id="val-list"></div>
-      </div>
-    </div>
-
-    <!-- ── PAYROLL ── -->
-    <div class="screen" id="s-payroll">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
-        <div class="stat-card"><div class="stat-val" style="color:var(--blue)">237</div><div class="stat-lbl">Employés USD</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--green)">111</div><div class="stat-lbl">Employés HTG</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--blue);font-size:20px">$842K</div><div class="stat-lbl">Masse brute USD</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--green);font-size:20px">G 111M</div><div class="stat-lbl">Masse brute HTG</div></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr">
-          <div class="card-title">Bulletins USD — Juin 2026</div>
-          <div style="display:flex;gap:6px">
-            <button class="btn btn-primary" onclick="toast('Payroll USD lancé — 237 bulletins générés · Emails envoyés')">Lancer USD</button>
-            <button class="btn btn-green" onclick="toast('Payroll HTG lancé — 111 bulletins en gourdes générés')">Lancer HTG</button>
-          </div>
+        <div class="card-hdr card-pad" style="padding-bottom:0">
+          <div><div class="card-title">Historique de mes demandes</div></div>
+          <button class="btn btn-primary btn-sm" onclick="openFormModal('conge')">+ Nouvelle demande</button>
         </div>
-        <table>
-          <tr><th>Employé</th><th>Brut</th><th>H. sup.</th><th>Réductions</th><th>Taxes</th><th>Net USD</th><th>Équiv. HTG</th><th>PDF</th></tr>
-          <tr><td><strong>Jean-Marc Romain</strong></td><td style="color:var(--blue)">$1 500</td><td style="color:var(--green)">+$183</td><td style="color:var(--red)">-$285</td><td style="color:var(--red)">-$399</td><td><strong>$999</strong></td><td style="color:var(--text2)">G 132 368</td><td><button class="btn" style="font-size:10px;padding:3px 8px" onclick="toast('PDF BUL-USD-2026-06-0128 généré · SHA-256 signé')">🖨 PDF</button></td></tr>
-          <tr><td><strong>Carla Mervil</strong></td><td style="color:var(--blue)">$1 800</td><td style="color:var(--green)">+$56</td><td style="color:var(--red)">-$80</td><td style="color:var(--red)">-$479</td><td><strong>$1 297</strong></td><td style="color:var(--text2)">G 171 853</td><td><button class="btn" style="font-size:10px;padding:3px 8px" onclick="toast('PDF BUL-USD-2026-06-0076 généré')">🖨 PDF</button></td></tr>
-          <tr><td><strong>Pierre Moreau</strong></td><td style="color:var(--blue)">$2 200</td><td style="color:var(--green)">+$113</td><td style="color:var(--red)">-$0</td><td style="color:var(--red)">-$588</td><td><strong>$1 725</strong></td><td style="color:var(--text2)">G 228 563</td><td><button class="btn" style="font-size:10px;padding:3px 8px" onclick="toast('PDF BUL-USD-2026-06-0099 généré')">🖨 PDF</button></td></tr>
-        </table>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Bulletin HTG — Nadège Charles</div>
+        <div class="tbl-wrap">
           <table>
-            <tr><th>Employé</th><th>Brut HTG</th><th>H. sup.</th><th>Taxes</th><th>Net HTG</th><th>Équiv. USD</th><th>PDF</th></tr>
-            <tr><td><strong>Nadège Charles</strong></td><td style="color:var(--green)">G 198 750</td><td style="color:var(--green)">+G 13 043</td><td style="color:var(--red)">-G 59 120</td><td><strong>G 172 840</strong></td><td style="color:var(--text2)">$1 305</td><td><button class="btn" style="font-size:10px;padding:3px 8px" onclick="toast('PDF BUL-HTG-2026-06-0044 généré en gourdes')">🖨 PDF</button></td></tr>
+            <thead><tr><th>Référence</th><th>Type</th><th>Soumis le</th><th>Étape circuit</th><th>Statut</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><code style="font-size:11px;background:var(--gray100);padding:2px 6px;border-radius:4px">DEM-2026-0847</code></td><td>Congé annuel — 5 jours</td><td>27/04/2026</td><td><div class="pipeline" style="margin:0;min-width:180px"><div class="pl-step done" style="font-size:9px">1 ✓</div><div class="pl-step cur" style="background:var(--amber);font-size:9px">2 ⏳</div><div class="pl-step wait" style="font-size:9px">3</div><div class="pl-step wait" style="font-size:9px">4</div></div></td><td><span class="badge b-warn">Attente sup.</span></td><td><button class="btn btn-xs">Détails</button></td></tr>
+              <tr><td><code style="font-size:11px;background:var(--gray100);padding:2px 6px;border-radius:4px">PRET-2026-0042</code></td><td>Prêt $500 USD</td><td>25/04/2026</td><td><div class="pipeline" style="margin:0;min-width:180px"><div class="pl-step done" style="font-size:9px">1 ✓</div><div class="pl-step done" style="font-size:9px">2 ✓</div><div class="pl-step cur" style="background:var(--purple);font-size:9px">3 ⏳</div><div class="pl-step wait" style="font-size:9px">4</div></div></td><td><span class="badge b-pur">Révision RH</span></td><td><button class="btn btn-xs">Détails</button></td></tr>
+              <tr><td><code style="font-size:11px;background:var(--gray100);padding:2px 6px;border-radius:4px">ATT-COM-2026-0031</code></td><td>Attestation visa USA</td><td>26/04/2026</td><td><div class="pipeline" style="margin:0;min-width:180px"><div class="pl-step done" style="font-size:9px">1 ✓</div><div class="pl-step done" style="font-size:9px">2 ✓</div><div class="pl-step done" style="font-size:9px">3 ✓</div><div class="pl-step done" style="font-size:9px">4 ✓</div></div></td><td><span class="badge b-ok">Approuvée ✓</span></td><td><button class="btn btn-xs">PDF</button></td></tr>
+              <tr><td><code style="font-size:11px;background:var(--gray100);padding:2px 6px;border-radius:4px">DEM-2026-0742</code></td><td>Congé maladie — 2j</td><td>10/03/2026</td><td><div class="pipeline" style="margin:0;min-width:180px"><div class="pl-step done" style="font-size:9px">1 ✓</div><div class="pl-step" style="background:var(--lred2);color:var(--red);font-size:9px">2 ✗</div><div class="pl-step wait" style="font-size:9px">3</div><div class="pl-step wait" style="font-size:9px">4</div></div></td><td><span class="badge b-red">Refusée</span></td><td><button class="btn btn-xs">Détails</button></td></tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ── EMPLOYÉS ── -->
-    <div class="screen" id="s-employes">
-      <div class="card">
-        <div class="card-hdr"><div class="card-title">Tous les employés — 348</div><button class="btn btn-primary" onclick="toast('Formulaire d\'ajout employé ouvert')">+ Ajouter</button></div>
-        <table>
-          <tr><th>Matricule</th><th>Nom</th><th>Rôle</th><th>Département</th><th>Salaire</th><th>Devise</th><th>Catégorie</th><th>Statut</th></tr>
-          <tr><td><code>EMP-2010-0001</code></td><td><strong>Marie Celcis</strong></td><td><span class="badge b-pur">Admin</span></td><td>RH</td><td>$5 000</td><td>USD</td><td>Cat. C</td><td><span class="badge b-ok">Actif</span></td></tr>
-          <tr><td><code>EMP-2015-0010</code></td><td><strong>Jean-Pierre Fils</strong></td><td><span class="badge b-ok">RH Manager</span></td><td>RH</td><td>$3 500</td><td>USD</td><td>Cat. C</td><td><span class="badge b-ok">Actif</span></td></tr>
-          <tr><td><code>EMP-2018-0025</code></td><td><strong>Roody Joseph</strong></td><td><span class="badge b-warn">Superviseur</span></td><td>IT</td><td>$2 500</td><td>USD</td><td>Cat. B</td><td><span class="badge b-ok">Actif</span></td></tr>
-          <tr><td><code>EMP-2023-0128</code></td><td><strong>Jean-Marc Romain</strong></td><td><span class="badge b-neu">HR Support</span></td><td>IT</td><td>$1 500</td><td>USD</td><td>Cat. A</td><td><span class="badge b-ok">Actif</span></td></tr>
-          <tr><td><code>EMP-2020-0076</code></td><td><strong>Carla Mervil</strong></td><td><span class="badge b-neu">HR Support</span></td><td>Finance</td><td>$1 800</td><td>USD</td><td>Cat. A</td><td><span class="badge b-ok">Actif</span></td></tr>
-          <tr><td><code>EMP-2008-0044</code></td><td><strong>Nadège Charles</strong></td><td><span class="badge b-neu">HR Support</span></td><td>Finance</td><td>G 198 750</td><td>HTG</td><td>Cat. C</td><td><span class="badge b-ok">Actif</span></td></tr>
-          <tr><td><code>EMP-2021-0099</code></td><td><strong>Pierre Moreau</strong></td><td><span class="badge b-neu">HR Support</span></td><td>Opérations</td><td>$2 200</td><td>USD</td><td>Cat. A</td><td><span class="badge b-ok">Actif</span></td></tr>
-        </table>
-        <div style="font-size:11px;color:var(--text2);text-align:center;margin-top:8px">7 sur 348 employés affichés</div>
+    <!-- ── SETUP ──────────────────────────────────────────────────────── -->
+    <div class="screen" id="s-setup">
+      <div class="alert pur">⚙️ Setup initial — configuré une seule fois par l'Administrateur lors de la création de l'entreprise.</div>
+      <div style="display:flex;gap:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--gray200);margin-bottom:20px" id="setup-steps">
+        <div class="pl-step done" onclick="goStep(1)">1 · Infos société</div>
+        <div class="pl-step done" onclick="goStep(2)">2 · Paramètres RH</div>
+        <div class="pl-step cur" id="st3" style="background:var(--purple);color:#fff" onclick="goStep(3)">3 · Domaine activité</div>
+        <div class="pl-step wait" onclick="goStep(4)">4 · Devise & Taux</div>
+        <div class="pl-step wait" onclick="goStep(5)">5 · Compte Admin</div>
+        <div class="pl-step wait" onclick="goStep(6)">6 · Confirmation</div>
+      </div>
+      <div id="setup-content"></div>
+    </div>
+
+    <!-- ── VALIDATION ─────────────────────────────────────────────────── -->
+    <div class="screen" id="s-validation">
+      <div class="alert info" id="val-alert">ℹ️ Les demandes arrivent ici après soumission par l'employé. Vous pouvez aussi valider via le lien dans votre email (token à usage unique).</div>
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title" id="val-title">Demandes à viser</div><div class="card-sub">Motif obligatoire pour toute décision</div></div><span class="badge b-warn" id="val-count">3 en attente</span></div>
+        <div id="val-list"></div>
       </div>
     </div>
 
-    <!-- ── AUDIT ── -->
-    <div class="screen" id="s-audit">
-      <div class="card">
-        <div class="card-hdr"><div class="card-title">Journal d'audit — immuable</div><span class="badge b-red">Lecture seule</span></div>
-        <table>
-          <tr><th>#</th><th>Action</th><th>Utilisateur</th><th>Table</th><th>Source</th><th>IP</th><th>Horodatage</th></tr>
-          <tr><td><code>44821</code></td><td><span class="badge b-info">LOGIN</span></td><td>Admin Système</td><td>—</td><td>web</td><td>192.168.1.10</td><td>28/04 09h02</td></tr>
-          <tr><td><code>44820</code></td><td><span class="badge b-pur">TOKEN_USE</span></td><td>Roody Joseph</td><td>demandes</td><td>email_token</td><td>10.0.0.5</td><td>27/04 11h34</td></tr>
-          <tr><td><code>44819</code></td><td><span class="badge b-warn">PAYROLL</span></td><td>Jean-Pierre Fils</td><td>paie</td><td>web</td><td>192.168.1.22</td><td>30/06 10h14</td></tr>
-          <tr><td><code>44818</code></td><td><span class="badge b-pur">PRINT</span></td><td>Jean-Pierre Fils</td><td>demandes</td><td>web</td><td>192.168.1.22</td><td>27/04 11h30</td></tr>
-          <tr><td><code>44817</code></td><td><span class="badge b-warn">UPDATE</span></td><td>Admin Système</td><td>employes</td><td>web</td><td>192.168.1.10</td><td>27/04 10h55</td></tr>
-          <tr><td><code>44816</code></td><td><span class="badge b-ok">CREATE</span></td><td>Admin Système</td><td>employes</td><td>web</td><td>192.168.1.10</td><td>26/04 15h22</td></tr>
-          <tr><td><code>44815</code></td><td><span class="badge b-ok">SETUP</span></td><td>Admin Système</td><td>entreprises</td><td>web</td><td>192.168.1.10</td><td>01/01 08h00</td></tr>
-        </table>
+    <!-- ── PAYROLL ─────────────────────────────────────────────────────── -->
+    <div class="screen" id="s-payroll">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+        <div class="stat-card blue"><div class="stat-icon">💵</div><div class="stat-val" style="color:var(--blue);font-size:22px">237</div><div class="stat-lbl">Employés USD</div></div>
+        <div class="stat-card green"><div class="stat-icon">🇭🇹</div><div class="stat-val" style="color:var(--green);font-size:22px">111</div><div class="stat-lbl">Employés HTG</div></div>
+        <div class="stat-card blue"><div class="stat-icon">📊</div><div class="stat-val" style="color:var(--blue);font-size:18px">$842K</div><div class="stat-lbl">Masse brute USD</div></div>
+        <div class="stat-card green"><div class="stat-icon">📊</div><div class="stat-val" style="color:var(--green);font-size:18px">G 111M</div><div class="stat-lbl">Masse brute HTG</div></div>
       </div>
-    </div>
 
-    <!-- ── PROFIL ── -->
-    <div class="screen" id="s-profil">
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:16px">
-          <div id="profil-av" style="width:56px;height:56px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff">AD</div>
-          <div>
-            <div style="font-size:16px;font-weight:600" id="profil-name">Admin Système</div>
-            <div style="font-size:12px;color:var(--text2);margin-top:2px">Administrateur · Accès total · Entreprise Nationale S.A.</div>
+      <div class="card card-pad" style="margin-bottom:16px">
+        <div class="card-hdr">
+          <div><div class="card-title">Bulletins USD — Juin 2026</div><div class="card-sub">Taxes haïtiennes calculées automatiquement</div></div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm" onclick="toast('✅ Payroll USD lancé — 237 bulletins générés · Emails envoyés')">▶ Lancer USD</button>
+            <button class="btn btn-green btn-sm" onclick="toast('✅ Payroll HTG lancé — 111 bulletins en gourdes générés')">▶ Lancer HTG</button>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Matricule</div><div style="font-size:13px;font-weight:600" id="profil-mat">EMP-2010-0001</div></div>
-          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Devise paie</div><div style="font-size:13px;font-weight:600;color:var(--blue)">USD</div></div>
-          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--border2);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Solde congés 2026</div><div style="font-size:13px;font-weight:600;color:var(--green)">8 jours (Cat. C)</div></div>
-          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Secteur entreprise</div><div style="font-size:13px;font-weight:600;color:var(--purple)">Commerce · COM</div></div>
-          <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Ancienneté</div><div style="font-size:13px;font-weight:600">16 ans</div></div>
-          <div style="background:#FEF2F2;padding:10px 12px;border-radius:var(--radius);border:1px solid #FECACA"><div style="font-size:10px;color:var(--red)">Aucun doc. expirant</div><div style="font-size:13px;font-weight:600;color:var(--green)">Tous valides ✓</div></div>
+        <div class="tbl-wrap">
+          <div class="pay-row hdr" style="grid-template-columns:1.5fr 80px 70px 70px 70px 80px 80px 60px">
+            <div class="pc">Employé</div><div class="pc">Brut</div><div class="pc">H. sup.</div><div class="pc">Réduc.</div><div class="pc">Taxes</div><div class="pc">Net USD</div><div class="pc">Équiv. HTG</div><div class="pc">PDF</div>
+          </div>
+          <div class="pay-row data" style="grid-template-columns:1.5fr 80px 70px 70px 70px 80px 80px 60px">
+            <div class="pc"><div style="font-weight:600">Jean-Marc Romain</div><div style="font-size:10px;color:var(--gray500)">EMP-2023-0128 · IT</div></div>
+            <div class="pc" style="color:var(--blue);font-weight:600">$1 500</div>
+            <div class="pc" style="color:var(--green)">+$183</div>
+            <div class="pc" style="color:var(--red)">-$285</div>
+            <div class="pc" style="color:var(--red)">-$399</div>
+            <div class="pc" style="font-weight:700">$999</div>
+            <div class="pc" style="color:var(--gray500);font-size:11px">G 132 368</div>
+            <div class="pc"><button class="btn btn-purple btn-xs" onclick="toast('📄 BUL-USD-2026-06-0128.pdf généré · SHA-256 signé')">🖨 PDF</button></div>
+          </div>
+          <div class="pay-row data" style="grid-template-columns:1.5fr 80px 70px 70px 70px 80px 80px 60px">
+            <div class="pc"><div style="font-weight:600">Carla Mervil</div><div style="font-size:10px;color:var(--gray500)">EMP-2020-0076 · Finance</div></div>
+            <div class="pc" style="color:var(--blue);font-weight:600">$1 800</div>
+            <div class="pc" style="color:var(--green)">+$56</div>
+            <div class="pc" style="color:var(--red)">-$80</div>
+            <div class="pc" style="color:var(--red)">-$479</div>
+            <div class="pc" style="font-weight:700">$1 297</div>
+            <div class="pc" style="color:var(--gray500);font-size:11px">G 171 853</div>
+            <div class="pc"><button class="btn btn-purple btn-xs" onclick="toast('📄 BUL-USD-2026-06-0076.pdf généré')">🖨 PDF</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-pad">
+        <div class="card-hdr"><div><div class="card-title">Bulletin HTG — Juin 2026</div></div></div>
+        <div class="tbl-wrap">
+          <div class="pay-row hdr" style="grid-template-columns:1.5fr 100px 80px 80px 100px 80px 60px">
+            <div class="pc">Employé</div><div class="pc">Brut HTG</div><div class="pc">H. sup.</div><div class="pc">Taxes</div><div class="pc">Net HTG</div><div class="pc">Équiv. USD</div><div class="pc">PDF</div>
+          </div>
+          <div class="pay-row data" style="grid-template-columns:1.5fr 100px 80px 80px 100px 80px 60px">
+            <div class="pc"><div style="font-weight:600">Nadège Charles</div><div style="font-size:10px;color:var(--gray500)">EMP-2008-0044 · Finance</div></div>
+            <div class="pc" style="color:var(--green);font-weight:600">G 198 750</div>
+            <div class="pc" style="color:var(--green)">+G 13 043</div>
+            <div class="pc" style="color:var(--red)">-G 59 120</div>
+            <div class="pc" style="font-weight:700;color:var(--green)">G 172 840</div>
+            <div class="pc" style="color:var(--gray500);font-size:11px">$1 305</div>
+            <div class="pc"><button class="btn btn-purple btn-xs" onclick="toast('📄 BUL-HTG-2026-06-0044.pdf généré en gourdes')">🖨 PDF</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EMPLOYÉS ───────────────────────────────────────────────────── -->
+    <div class="screen" id="s-employes">
+      <div class="card">
+        <div class="card-hdr card-pad" style="padding-bottom:0">
+          <div><div class="card-title">Tous les employés</div><div class="card-sub">348 employés · L'Admin voit tous sans restriction salariale</div></div>
+          <button class="btn btn-primary btn-sm" onclick="toast('📝 Formulaire d\'ajout employé')">+ Ajouter un employé</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Matricule</th><th>Nom complet</th><th>Rôle</th><th>Département</th><th>Salaire brut</th><th>Devise</th><th>Cat.</th><th>Statut</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><code style="font-size:10px;background:var(--gray100);padding:2px 5px;border-radius:3px">EMP-2010-0001</code></td><td><div style="font-weight:600">Marie Celcis</div></td><td><span class="badge b-pur">Admin</span></td><td>RH</td><td style="font-weight:600;color:var(--blue)">$5 000</td><td>USD</td><td><span class="badge b-navy">C</span></td><td><span class="badge b-ok">Actif</span></td><td><button class="btn btn-xs">✏️</button></td></tr>
+              <tr><td><code style="font-size:10px;background:var(--gray100);padding:2px 5px;border-radius:3px">EMP-2015-0010</code></td><td><div style="font-weight:600">Jean-Pierre Fils</div></td><td><span class="badge b-ok">RH Manager</span></td><td>RH</td><td style="font-weight:600;color:var(--blue)">$3 500</td><td>USD</td><td><span class="badge b-navy">C</span></td><td><span class="badge b-ok">Actif</span></td><td><button class="btn btn-xs">✏️</button></td></tr>
+              <tr><td><code style="font-size:10px;background:var(--gray100);padding:2px 5px;border-radius:3px">EMP-2018-0025</code></td><td><div style="font-weight:600">Roody Joseph</div></td><td><span class="badge b-warn">Superviseur</span></td><td>IT</td><td style="font-weight:600;color:var(--blue)">$2 500</td><td>USD</td><td><span class="badge b-navy">B</span></td><td><span class="badge b-ok">Actif</span></td><td><button class="btn btn-xs">✏️</button></td></tr>
+              <tr><td><code style="font-size:10px;background:var(--gray100);padding:2px 5px;border-radius:3px">EMP-2023-0128</code></td><td><div style="font-weight:600">Jean-Marc Romain</div></td><td><span class="badge b-neu">HR Support</span></td><td>IT</td><td style="font-weight:600;color:var(--blue)">$1 500</td><td>USD</td><td><span class="badge b-navy">A</span></td><td><span class="badge b-ok">Actif</span></td><td><button class="btn btn-xs">✏️</button></td></tr>
+              <tr><td><code style="font-size:10px;background:var(--gray100);padding:2px 5px;border-radius:3px">EMP-2020-0076</code></td><td><div style="font-weight:600">Carla Mervil</div></td><td><span class="badge b-neu">HR Support</span></td><td>Finance</td><td style="font-weight:600;color:var(--blue)">$1 800</td><td>USD</td><td><span class="badge b-navy">A</span></td><td><span class="badge b-ok">Actif</span></td><td><button class="btn btn-xs">✏️</button></td></tr>
+              <tr><td><code style="font-size:10px;background:var(--gray100);padding:2px 5px;border-radius:3px">EMP-2008-0044</code></td><td><div style="font-weight:600">Nadège Charles</div></td><td><span class="badge b-neu">HR Support</span></td><td>Finance</td><td style="font-weight:600;color:var(--green)">G 198 750</td><td>HTG</td><td><span class="badge b-navy">C</span></td><td><span class="badge b-ok">Actif</span></td><td><button class="btn btn-xs">✏️</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid var(--gray200);font-size:11px;color:var(--gray500)">6 sur 348 employés affichés</div>
+      </div>
+    </div>
+
+    <!-- ── AUDIT ──────────────────────────────────────────────────────── -->
+    <div class="screen" id="s-audit">
+      <div class="card">
+        <div class="card-hdr card-pad" style="padding-bottom:0">
+          <div><div class="card-title">Journal d'audit</div><div class="card-sub">Immuable · Toutes les actions système · BIGINT séquentiel</div></div>
+          <span class="badge b-red">🔒 Lecture seule</span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Action</th><th>Utilisateur</th><th>Table</th><th>Source</th><th>IP</th><th>Horodatage</th></tr></thead>
+            <tbody>
+              <tr><td><code style="font-size:10px">#44821</code></td><td><span class="badge b-info">LOGIN</span></td><td>Admin Système</td><td>—</td><td><span class="badge b-neu">web</span></td><td style="font-family:monospace;font-size:11px">192.168.1.10</td><td>28/04/2026 09:02</td></tr>
+              <tr><td><code style="font-size:10px">#44820</code></td><td><span class="badge b-pur">TOKEN_USE</span></td><td>Roody Joseph</td><td>demandes</td><td><span class="badge b-pur">email_token</span></td><td style="font-family:monospace;font-size:11px">10.0.0.5</td><td>27/04/2026 11:34</td></tr>
+              <tr><td><code style="font-size:10px">#44819</code></td><td><span class="badge b-warn">PAYROLL</span></td><td>Jean-Pierre Fils</td><td>paie</td><td><span class="badge b-neu">web</span></td><td style="font-family:monospace;font-size:11px">192.168.1.22</td><td>30/06/2026 10:14</td></tr>
+              <tr><td><code style="font-size:10px">#44818</code></td><td><span class="badge b-pur">PRINT</span></td><td>Jean-Pierre Fils</td><td>demandes</td><td><span class="badge b-neu">web</span></td><td style="font-family:monospace;font-size:11px">192.168.1.22</td><td>27/04/2026 11:30</td></tr>
+              <tr><td><code style="font-size:10px">#44817</code></td><td><span class="badge b-warn">UPDATE</span></td><td>Admin Système</td><td>employes</td><td><span class="badge b-neu">web</span></td><td style="font-family:monospace;font-size:11px">192.168.1.10</td><td>27/04/2026 10:55</td></tr>
+              <tr><td><code style="font-size:10px">#44816</code></td><td><span class="badge b-ok">CREATE</span></td><td>Admin Système</td><td>employes</td><td><span class="badge b-neu">web</span></td><td style="font-family:monospace;font-size:11px">192.168.1.10</td><td>26/04/2026 15:22</td></tr>
+              <tr><td><code style="font-size:10px">#44815</code></td><td><span class="badge b-ok">SETUP</span></td><td>Admin Système</td><td>entreprises</td><td><span class="badge b-neu">web</span></td><td style="font-family:monospace;font-size:11px">192.168.1.10</td><td>01/01/2026 08:00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROFIL ─────────────────────────────────────────────────────── -->
+    <div class="screen" id="s-profil">
+      <div style="display:grid;grid-template-columns:280px 1fr;gap:20px">
+        <div class="card card-pad">
+          <div style="text-align:center;padding-bottom:16px;border-bottom:1px solid var(--gray200);margin-bottom:16px">
+            <div id="profil-av" style="width:72px;height:72px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;margin:0 auto 12px">AD</div>
+            <div style="font-size:16px;font-weight:700" id="profil-name">Admin Système</div>
+            <div style="font-size:12px;color:var(--gray500);margin-top:3px" id="profil-role">Administrateur</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:12px">
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--gray500)">Matricule</span><span style="font-weight:600" id="profil-mat">EMP-2010-0001</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--gray500)">Devise de paie</span><span class="badge b-info">USD</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--gray500)">Ancienneté</span><span style="font-weight:600">16 ans</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--gray500)">Catégorie congé</span><span class="badge b-navy">Cat. C</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--gray500)">Solde congés</span><span style="font-weight:600;color:var(--green)">8 jours</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="card card-pad" style="margin-bottom:16px">
+            <div class="card-hdr"><div class="card-title">Documents officiels</div></div>
+            <table><thead><tr><th>Type</th><th>Numéro</th><th>Expiration</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td>Passeport</td><td>HT-AB-2023-004521</td><td>15/05/2028</td><td><span class="badge b-ok">Valide</span></td></tr>
+              <tr><td>CIN</td><td>CIN-1234-5678-9012</td><td>30/12/2027</td><td><span class="badge b-ok">Valide</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="card card-pad">
+            <div class="card-hdr"><div class="card-title">Dernières activités</div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div><div><div class="tl-title">Connexion réussie</div><div class="tl-sub">28/04/2026 09:02 · 192.168.1.10 · web</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div class="tl-line"></div><div><div class="tl-title">Payroll USD lancé</div><div class="tl-sub">30/06/2026 10:14 · 237 bulletins générés</div></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div><div class="tl-title">Taux BRH mis à jour</div><div class="tl-sub">28/04/2026 · G 132.50 / $1</div></div></div>
+          </div>
         </div>
       </div>
     </div>
 
   </div><!-- /content -->
-</div><!-- /main -->
+</div><!-- /main-area -->
+</div><!-- /layout -->
 </div><!-- /app -->
+
+<!-- ══ MODAL FORMULAIRE ══ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-ic" id="m-ic" style="background:var(--lblue)"></div>
+      <div style="flex:1"><div class="modal-hdr-title" id="m-title"></div><div class="modal-hdr-sub" id="m-sub"></div></div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="m-body"></div>
+    <div class="success-box" id="m-success" style="display:none">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Demande soumise avec succès !</div>
+      <div class="success-sub">Circuit de validation déclenché — 4 étapes obligatoires</div>
+      <div class="ref-tag" id="m-ref">DEM-2026-XXXX</div>
+      <div class="pipeline" style="margin:16px 0">
+        <div class="pl-step done">1 ✓ Soumis</div>
+        <div class="pl-step cur" style="background:var(--amber)">2 ⏳ Superviseur</div>
+        <div class="pl-step wait">3 — RH Manager</div>
+        <div class="pl-step wait">4 — Direction</div>
+      </div>
+      <div style="font-size:12px;color:var(--gray500)">Email envoyé au superviseur avec lien de validation (token sécurisé)</div>
+    </div>
+    <div class="modal-ftr" id="m-ftr">
+      <button class="btn" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" id="m-submit" onclick="submitForm()" style="flex:1">Soumettre la demande →</button>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── DONNÉES ──────────────────────────────────────────────────────────────────
-const ROLES = {
-  admin: { label:'Admin',       color:'#534AB7', init:'AD', name:'Admin Système',    role:'Administrateur',          mat:'EMP-2010-0001' },
-  mgr:   { label:'RH Manager',  color:'#0F6E56', init:'MC', name:'Marie Celcis',     role:'RH Manager',              mat:'EMP-2015-0010' },
-  sup:   { label:'Superviseur', color:'#854F0B', init:'RJ', name:'Roody Joseph',     role:'Superviseur IT',          mat:'EMP-2018-0025' },
-  emp:   { label:'Employé',     color:'#185FA5', init:'JM', name:'Jean-Marc Romain', role:'Technicien Senior IT',    mat:'EMP-2023-0128' },
+// ── DONNÉES ───────────────────────────────────────────────────────────────────
+const ROLES_DATA={
+  admin:{name:'Admin Système',role:'Administrateur',av:'AD',color:'#534AB7',mat:'EMP-2010-0001',rh:true},
+  mgr:  {name:'Marie Celcis',role:'RH Manager',av:'MC',color:'#0F6E56',mat:'EMP-2015-0010',rh:true},
+  sup:  {name:'Roody Joseph',role:'Superviseur IT',av:'RJ',color:'#854F0B',mat:'EMP-2018-0025',rh:true},
+  emp:  {name:'Jean-Marc Romain',role:'Technicien Senior IT',av:'JM',color:'#185FA5',mat:'EMP-2023-0128',rh:false},
 };
+let CR='admin';
+let valDone=[false,false,false];
+let currentFormType='';
 
-const DOMAINES = [
-  {id:'commerce',ic:'🏪',lb:'Commerce',c:'#185FA5'},
-  {id:'finance',ic:'🏦',lb:'Finance',c:'#0F6E56'},
-  {id:'sante',ic:'🏥',lb:'Santé',c:'#A32D2D'},
-  {id:'education',ic:'🎓',lb:'Éducation',c:'#534AB7'},
-  {id:'btp',ic:'🏗️',lb:'BTP',c:'#854F0B'},
-  {id:'tech',ic:'💻',lb:'Tech & IT',c:'#185FA5'},
-  {id:'transport',ic:'🚛',lb:'Transport',c:'#633806'},
-  {id:'ong',ic:'🌍',lb:'ONG / Intl',c:'#0F6E56'},
-  {id:'public',ic:'🏛️',lb:'Secteur pub.',c:'#0C447C'},
-  {id:'tourisme',ic:'🏨',lb:'Tourisme',c:'#993C1D'},
-  {id:'agri',ic:'🌾',lb:'Agriculture',c:'#3B6D11'},
-  {id:'media',ic:'📡',lb:'Médias',c:'#534AB7'},
-  {id:'juridique',ic:'⚖️',lb:'Droit',c:'#444441'},
-  {id:'immobilier',ic:'🏠',lb:'Immobilier',c:'#712B13'},
-  {id:'energie',ic:'⚡',lb:'Énergie',c:'#27500A'},
-  {id:'autre',ic:'⚙️',lb:'Autre',c:'#5F5E5A'},
-];
-
-let currentRole = 'admin';
-let selectedDom = 'commerce';
-let setupStep = 3;
-let valDone = [false, false, false];
-
-// ── RÔLES ─────────────────────────────────────────────────────────────────────
-function buildRolePill() {
-  const c = document.getElementById('role-pill');
-  c.innerHTML = '';
-  Object.entries(ROLES).forEach(([id,r]) => {
-    const b = document.createElement('button');
-    b.className = 'rp-btn' + (id === currentRole ? ' active' : '');
-    b.textContent = r.label;
-    if (id === currentRole) b.style.background = r.color;
-    b.onclick = () => switchRole(id);
-    c.appendChild(b);
-  });
-}
-
-function switchRole(id) {
-  currentRole = id;
-  const r = ROLES[id];
-  document.getElementById('sb-av').textContent = r.init;
-  document.getElementById('sb-av').style.background = r.color;
-  document.getElementById('sb-name').textContent = r.name;
-  document.getElementById('sb-role').textContent = r.role;
-  document.getElementById('profil-av').textContent = r.init;
-  document.getElementById('profil-av').style.background = r.color;
-  document.getElementById('profil-name').textContent = r.name;
-  document.getElementById('profil-mat').textContent = r.mat;
-  document.getElementById('ps').textContent = 'Bienvenue, ' + r.name.split(' ')[0] + ' · Mardi 28 avril 2026';
-  const isRH = id === 'admin' || id === 'mgr' || id === 'sup';
-  ['ni-setup','ni-validation','ni-payroll','ni-employes','ni-audit'].forEach(nid => {
-    const el = document.getElementById(nid);
-    if (el) el.style.display = isRH ? 'flex' : 'none';
-  });
-  document.getElementById('ns-admin').style.display = isRH ? 'block' : 'none';
-  if (id === 'sup') {
-    document.getElementById('val-title').textContent = 'Demandes à viser — Superviseur';
-    document.getElementById('val-info').textContent = 'ℹ Vous êtes l\'étape 2/4. Visez les demandes de votre équipe avant qu\'elles atteignent le RH Manager.';
-  } else if (id === 'mgr') {
-    document.getElementById('val-title').textContent = 'Validation RH Manager — Étape 3/4';
-    document.getElementById('val-info').textContent = 'ℹ Vous ne recevez que les demandes déjà visées par le superviseur. Validez puis imprimez pour la Direction.';
-  } else {
-    document.getElementById('val-title').textContent = 'Toutes les demandes — Administrateur';
-    document.getElementById('val-info').textContent = 'ℹ Accès complet à toutes les demandes, tous les employés, sans restriction.';
-  }
-  buildRolePill();
+// ── LOGIN ─────────────────────────────────────────────────────────────────────
+function loginAs(role){
+  CR=role;
+  const r=ROLES_DATA[role];
+  document.getElementById('login-page').style.display='none';
+  document.getElementById('app').style.display='block';
+  updateUserUI(r);
   buildValList();
+  goStep(3);
+}
+function logout(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-page').style.display='flex';
 }
 
-// ── NAVIGATION ────────────────────────────────────────────────────────────────
-function nav(id, el) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('s-' + id).classList.add('active');
-  if (el) el.classList.add('active');
-  const titles = {
-    dashboard:'Dashboard', formulaires:'Mes formulaires', demandes:'Mes demandes',
-    setup:'Setup entreprise', validation:'File de validation', payroll:'Payroll USD + HTG',
-    employes:'Tous les employés', audit:'Journal d\'audit', profil:'Mon profil'
-  };
-  document.getElementById('pt').textContent = titles[id] || id;
-  if (id === 'formulaires') {
-    document.getElementById('form-list').style.display = 'block';
-    document.getElementById('form-active').style.display = 'none';
+// ── USER UI ───────────────────────────────────────────────────────────────────
+function updateUserUI(r){
+  ['sb-av','profil-av'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent=r.av;el.style.background=r.color;}
+  });
+  document.getElementById('sb-name').textContent=r.name;
+  document.getElementById('sb-role').textContent=r.role;
+  document.getElementById('profil-name').textContent=r.name;
+  document.getElementById('profil-role').textContent=r.role;
+  document.getElementById('profil-mat').textContent=r.mat;
+  document.getElementById('ps').textContent='Bienvenue, '+r.name.split(' ')[0]+' · Mardi 28 avril 2026';
+  document.querySelectorAll('.rh-only').forEach(el=>el.style.display=r.rh?'flex':'none');
+  document.getElementById('sec-rh').style.display=r.rh?'block':'none';
+  if(r.role==='Superviseur IT'){
+    document.getElementById('val-title').textContent='Demandes à viser — Étape 2/4';
+    document.getElementById('val-alert').textContent='ℹ️ Vous êtes l\'étape 2/4. Visez les demandes de votre équipe. Sans votre visa, la demande reste bloquée.';
+  } else if(r.role==='RH Manager'){
+    document.getElementById('val-title').textContent='Validation RH Manager — Étape 3/4';
+    document.getElementById('val-alert').textContent='ℹ️ Vous ne recevez que les demandes déjà visées par le superviseur. Validez puis imprimez pour la Direction.';
+  } else {
+    document.getElementById('val-title').textContent='Toutes les demandes — Administrateur';
+    document.getElementById('val-alert').textContent='ℹ️ Accès complet à toutes les demandes, tous les employés, sans restriction.';
   }
-  if (id === 'setup') gostep(setupStep);
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+function nav(id,el){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  const sc=document.getElementById('s-'+id);
+  if(sc) sc.classList.add('active');
+  if(el) el.classList.add('active');
+  const titles={dashboard:'Dashboard',formulaires:'Mes formulaires',demandes:'Mes demandes',setup:'Setup entreprise',validation:'File de validation',payroll:'Payroll USD + HTG',employes:'Tous les employés',audit:'Journal d\'audit',profil:'Mon profil'};
+  document.getElementById('pt').textContent=titles[id]||id;
 }
 
 // ── FORMULAIRES ───────────────────────────────────────────────────────────────
-function openForm(type) {
-  document.getElementById('form-list').style.display = 'none';
-  document.getElementById('form-active').style.display = 'block';
-  const r = ROLES[currentRole];
-  const forms = {
-    conge: { icon:'📅', name:'Demande de congé annuel', color:'#0F6E56',
-      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#0F6E56">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
-      <div class="fg"><label>Régime de congé <span class="req">*</span></label><select><option>15 jours consécutifs — Cat. A (moins de 10 ans)</option><option>21 jours consécutifs — Cat. B (10 à 14 ans)</option><option>15 jours ouvrables — Cat. C (15 ans et plus)</option></select></div>
-      <div class="two-col"><div class="fg"><label>Date de début <span class="req">*</span></label><input type="date" value="2026-06-20"></div><div class="fg"><label>Date de fin <span class="req">*</span></label><input type="date" value="2026-06-24"></div></div>
-      <div class="fg"><label>Intérimaire désigné</label><input type="text" placeholder="Nom du collègue remplaçant"></div>
-      <div class="fg"><label>Solde disponible</label><input value="14 jours restants (Cat. A)" readonly></div>
-      <div class="fg"><label>Observations</label><textarea placeholder="Informations complémentaires..."></textarea></div>` },
-    visa: { icon:'✈️', name:'Attestation pour visa / voyage', color:'#534AB7',
-      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#534AB7">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
-      <div class="fg"><label>Ambassade / Consulat <span class="req">*</span></label><input type="text" placeholder="ex: Ambassade des États-Unis, Port-au-Prince"></div>
-      <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option selected>Anglais</option></select></div><div class="fg"><label>Pays de destination</label><input type="text" placeholder="États-Unis"></div></div>
-      <div class="fg"><label>Mention du salaire</label>
-        <div class="sal-row">
-          <div class="sal-opt avec" id="sal-a" onclick="toggleSal('avec')">☑ AVEC SALAIRE<br><small>Montant mentionné</small></div>
-          <div class="sal-opt" id="sal-s" onclick="toggleSal('sans')">☐ SANS SALAIRE<br><small>Emploi seul</small></div>
-        </div></div>
-      <div class="fg" id="sal-det"><label>Type de salaire</label><select><option>Salaire brut mensuel</option><option>Salaire net mensuel</option><option>Les deux</option></select></div>
-      <div class="fg"><label>Devise</label><select><option>USD ($)</option><option>HTG (G)</option></select></div>` },
-    pret: { icon:'💵', name:'Demande de prêt', color:'#854F0B',
-      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#854F0B">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
-      <div class="two-col"><div class="fg"><label>Devise <span class="req">*</span></label><select><option>USD — Dollar américain</option><option>HTG — Gourde haïtienne</option></select></div><div class="fg"><label>Montant <span class="req">*</span></label><input type="number" placeholder="500" value="500"></div></div>
-      <div class="two-col"><div class="fg"><label>Mensualités</label><select><option>3 mois</option><option selected>6 mois</option><option>9 mois</option><option>12 mois</option></select></div><div class="fg"><label>Motif <span class="req">*</span></label><select><option selected>Urgence médicale</option><option>Scolarité</option><option>Logement</option></select></div></div>
-      <div class="fg"><label>Mensualité calculée</label><input value="$83.33 / mois pendant 6 mois" readonly></div>
-      <div class="fg"><label>Détails</label><textarea placeholder="Décrivez la situation..."></textarea></div>` },
-    sortie: { icon:'🚪', name:'Autorisation de sortie', color:'#A32D2D',
-      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#A32D2D">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
-      <div class="alert warn" style="margin-bottom:12px">⚠ Maximum 2 heures. Cas d'urgence uniquement — non récurrent.</div>
-      <div class="fg"><label>Date <span class="req">*</span></label><input type="date" value="2026-04-28"></div>
-      <div class="three-col"><div class="fg"><label>Heure de sortie <span class="req">*</span></label><input placeholder="14h00"></div><div class="fg"><label>Retour prévu</label><input placeholder="16h00"></div><div class="fg"><label>Durée</label><input placeholder="2h"></div></div>
-      <div class="fg"><label>Motif <span class="req">*</span></label><select><option>Rendez-vous médical</option><option>Démarche administrative</option><option>Mission professionnelle</option><option>Urgence familiale</option></select></div>
-      <div class="fg"><label>Détail</label><textarea placeholder="Précisez si nécessaire..."></textarea></div>` },
-    hsup: { icon:'⏰', name:'Heures supplémentaires', color:'#993C1D',
-      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#993C1D">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
-      <div class="fg"><label>Date <span class="req">*</span></label><input type="date" value="2026-04-28"></div>
-      <div class="two-col"><div class="fg"><label>Heure début <span class="req">*</span></label><input placeholder="17h00"></div><div class="fg"><label>Heure fin <span class="req">*</span></label><input placeholder="20h00"></div></div>
-      <div class="fg"><label>Majoration</label><select><option>+50% (jours normaux)</option><option>+100% (dimanche / férié)</option><option>+25% (samedi matin)</option></select></div>
-      <div class="fg"><label>Motif obligatoire <span class="req">*</span></label><textarea placeholder="ex: Migration serveur urgente — bon de travail #BT-0412"></textarea></div>` },
-    travail: { icon:'📄', name:'Attestation de travail', color:'#534AB7',
-      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#534AB7">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
-      <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text" placeholder="ex: Banque Scotia Haïti"></div>
-      <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option>Créole haïtien</option><option>Anglais</option></select></div><div class="fg"><label>Nb d'exemplaires</label><select><option>1</option><option>2</option><option>3</option></select></div></div>
-      <div class="fg"><label>Mention du salaire</label>
-        <div class="sal-row"><div class="sal-opt" id="st-a" onclick="toggleSalT('avec')">☐ AVEC SALAIRE</div><div class="sal-opt sans" id="st-s" onclick="toggleSalT('sans')">☑ SANS SALAIRE</div></div></div>
-      <div class="fg"><label>Objet / Motif</label><textarea placeholder="ex: Demande de prêt immobilier"></textarea></div>` },
-    bancaire: { icon:'🏦', name:'Attestation bancaire', color:'#534AB7',
-      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#534AB7">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
-      <div class="fg"><label>Banque destinataire <span class="req">*</span></label><input type="text" placeholder="ex: BNC Haïti"></div>
-      <div class="fg"><label>Objet</label><select><option>Demande de prêt</option><option>Ouverture de compte</option><option>Carte de crédit</option></select></div>
-      <div class="fg"><label>Mention du salaire</label>
-        <div class="sal-row"><div class="sal-opt avec">☑ AVEC SALAIRE</div><div class="sal-opt">☐ SANS SALAIRE</div></div></div>
-      <div class="two-col"><div class="fg"><label>Type</label><select><option>Salaire brut mensuel</option><option>Salaire net mensuel</option></select></div><div class="fg"><label>Devise</label><select><option>USD ($)</option><option>HTG (G)</option></select></div></div>` },
-    maladie: { icon:'🤒', name:'Congé maladie', color:'#A32D2D',
-      body:`<div class="step-track"><div class="st done">1 ✓ Rempli</div><div class="st cur" style="background:#A32D2D">2 Superviseur</div><div class="st">3 RH Manager</div><div class="st">4 Direction</div></div>
-      <div class="two-col"><div class="fg"><label>Date de début <span class="req">*</span></label><input type="date"></div><div class="fg"><label>Date de retour prévue <span class="req">*</span></label><input type="date"></div></div>
-      <div class="fg"><label>Médecin traitant</label><input type="text" placeholder="Nom du médecin"></div>
-      <div class="fg"><label>Référence certificat médical</label><input type="text" placeholder="N° du document"></div>
-      <div class="fg"><label>Observations</label><textarea></textarea></div>` },
-  };
-  const f = forms[type];
-  if (!f) return;
-  document.getElementById('form-active').innerHTML = `
-    <div class="form-card">
-      <div class="form-hdr">
-        <div style="font-size:22px">${f.icon}</div>
-        <div style="flex:1">
-          <div style="font-size:13px;font-weight:600">${f.name}</div>
-          <div style="font-size:11px;color:var(--text2)">Soumis par ${r.name} (${r.role}) · Accès universel confirmé</div>
-        </div>
-        <button class="btn" onclick="backToList()">← Retour</button>
-      </div>
-      <div class="form-body">
-        <div class="alert ok" style="margin-bottom:14px">✓ Rôle : <strong>${r.role}</strong> — Accès universel à ce formulaire</div>
-        ${f.body}
-      </div>
-      <div class="form-ftr">
-        <button class="btn" onclick="backToList()">Annuler</button>
-        <button class="btn" style="flex:1;background:${f.color};color:#fff;border-color:${f.color}" onclick="submitForm('${type}')">Soumettre la demande →</button>
-      </div>
-    </div>`;
+const FORMS_DEF={
+  conge:{ic:'📅',bg:'#DCFCE7',name:'Demande de congé annuel',color:'#0F6E56',delay:'48h',
+    body:`<div class="alert ok" style="margin-bottom:14px">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel à ce formulaire</div>
+    <div class="pipeline"><div class="pl-step done">1 ✓ Saisie</div><div class="pl-step cur" style="background:#854F0B">2 Superviseur</div><div class="pl-step wait">3 RH Manager</div><div class="pl-step wait">4 Direction</div></div>
+    <div class="fg"><label>Régime de congé <span class="req">*</span></label><select><option>15 jours consécutifs — Cat. A (moins de 10 ans)</option><option>21 jours consécutifs — Cat. B (10 à 14 ans)</option><option>15 jours ouvrables — Cat. C (15 ans et plus)</option></select></div>
+    <div class="two-col"><div class="fg"><label>Date de début <span class="req">*</span></label><input type="date" value="2026-06-20"></div><div class="fg"><label>Date de fin <span class="req">*</span></label><input type="date" value="2026-06-24"></div></div>
+    <div class="fg"><label>Intérimaire désigné</label><input type="text" placeholder="Nom du collègue remplaçant"></div>
+    <div class="fg"><label>Solde disponible</label><input value="14 jours restants (Cat. A)" readonly></div>
+    <div class="fg"><label>Observations</label><textarea placeholder="Informations complémentaires..."></textarea></div>`},
+  maladie:{ic:'🤒',bg:'#FEE2E2',name:'Congé maladie',color:'#A32D2D',delay:'Immédiat',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="pipeline"><div class="pl-step done">1 ✓ Saisie</div><div class="pl-step cur" style="background:#854F0B">2 Superviseur</div><div class="pl-step wait">3 RH Manager</div><div class="pl-step wait">4 Direction</div></div>
+    <div class="two-col"><div class="fg"><label>Date de début <span class="req">*</span></label><input type="date"></div><div class="fg"><label>Date de retour prévue <span class="req">*</span></label><input type="date"></div></div>
+    <div class="fg"><label>Médecin traitant</label><input type="text" placeholder="Nom du médecin"></div>
+    <div class="fg"><label>Référence certificat médical</label><input type="text" placeholder="N° ou nom du document"></div>
+    <div class="fg"><label>Observations</label><textarea></textarea></div>`},
+  maternite:{ic:'👶',bg:'#FCE7F3',name:'Congé maternité / paternité',color:'#9D174D',delay:'15j avant',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Type <span class="req">*</span></label><select><option>Maternité (90 jours)</option><option>Paternité (10 jours)</option></select></div>
+    <div class="two-col"><div class="fg"><label>Date prévue accouchement <span class="req">*</span></label><input type="date"></div><div class="fg"><label>Date de début du congé <span class="req">*</span></label><input type="date"></div></div>
+    <div class="fg"><label>Document médical</label><input type="text" placeholder="Attestation de grossesse"></div>`},
+  teletravail:{ic:'🏠',bg:'#D1FAE5',name:'Demande de télétravail',color:'#064E3B',delay:'48h',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Fréquence</label><select><option>Ponctuel (quelques jours)</option><option>Hebdomadaire récurrent</option></select></div>
+    <div class="two-col"><div class="fg"><label>Date de début <span class="req">*</span></label><input type="date"></div><div class="fg"><label>Date de fin</label><input type="date"></div></div>
+    <div class="fg"><label>Justification</label><textarea placeholder="Raisons de la demande..."></textarea></div>`},
+  sanssolde:{ic:'💼',bg:'#F3F4F6',name:'Congé sans solde',color:'#374151',delay:'7j avant',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="two-col"><div class="fg"><label>Date de début <span class="req">*</span></label><input type="date"></div><div class="fg"><label>Date de fin <span class="req">*</span></label><input type="date"></div></div>
+    <div class="fg"><label>Motif <span class="req">*</span></label><textarea></textarea></div>
+    <div class="fg"><label>Plan de remplacement</label><input type="text" placeholder="Qui assure vos responsabilités ?"></div>`},
+  special:{ic:'⭐',bg:'#FEF3C7',name:'Congé spécial (3 jours)',color:'#854F0B',delay:'Immédiat',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Motif <span class="req">*</span></label><select><option>Deuil (famille proche)</option><option>Mariage</option><option>Naissance</option><option>Autre</option></select></div>
+    <div class="fg"><label>Date de l'événement <span class="req">*</span></label><input type="date"></div>
+    <div class="fg"><label>Document justificatif</label><input type="text"></div>`},
+  travail:{ic:'📄',bg:'#EDE9FE',name:"Attestation de travail",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text" placeholder="ex: Banque Scotia Haïti"></div>
+    <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option>Créole haïtien</option><option>Anglais</option></select></div><div class="fg"><label>Nb d'exemplaires</label><select><option>1</option><option>2</option><option>3</option></select></div></div>
+    <div class="fg"><label>Mention du salaire</label>
+      <div class="sal-grid"><div class="sal-opt sans" id="sa-s" onclick="toggleSal('sans')"><div class="so-check">☑</div><div class="so-title">SANS SALAIRE</div><div class="so-sub">Emploi confirmé seul</div></div><div class="sal-opt" id="sa-a" onclick="toggleSal('avec')"><div class="so-check">☐</div><div class="so-title">AVEC SALAIRE</div><div class="so-sub">Montant mentionné</div></div></div></div>
+    <div class="fg" id="sal-detail-block" style="display:none"><label>Type de salaire</label><select><option>Brut mensuel</option><option>Net mensuel</option><option>Annuel</option><option>Brut + Net</option></select></div>
+    <div class="fg"><label>Objet / Motif</label><textarea placeholder="ex: Demande de prêt immobilier"></textarea></div>`},
+  salaire:{ic:'💰',bg:'#EDE9FE',name:"Attestation de salaire",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text" placeholder="ex: BNC Haïti"></div>
+    <div class="two-col"><div class="fg"><label>Type de salaire <span class="req">*</span></label><select><option>Brut mensuel</option><option>Net mensuel</option><option>Salaire annuel</option><option>Brut + Net</option></select></div><div class="fg"><label>Devise <span class="req">*</span></label><select><option>USD ($)</option><option>HTG (G)</option><option>Les deux</option></select></div></div>
+    <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option>Anglais</option><option>Créole</option></select></div><div class="fg"><label>Nb d'exemplaires</label><select><option>1</option><option>2</option><option>3</option></select></div></div>`},
+  visa:{ic:'✈️',bg:'#EDE9FE',name:"Attestation pour visa / voyage",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Ambassade / Consulat <span class="req">*</span></label><input type="text" placeholder="ex: Ambassade des États-Unis, Port-au-Prince"></div>
+    <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option selected>Anglais</option><option>Espagnol</option></select></div><div class="fg"><label>Pays de destination</label><input type="text" placeholder="États-Unis"></div></div>
+    <div class="fg"><label>Date de voyage prévue</label><input type="date"></div>
+    <div class="fg"><label>Mention du salaire</label>
+      <div class="sal-grid"><div class="sal-opt avec" id="sv-a" onclick="toggleSalV('avec')"><div class="so-check">☑</div><div class="so-title">AVEC SALAIRE</div><div class="so-sub">Montant mentionné</div></div><div class="sal-opt" id="sv-s" onclick="toggleSalV('sans')"><div class="so-check">☐</div><div class="so-title">SANS SALAIRE</div><div class="so-sub">Emploi seul</div></div></div></div>
+    <div class="fg" id="visa-sal-type"><label>Type de salaire</label><select><option>Brut mensuel</option><option>Net mensuel</option><option>Les deux</option></select></div>
+    <div class="fg"><label>Devise</label><select><option>USD ($)</option><option>HTG (G)</option></select></div>`},
+  bancaire:{ic:'🏦',bg:'#EDE9FE',name:"Attestation bancaire",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Banque destinataire <span class="req">*</span></label><input type="text" placeholder="ex: BNC Haïti, Sogebank, Unibank"></div>
+    <div class="fg"><label>Objet</label><select><option>Demande de prêt</option><option>Ouverture de compte</option><option>Carte de crédit</option><option>Autre</option></select></div>
+    <div class="fg"><label>Mention du salaire</label>
+      <div class="sal-grid"><div class="sal-opt avec"><div class="so-check">☑</div><div class="so-title">AVEC SALAIRE</div><div class="so-sub">Montant mentionné</div></div><div class="sal-opt"><div class="so-check">☐</div><div class="so-title">SANS SALAIRE</div></div></div></div>
+    <div class="two-col"><div class="fg"><label>Type</label><select><option>Brut mensuel</option><option>Net mensuel</option></select></div><div class="fg"><label>Devise</label><select><option>USD ($)</option><option>HTG (G)</option></select></div></div>`},
+  etudes:{ic:'🎓',bg:'#EDE9FE',name:"Attestation pour études",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Institution <span class="req">*</span></label><input type="text" placeholder="ex: Université d'État d'Haïti"></div>
+    <div class="two-col"><div class="fg"><label>Programme</label><input type="text" placeholder="Master en Gestion"></div><div class="fg"><label>Langue</label><select><option>Français</option><option>Anglais</option><option>Créole</option></select></div></div>
+    <div class="fg"><label>Mention du salaire</label>
+      <div class="sal-grid"><div class="sal-opt sans"><div class="so-check">☑</div><div class="so-title">SANS SALAIRE</div></div><div class="sal-opt"><div class="so-check">☐</div><div class="so-title">AVEC SALAIRE</div></div></div></div>`},
+  presence:{ic:'📆',bg:'#EDE9FE',name:"Attestation de présence",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text"></div>
+    <div class="two-col"><div class="fg"><label>Période du <span class="req">*</span></label><input type="date"></div><div class="fg"><label>Au <span class="req">*</span></label><input type="date"></div></div>
+    <div class="fg"><label>Langue</label><select><option>Français</option><option>Créole</option><option>Anglais</option></select></div>`},
+  experience:{ic:'💼',bg:'#EDE9FE',name:"Attestation d'expérience",color:'#534AB7',delay:'5 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text"></div>
+    <div class="fg"><label>Détail poste</label><select><option>Poste actuel uniquement</option><option>Tous les postes occupés</option></select></div>
+    <div class="fg"><label>Mention du salaire</label>
+      <div class="sal-grid"><div class="sal-opt sans"><div class="so-check">☑</div><div class="so-title">SANS SALAIRE</div></div><div class="sal-opt"><div class="so-check">☐</div><div class="so-title">AVEC SALAIRE</div></div></div></div>
+    <div class="fg"><label>Langue</label><select><option>Français</option><option>Anglais</option></select></div>`},
+  nonredev:{ic:'🚫',bg:'#EDE9FE',name:"Attestation de non-redevance",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text"></div>
+    <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option>Créole</option><option>Anglais</option></select></div><div class="fg"><label>Nb d'exemplaires</label><select><option>1</option><option>2</option></select></div></div>`},
+  finservice:{ic:'🔚',bg:'#EDE9FE',name:"Attestation de fin de service",color:'#534AB7',delay:'5 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text"></div>
+    <div class="two-col"><div class="fg"><label>Motif de fin <span class="req">*</span></label><select><option>Démission</option><option>Retraite</option><option>Fin de contrat</option><option>Licenciement</option></select></div><div class="fg"><label>Date effective <span class="req">*</span></label><input type="date"></div></div>
+    <div class="fg"><label>Mention du salaire</label>
+      <div class="sal-grid"><div class="sal-opt sans"><div class="so-check">☑</div><div class="so-title">SANS SALAIRE</div></div><div class="sal-opt"><div class="so-check">☐</div><div class="so-title">AVEC SALAIRE</div></div></div></div>`},
+  conduite:{ic:'✅',bg:'#EDE9FE',name:"Attestation de bonne conduite",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text"></div>
+    <div class="two-col"><div class="fg"><label>Langue</label><select><option>Français</option><option>Créole</option><option>Anglais</option></select></div><div class="fg"><label>Nb exemplaires</label><select><option>1</option><option>2</option></select></div></div>
+    <div class="fg"><label>Objet / Motif</label><textarea></textarea></div>`},
+  dispo:{ic:'📡',bg:'#EDE9FE',name:"Attestation de disponibilité",color:'#534AB7',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Destinataire <span class="req">*</span></label><input type="text"></div>
+    <div class="fg"><label>Période de disponibilité</label><input type="text" placeholder="ex: À partir du 01/05/2026"></div>
+    <div class="fg"><label>Langue</label><select><option>Français</option><option>Anglais</option></select></div>`},
+  pret:{ic:'💵',bg:'#FEF3C7',name:'Demande de prêt',color:'#854F0B',delay:'5 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="two-col"><div class="fg"><label>Devise <span class="req">*</span></label><select><option>USD — Dollar américain</option><option>HTG — Gourde haïtienne</option></select></div><div class="fg"><label>Montant demandé <span class="req">*</span></label><input type="number" placeholder="500" value="500"></div></div>
+    <div class="two-col"><div class="fg"><label>Mensualités</label><select><option>3 mois</option><option selected>6 mois</option><option>9 mois</option><option>12 mois</option></select></div><div class="fg"><label>Motif <span class="req">*</span></label><select><option selected>Urgence médicale</option><option>Scolarité</option><option>Logement</option><option>Autre</option></select></div></div>
+    <div class="fg"><label>Mensualité calculée</label><input value="$83.33 / mois pendant 6 mois" readonly></div>
+    <div class="fg"><label>Détails complémentaires</label><textarea placeholder="Décrivez la situation..."></textarea></div>`},
+  avance:{ic:'💸',bg:'#FEF3C7',name:"Avance sur salaire",color:'#854F0B',delay:'48h',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="two-col"><div class="fg"><label>Devise <span class="req">*</span></label><select><option>USD ($)</option><option>HTG (G)</option></select></div><div class="fg"><label>Montant <span class="req">*</span></label><input type="number" placeholder="200"></div></div>
+    <div class="fg"><label>Mode de récupération</label><select><option>Bulletin suivant (100%)</option><option>Étalé sur 2 mois</option><option>Étalé sur 3 mois</option></select></div>
+    <div class="fg"><label>Motif <span class="req">*</span></label><textarea placeholder="Raison de la demande..."></textarea></div>`},
+  frais:{ic:'🧾',bg:'#FEF3C7',name:"Remboursement de frais",color:'#854F0B',delay:'5 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="two-col"><div class="fg"><label>Type de frais</label><select><option>Transport</option><option>Repas</option><option>Fournitures</option><option>Autre</option></select></div><div class="fg"><label>Devise</label><select><option>USD ($)</option><option>HTG (G)</option></select></div></div>
+    <div class="two-col"><div class="fg"><label>Montant total <span class="req">*</span></label><input type="number"></div><div class="fg"><label>Date des frais <span class="req">*</span></label><input type="date"></div></div>
+    <div class="fg"><label>Référence reçus</label><input type="text"></div>
+    <div class="fg"><label>Description</label><textarea></textarea></div>`},
+  sortie:{ic:'🚪',bg:'#FEE2E2',name:"Autorisation de sortie",color:'#A32D2D',delay:'Immédiat',
+    body:`<div class="alert warn">⚠️ Maximum 2 heures pendant les heures de travail. Cas d'urgence uniquement — non récurrent.</div>
+    <div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Date <span class="req">*</span></label><input type="date" value="2026-04-28"></div>
+    <div class="three-col"><div class="fg"><label>Heure de sortie <span class="req">*</span></label><input type="text" placeholder="14h00"></div><div class="fg"><label>Retour prévu</label><input type="text" placeholder="16h00"></div><div class="fg"><label>Durée estimée</label><input type="text" placeholder="2h"></div></div>
+    <div class="fg"><label>Motif <span class="req">*</span></label><select><option>Rendez-vous médical</option><option>Démarche administrative</option><option>Mission professionnelle</option><option>Urgence familiale</option><option>Autre</option></select></div>
+    <div class="fg"><label>Détail du motif</label><textarea placeholder="Précisez si nécessaire..."></textarea></div>`},
+  hsup:{ic:'⏰',bg:'#FEE2E2',name:"Déclaration heures supplémentaires",color:'#993C1D',delay:'48h',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Date <span class="req">*</span></label><input type="date" value="2026-04-28"></div>
+    <div class="two-col"><div class="fg"><label>Heure de début <span class="req">*</span></label><input type="text" placeholder="17h00"></div><div class="fg"><label>Heure de fin <span class="req">*</span></label><input type="text" placeholder="20h00"></div></div>
+    <div class="fg"><label>Majoration applicable</label><select><option>+50% (jours normaux)</option><option>+100% (dimanche / férié)</option><option>+25% (samedi matin)</option></select></div>
+    <div class="fg"><label>Motif obligatoire <span class="req">*</span></label><textarea placeholder="ex: Migration serveur urgente — bon de travail #BT-0412"></textarea></div>`},
+  pointage:{ic:'🔄',bg:'#FEE2E2',name:"Correction de pointage",color:'#993C1D',delay:'24h',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Date concernée <span class="req">*</span></label><input type="date"></div>
+    <div class="two-col"><div class="fg"><label>Heure d'arrivée réelle</label><input type="text" placeholder="08:00"></div><div class="fg"><label>Heure de départ réelle</label><input type="text" placeholder="17:00"></div></div>
+    <div class="fg"><label>Motif de la correction <span class="req">*</span></label><textarea></textarea></div>`},
+  absence:{ic:'😔',bg:'#DBEAFE',name:"Déclaration d'absence motivée",color:'#185FA5',delay:'Immédiat',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="two-col"><div class="fg"><label>Type d'absence <span class="req">*</span></label><select><option>Deuil</option><option>Urgence familiale</option><option>RDV administratif</option><option>Mariage</option><option>Naissance</option><option>Autre</option></select></div><div class="fg"><label>Durée (jours) <span class="req">*</span></label><input type="number" placeholder="1"></div></div>
+    <div class="fg"><label>Date <span class="req">*</span></label><input type="date"></div>
+    <div class="fg"><label>Justification détaillée <span class="req">*</span></label><textarea></textarea></div>
+    <div class="fg"><label>Document justificatif</label><input type="text"></div>`},
+  dossier:{ic:'📝',bg:'#DBEAFE',name:"Modification de dossier",color:'#185FA5',delay:'3 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Type de modification</label><select><option>Adresse</option><option>Téléphone</option><option>Email personnel</option><option>Situation familiale</option><option>Document officiel</option><option>Autre</option></select></div>
+    <div class="fg"><label>Ancienne valeur</label><textarea></textarea></div>
+    <div class="fg"><label>Nouvelle valeur <span class="req">*</span></label><textarea></textarea></div>
+    <div class="fg"><label>Document justificatif</label><input type="text"></div>`},
+  bulletin:{ic:'📋',bg:'#DBEAFE',name:"Correction de bulletin de paie",color:'#185FA5',delay:'5 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="two-col"><div class="fg"><label>N° du bulletin <span class="req">*</span></label><input type="text" placeholder="BUL-USD-2026-06-XXXX"></div><div class="fg"><label>Période concernée <span class="req">*</span></label><input type="date"></div></div>
+    <div class="fg"><label>Erreur constatée <span class="req">*</span></label><textarea></textarea></div>
+    <div class="fg"><label>Correction demandée <span class="req">*</span></label><textarea></textarea></div>`},
+  reclamation:{ic:'🏖️',bg:'#DBEAFE',name:"Réclamation / Grievance RH",color:'#185FA5',delay:'5 jours',
+    body:`<div class="alert ok">✅ Rôle : <strong id="form-role-lbl"></strong> — Accès universel</div>
+    <div class="fg"><label>Catégorie</label><select><option>Salaire / Paie</option><option>Conditions de travail</option><option>Harcèlement</option><option>Discrimination</option><option>Autre</option></select></div>
+    <div class="fg"><label>Description du problème <span class="req">*</span></label><textarea></textarea></div>
+    <div class="fg"><label>Solution souhaitée</label><textarea></textarea></div>
+    <div class="fg"><label>Date de l'incident</label><input type="date"></div>`},
+};
+
+function openFormModal(type){
+  const f=FORMS_DEF[type];
+  if(!f) return;
+  currentFormType=type;
+  const r=ROLES_DATA[CR];
+  document.getElementById('m-ic').textContent=f.ic;
+  document.getElementById('m-ic').style.background=f.bg;
+  document.getElementById('m-title').textContent=f.name;
+  document.getElementById('m-sub').textContent='Délai de traitement : '+f.delay+' · Soumis par '+r.name;
+  document.getElementById('m-submit').style.background=f.color;
+  document.getElementById('m-submit').style.borderColor=f.color;
+  document.getElementById('m-body').innerHTML=f.body;
+  document.getElementById('m-body').style.display='block';
+  document.getElementById('m-success').style.display='none';
+  document.getElementById('m-ftr').style.display='flex';
+  const rl=document.getElementById('form-role-lbl');
+  if(rl) rl.textContent=r.role;
+  document.getElementById('modal-overlay').classList.add('open');
 }
 
-function backToList() {
-  document.getElementById('form-list').style.display = 'block';
-  document.getElementById('form-active').style.display = 'none';
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+
+function toggleSal(c){
+  const a=document.getElementById('sa-a'),s=document.getElementById('sa-s'),d=document.getElementById('sal-detail-block');
+  if(c==='avec'){
+    a.className='sal-opt avec';a.querySelector('.so-check').textContent='☑';
+    s.className='sal-opt';s.querySelector('.so-check').textContent='☐';
+    if(d)d.style.display='block';
+  } else {
+    s.className='sal-opt sans';s.querySelector('.so-check').textContent='☑';
+    a.className='sal-opt';a.querySelector('.so-check').textContent='☐';
+    if(d)d.style.display='none';
+  }
+}
+function toggleSalV(c){
+  const a=document.getElementById('sv-a'),s=document.getElementById('sv-s'),d=document.getElementById('visa-sal-type');
+  if(c==='avec'){
+    a.className='sal-opt avec';a.querySelector('.so-check').textContent='☑';
+    s.className='sal-opt';s.querySelector('.so-check').textContent='☐';
+    if(d)d.style.display='block';
+  } else {
+    s.className='sal-opt sans';s.querySelector('.so-check').textContent='☑';
+    a.className='sal-opt';a.querySelector('.so-check').textContent='☐';
+    if(d)d.style.display='none';
+  }
 }
 
-function toggleSal(c) {
-  const a = document.getElementById('sal-a'), s = document.getElementById('sal-s'), d = document.getElementById('sal-det');
-  if (c === 'avec') { a.className='sal-opt avec'; a.innerHTML='☑ AVEC SALAIRE<br><small>Montant mentionné</small>'; s.className='sal-opt'; s.innerHTML='☐ SANS SALAIRE<br><small>Emploi seul</small>'; if(d) d.style.display='block'; }
-  else { s.className='sal-opt sans'; s.innerHTML='☑ SANS SALAIRE<br><small>Emploi seul</small>'; a.className='sal-opt'; a.innerHTML='☐ AVEC SALAIRE<br><small>Montant mentionné</small>'; if(d) d.style.display='none'; }
-}
-function toggleSalT(c) {
-  const a = document.getElementById('st-a'), s = document.getElementById('st-s');
-  if (c === 'avec') { a.className='sal-opt avec'; a.textContent='☑ AVEC SALAIRE'; s.className='sal-opt'; s.textContent='☐ SANS SALAIRE'; }
-  else { s.className='sal-opt sans'; s.textContent='☑ SANS SALAIRE'; a.className='sal-opt'; a.textContent='☐ AVEC SALAIRE'; }
-}
-
-function submitForm(type) {
-  const cats = { conge:'DEM', visa:'ATT', pret:'PRET', sortie:'AUT', hsup:'DEM', travail:'ATT', bancaire:'ATT', maladie:'DEM' };
-  const ref = (cats[type]||'DEM') + '-2026-' + Math.floor(Math.random()*9000+1000);
-  document.getElementById('form-active').innerHTML = `
-    <div class="form-card">
-      <div class="form-body">
-        <div class="success-screen">
-          <div class="success-icon">✅</div>
-          <div class="success-title">Demande soumise avec succès !</div>
-          <div class="success-sub">Circuit de validation déclenché — 4 étapes obligatoires</div>
-          <div class="ref-tag">${ref}</div>
-          <div class="pipeline" style="margin-top:16px">
-            <div class="pl-step done">1 ✓ Soumis</div>
-            <div class="pl-step cur" style="background:var(--amber)">2 ⏳ Superviseur</div>
-            <div class="pl-step wait">3 — RH Manager</div>
-            <div class="pl-step wait">4 — Direction</div>
-          </div>
-          <div style="font-size:11px;color:var(--text2);margin-top:12px">Email envoyé au superviseur avec lien de validation (token email)</div>
-          <div style="margin-top:16px"><button class="btn" onclick="backToList()">← Autres formulaires</button></div>
-        </div>
-      </div>
-    </div>`;
+function submitForm(){
+  const cats={conge:'DEM',maladie:'DEM',maternite:'DEM',teletravail:'DEM',sanssolde:'DEM',special:'DEM',
+    travail:'ATT',salaire:'ATT',visa:'ATT',bancaire:'ATT',etudes:'ATT',presence:'ATT',experience:'ATT',nonredev:'ATT',finservice:'ATT',conduite:'ATT',dispo:'ATT',
+    pret:'PRET',avance:'AVS',frais:'REMB',
+    sortie:'AUT',hsup:'HSP',pointage:'PT',absence:'ABS',dossier:'RH',bulletin:'BUL',reclamation:'GRV'};
+  const prefix=cats[currentFormType]||'DEM';
+  const ref=prefix+'-2026-'+Math.floor(Math.random()*9000+1000);
+  document.getElementById('m-ref').textContent=ref;
+  document.getElementById('m-body').style.display='none';
+  document.getElementById('m-success').style.display='block';
+  document.getElementById('m-ftr').innerHTML=`<button class="btn" onclick="closeModal()">Fermer</button><button class="btn btn-primary" onclick="nav('demandes',null);closeModal()">Voir mes demandes →</button>`;
 }
 
 // ── VALIDATION ────────────────────────────────────────────────────────────────
-const VAL_DATA = [
-  {ic:'📅', name:'Congé annuel — Jean-Marc Romain', ref:'DEM-2026-0847', meta:'5 jours · 20–24 juin · IT · Solde: 14j'},
-  {ic:'📄', name:'Attestation visa — Carla Mervil',  ref:'ATT-COM-2026-0031', meta:'Ambassade USA · Finance · Sans salaire'},
-  {ic:'💵', name:'Prêt $500 USD — Pierre Moreau',    ref:'PRET-2026-0042', meta:'Urgence médicale · Opérations · 6 mensualités'},
+const VAL_DATA=[
+  {ic:'📅',bg:'#DCFCE7',name:'Congé annuel — Jean-Marc Romain',ref:'DEM-2026-0847',meta:'5 jours · 20–24 juin · Dept. IT · Solde: 14j restants'},
+  {ic:'📄',bg:'#EDE9FE',name:'Attestation visa — Carla Mervil',ref:'ATT-COM-2026-0031',meta:'Ambassade USA · Finance · Sans mention salaire · Anglais'},
+  {ic:'💵',bg:'#FEF3C7',name:'Prêt $500 USD — Pierre Moreau',ref:'PRET-2026-0042',meta:'Urgence médicale · Opérations · 6 mensualités de $83.33'},
 ];
 
-function buildValList() {
-  const isRH = currentRole === 'mgr' || currentRole === 'admin';
-  const c = document.getElementById('val-list');
-  let remaining = valDone.filter(v => !v).length;
-  document.getElementById('val-count').textContent = remaining + ' en attente';
-  c.innerHTML = VAL_DATA.map((v, i) => valDone[i]
-    ? `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;opacity:.5"><span style="font-size:16px">${v.ic}</span><div style="flex:1"><div style="font-size:12px;font-weight:500">${v.name}</div><div style="font-size:10px;color:var(--text2)">${v.ref} · Traité</div></div><span class="badge b-ok">Traité ✓</span></div>`
-    : `<div style="border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:10px">
-        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">
-          <span style="font-size:16px">${v.ic}</span>
-          <div style="flex:1"><div style="font-size:12px;font-weight:600">${v.name}</div><div style="font-size:10px;color:var(--text2)">${v.ref} · ${v.meta}</div></div>
-          <span class="badge b-warn">À ${isRH ? 'valider' : 'viser'}</span>
-        </div>
-        <div class="fg" style="margin-bottom:8px"><label>Motif / Commentaire <span class="req">*</span> obligatoire</label><textarea id="m${i}" style="min-height:44px" placeholder="Saisissez votre motif avant de valider ou refuser..."></textarea></div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn btn-green" onclick="valAction(${i},'ok')" style="font-size:11px">✓ ${isRH ? 'Valider' : 'Viser — Approuver'}</button>
-          <button class="btn btn-red" onclick="valAction(${i},'ko')" style="font-size:11px">✗ Refuser</button>
-          ${isRH ? `<button class="btn btn-purple" onclick="valAction(${i},'print')" style="font-size:11px">🖨 Valider & Imprimer</button>` : ''}
-          <button class="btn" onclick="valAction(${i},'info')" style="font-size:11px">? Infos requises</button>
-        </div>
-      </div>`
-  ).join('') || `<div style="text-align:center;padding:24px;color:var(--text2)">Aucune demande en attente</div>`;
+function buildValList(){
+  const isRH=CR==='mgr'||CR==='admin';
+  const remaining=valDone.filter(v=>!v).length;
+  document.getElementById('val-count').textContent=remaining+' en attente';
+  document.getElementById('val-nb').textContent=remaining;
+  const c=document.getElementById('val-list');
+  c.innerHTML=VAL_DATA.map((v,i)=>valDone[i]?
+    `<div class="val-card done"><div class="val-card-hdr"><div style="width:36px;height:36px;border-radius:9px;background:${v.bg};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${v.ic}</div><div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--gray700)">${v.name}</div><div style="font-size:11px;color:var(--gray500)">${v.ref} · Traité</div></div><span class="badge b-ok">Traité ✓</span></div></div>`:
+    `<div class="val-card"><div class="val-card-hdr"><div style="width:36px;height:36px;border-radius:9px;background:${v.bg};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${v.ic}</div><div style="flex:1"><div style="font-size:13px;font-weight:700">${v.name}</div><div style="font-size:11px;color:var(--gray500);margin-top:2px">${v.ref}</div><div style="font-size:11px;color:var(--gray400);margin-top:1px">${v.meta}</div></div><span class="badge b-warn">À ${isRH?'valider':'viser'}</span></div>
+    <div class="fg" style="margin-bottom:10px"><label>Commentaire / motif <span class="req">*</span> — Obligatoire avant toute décision</label><textarea id="m${i}" placeholder="Saisissez votre motif..." style="min-height:54px"></textarea></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-green btn-sm" onclick="valAction(${i},'ok')">✓ ${isRH?'Valider':'Viser — Approuver'}</button>
+      <button class="btn btn-red btn-sm" onclick="valAction(${i},'ko')">✗ Refuser</button>
+      ${isRH?`<button class="btn btn-purple btn-sm" onclick="valAction(${i},'print')">🖨 Valider &amp; Imprimer</button>`:''}
+      <button class="btn btn-sm" onclick="valAction(${i},'info')">? Infos requises</button>
+    </div></div>`
+  ).join('')||`<div style="text-align:center;padding:32px;color:var(--gray400)">✅ Aucune demande en attente</div>`;
 }
 
-function valAction(i, action) {
-  const motif = document.getElementById('m' + i)?.value?.trim();
-  if (!motif) {
-    document.getElementById('m' + i).style.borderColor = 'var(--red)';
-    document.getElementById('m' + i).placeholder = '⚠ Le motif est obligatoire !';
+function valAction(i,action){
+  const el=document.getElementById('m'+i);
+  if(!el?.value?.trim()){
+    el.style.borderColor='var(--red)';
+    el.placeholder='⚠ Le motif est OBLIGATOIRE avant toute décision !';
     return;
   }
-  valDone[i] = true;
-  const msgs = {
-    ok:'Demande approuvée · Transmise à l\'étape suivante · Email envoyé',
-    ko:'Demande refusée · Employé notifié par email avec le motif',
-    print:'Validée · PDF généré · Envoyé à l\'imprimante pour la Direction',
-    info:'Informations demandées à l\'employé · Demande en attente',
-  };
-  toast(msgs[action] || 'Action enregistrée');
+  valDone[i]=true;
+  const msgs={ok:'Demande approuvée · Transmise à l\'étape suivante · Email envoyé',ko:'Demande refusée · Employé notifié par email avec le motif',print:'Validée · PDF généré · Envoyé à l\'imprimante pour la Direction',info:'Informations demandées à l\'employé'};
+  toast('✅ '+msgs[action]);
   buildValList();
 }
 
 // ── SETUP ─────────────────────────────────────────────────────────────────────
-const SETUP_STEPS = {
-  1: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 1 — Informations de la société</div><span class="badge b-pur">1/6</span></div>
+const DOMS=[
+  {id:'commerce',ic:'🏪',lb:'Commerce',c:'#185FA5'},{id:'finance',ic:'🏦',lb:'Finance',c:'#0F6E56'},
+  {id:'sante',ic:'🏥',lb:'Santé',c:'#A32D2D'},{id:'education',ic:'🎓',lb:'Éducation',c:'#534AB7'},
+  {id:'btp',ic:'🏗️',lb:'BTP',c:'#854F0B'},{id:'tech',ic:'💻',lb:'Tech & IT',c:'#185FA5'},
+  {id:'transport',ic:'🚛',lb:'Transport',c:'#633806'},{id:'ong',ic:'🌍',lb:'ONG / Intl',c:'#0F6E56'},
+  {id:'public',ic:'🏛️',lb:'Secteur pub.',c:'#0C447C'},{id:'tourisme',ic:'🏨',lb:'Tourisme',c:'#993C1D'},
+  {id:'agri',ic:'🌾',lb:'Agriculture',c:'#3B6D11'},{id:'media',ic:'📡',lb:'Médias',c:'#534AB7'},
+  {id:'juridique',ic:'⚖️',lb:'Droit',c:'#444441'},{id:'immobilier',ic:'🏠',lb:'Immobilier',c:'#712B13'},
+  {id:'energie',ic:'⚡',lb:'Énergie',c:'#27500A'},{id:'autre',ic:'⚙️',lb:'Autre',c:'#5F5E5A'},
+];
+let selDom='commerce';let setupStep=3;
+
+const SETUP_HTML={
+  1:`<div class="card card-pad"><div class="card-hdr"><div class="card-title">Étape 1 — Informations de la société</div><span class="badge b-pur">1/6</span></div>
     <div class="two-col"><div class="fg"><label>Raison sociale <span class="req">*</span></label><input value="Entreprise Nationale S.A."></div><div class="fg"><label>Forme juridique</label><select><option selected>Société Anonyme (S.A.)</option><option>S.A.R.L.</option><option>ONG</option><option>Institution publique</option></select></div></div>
-    <div class="two-col"><div class="fg"><label>NIF Haïtien <span class="req">*</span></label><input value="HT-0042-2019"></div><div class="fg"><label>Département (Haïti) <span class="req">*</span></label><select><option selected>Ouest</option><option>Nord</option><option>Sud</option><option>Artibonite</option><option>Centre</option></select></div></div>
+    <div class="two-col"><div class="fg"><label>NIF Haïtien <span class="req">*</span></label><input value="HT-0042-2019"></div><div class="fg"><label>Département (Haïti)</label><select><option selected>Ouest</option><option>Nord</option><option>Sud</option><option>Artibonite</option><option>Centre</option><option>Grand'Anse</option><option>Nippes</option><option>Nord-Est</option><option>Nord-Ouest</option><option>Sud-Est</option></select></div></div>
     <div class="fg"><label>Adresse complète</label><input value="Rue Magny, Pétion-Ville, Port-au-Prince"></div>
     <div class="two-col"><div class="fg"><label>Téléphone</label><input value="+509 3700 0042"></div><div class="fg"><label>Email officiel</label><input value="info@entreprise-nationale.com"></div></div>
     <div class="fg"><label>Directeur Général</label><input value="Jean-Robert Baptiste"></div>
-    <div style="display:flex;justify-content:flex-end;margin-top:4px"><button class="btn btn-purple" onclick="gostep(2)">Étape suivante →</button></div></div>`,
-
-  2: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 2 — Paramètres RH</div><span class="badge b-pur">2/6</span></div>
-    <div class="two-col"><div class="fg"><label>Taille entreprise</label><select><option>Micro (1–9)</option><option>Petite (10–49)</option><option selected>Moyenne (50–249)</option><option>Grande (250+)</option></select></div><div class="fg"><label>Délai alerte documents (jours)</label><input type="number" value="10"></div></div>
+    <div style="display:flex;justify-content:flex-end;margin-top:4px"><button class="btn btn-primary" onclick="goStep(2)">Suivant →</button></div></div>`,
+  2:`<div class="card card-pad"><div class="card-hdr"><div class="card-title">Étape 2 — Paramètres RH</div><span class="badge b-pur">2/6</span></div>
+    <div class="two-col"><div class="fg"><label>Taille entreprise</label><select><option>Micro (1–9)</option><option>Petite (10–49)</option><option selected>Moyenne (50–249)</option><option>Grande (250+)</option></select></div><div class="fg"><label>Délai alerte docs (jours)</label><input type="number" value="10"></div></div>
     <div class="two-col"><div class="fg"><label>Délai max validation (h)</label><input type="number" value="48"></div><div class="fg"><label>Convention collective</label><select><option selected>Code du travail haïtien</option><option>Convention bancaire</option><option>Convention enseignement</option></select></div></div>
-    <div class="fg"><label>Jours ouvrés</label><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
-      ${['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi matin'].map((j,i)=>`<label style="font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px"><input type="checkbox" ${i<5?'checked':''} style="width:auto"> ${j}</label>`).join('')}</div></div>
-    <div style="display:flex;justify-content:space-between;margin-top:4px"><button class="btn" onclick="gostep(1)">← Précédent</button><button class="btn btn-purple" onclick="gostep(3)">Étape suivante →</button></div></div>`,
-
-  3: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 3 — Domaine d'activité</div><span class="badge b-pur">3/6</span></div>
-    <div class="alert info">Ce choix adapte automatiquement les formulaires d'attestation, les champs sectoriels et les références des formulaires.</div>
+    <div class="fg"><label>Jours ouvrés</label><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">${['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi matin'].map((j,i)=>`<label style="font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px"><input type="checkbox" ${i<5?'checked':''} style="width:auto"> ${j}</label>`).join('')}</div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px"><button class="btn" onclick="goStep(1)">← Précédent</button><button class="btn btn-primary" onclick="goStep(3)">Suivant →</button></div></div>`,
+  3:`<div class="card card-pad"><div class="card-hdr"><div class="card-title">Étape 3 — Domaine d'activité</div><span class="badge b-pur">3/6</span></div>
+    <div class="alert info">Ce choix adapte automatiquement les formulaires d'attestation, les champs sectoriels et les références (Form-Adm/Pers-005-XXX).</div>
     <div class="fg"><label>Sélectionnez le domaine principal <span class="req">*</span></label></div>
     <div class="dom-grid" id="dom-g"></div>
-    <div id="dom-impact" style="display:none;margin-top:10px"></div>
-    <div style="display:flex;justify-content:space-between;margin-top:10px"><button class="btn" onclick="gostep(2)">← Précédent</button><button class="btn btn-purple" onclick="gostep(4)">Étape suivante →</button></div></div>`,
-
-  4: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 4 — Devise & Taux de change</div><span class="badge b-pur">4/6</span></div>
-    <div class="alert warn">Le taux BRH est figé à chaque génération de bulletin. Il s'applique aux bulletins futurs uniquement.</div>
-    <div class="two-col"><div class="fg"><label>Devise principale <span class="req">*</span></label><select><option>USD uniquement</option><option>HTG uniquement</option><option selected>USD + HTG (double payroll)</option></select></div><div class="fg"><label>Taux BRH actuel (HTG / 1 USD)</label><input type="number" value="132.50" step="0.01"></div></div>
+    <div id="dom-imp" style="display:none;margin-top:10px"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:10px"><button class="btn" onclick="goStep(2)">← Précédent</button><button class="btn btn-primary" onclick="goStep(4)">Suivant →</button></div></div>`,
+  4:`<div class="card card-pad"><div class="card-hdr"><div class="card-title">Étape 4 — Devise & Taux de change</div><span class="badge b-pur">4/6</span></div>
+    <div class="alert warn">Le taux BRH est figé à chaque génération de bulletin. Cette valeur s'applique aux bulletins futurs uniquement.</div>
+    <div class="two-col"><div class="fg"><label>Devise principale <span class="req">*</span></label><select><option>USD uniquement</option><option>HTG uniquement</option><option selected>USD + HTG (double payroll)</option></select></div><div class="fg"><label>Taux BRH actuel (HTG/USD)</label><input type="number" value="132.50" step="0.01"></div></div>
     <div class="fg"><label>Taxes haïtiennes activées</label>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:6px">
-        <div style="background:#EFF6FF;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#1E40AF">ONA</div><div>6% · 6%</div></div>
-        <div style="background:#F0FDF4;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#166534">CAS</div><div>3% · 4%</div></div>
-        <div style="background:#F5F3FF;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#5B21B6">CFGDCT</div><div>2% · 2%</div></div>
-        <div style="background:#FFFBEB;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#92400E">FDU</div><div>— · 0.5%</div></div>
-        <div style="background:#FEF2F2;padding:8px;border-radius:var(--radius);text-align:center;font-size:11px"><div style="font-weight:700;color:#991B1B">IRI</div><div>0–30%</div></div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px">
+        <div style="background:var(--lblue);padding:10px;border-radius:var(--radius);text-align:center"><div style="font-weight:700;color:var(--blue);font-size:12px">ONA</div><div style="font-size:11px;color:var(--gray500)">6% · 6%</div></div>
+        <div style="background:var(--lgreen);padding:10px;border-radius:var(--radius);text-align:center"><div style="font-weight:700;color:var(--green);font-size:12px">CAS</div><div style="font-size:11px;color:var(--gray500)">3% · 4%</div></div>
+        <div style="background:var(--lpurp);padding:10px;border-radius:var(--radius);text-align:center"><div style="font-weight:700;color:var(--purple);font-size:12px">CFGDCT</div><div style="font-size:11px;color:var(--gray500)">2% · 2%</div></div>
+        <div style="background:var(--lamber);padding:10px;border-radius:var(--radius);text-align:center"><div style="font-weight:700;color:var(--amber);font-size:12px">FDU</div><div style="font-size:11px;color:var(--gray500)">— · 0.5%</div></div>
+        <div style="background:var(--lred);padding:10px;border-radius:var(--radius);text-align:center"><div style="font-weight:700;color:var(--red);font-size:12px">IRI</div><div style="font-size:11px;color:var(--gray500)">0–30%</div></div>
       </div></div>
-    <div style="display:flex;justify-content:space-between;margin-top:6px"><button class="btn" onclick="gostep(3)">← Précédent</button><button class="btn btn-purple" onclick="gostep(5)">Étape suivante →</button></div></div>`,
-
-  5: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 5 — Compte Administrateur</div><span class="badge b-pur">5/6</span></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px"><button class="btn" onclick="goStep(3)">← Précédent</button><button class="btn btn-primary" onclick="goStep(5)">Suivant →</button></div></div>`,
+  5:`<div class="card card-pad"><div class="card-hdr"><div class="card-title">Étape 5 — Compte Administrateur</div><span class="badge b-pur">5/6</span></div>
     <div class="alert err">⚠ Mot de passe temporaire : <strong>"admin"</strong> — Changement forcé dès le premier login.</div>
-    <div class="two-col"><div class="fg"><label>Nom & Prénom Admin <span class="req">*</span></label><input value="Marie Celcis"></div><div class="fg"><label>Email Admin <span class="req">*</span></label><input value="admin@entreprise-nationale.com"></div></div>
+    <div class="two-col"><div class="fg"><label>Nom & Prénom <span class="req">*</span></label><input value="Marie Celcis"></div><div class="fg"><label>Email <span class="req">*</span></label><input value="admin@entreprise-nationale.com"></div></div>
     <div class="fg"><label>Mot de passe temporaire</label><input value="admin" readonly></div>
     <div class="fg"><label>Politique de sécurité</label>
-      <div style="display:flex;flex-direction:column;gap:5px;margin-top:5px;font-size:12px">
-        <label style="cursor:pointer;display:flex;align-items:center;gap:6px"><input type="checkbox" checked style="width:auto"> Minimum 12 caractères</label>
-        <label style="cursor:pointer;display:flex;align-items:center;gap:6px"><input type="checkbox" checked style="width:auto"> Majuscule + chiffre + caractère spécial</label>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;font-size:12px">
+        <label style="cursor:pointer;display:flex;align-items:center;gap:6px"><input type="checkbox" checked style="width:auto"> Minimum 12 caractères · Majuscule + chiffre + caractère spécial</label>
         <label style="cursor:pointer;display:flex;align-items:center;gap:6px"><input type="checkbox" style="width:auto"> Expiration tous les 90 jours</label>
+        <label style="cursor:pointer;display:flex;align-items:center;gap:6px"><input type="checkbox" checked style="width:auto"> Authentification JWT (15min) + Refresh token (7j)</label>
       </div></div>
-    <div style="display:flex;justify-content:space-between;margin-top:4px"><button class="btn" onclick="gostep(4)">← Précédent</button><button class="btn btn-purple" onclick="gostep(6)">Étape suivante →</button></div></div>`,
-
-  6: `<div class="card"><div class="card-hdr"><div class="card-title">Étape 6 — Récapitulatif & Confirmation</div><span class="badge b-ok">Prêt</span></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-      <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">Société</div><div style="font-weight:600">Entreprise Nationale S.A.</div></div>
-      <div style="background:var(--bg2);padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:10px;color:var(--text2)">NIF</div><div style="font-weight:600">HT-0042-2019</div></div>
-      <div style="background:#F5F3FF;padding:10px 12px;border-radius:var(--radius);border:1px solid #DDD6FE"><div style="font-size:10px;color:#5B21B6">Domaine</div><div style="font-weight:600;color:var(--purple)" id="recap-dom">Commerce & Distribution</div></div>
-      <div style="background:#F0FDF4;padding:10px 12px;border-radius:var(--radius);border:1px solid #86EFAC"><div style="font-size:10px;color:#166534">Payroll</div><div style="font-weight:600;color:var(--green)">Double USD + HTG · G 132.50</div></div>
-      <div style="background:#EFF6FF;padding:10px 12px;border-radius:var(--radius);border:1px solid #BFDBFE"><div style="font-size:10px;color:#1E40AF">Admin</div><div style="font-weight:600;color:var(--blue)">Marie Celcis</div></div>
-      <div style="background:#F0FDF4;padding:10px 12px;border-radius:var(--radius);border:1px solid #86EFAC"><div style="font-size:10px;color:#166534">Formulaires</div><div style="font-weight:600;color:var(--green)">27 universels + sectoriels activés</div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px"><button class="btn" onclick="goStep(4)">← Précédent</button><button class="btn btn-primary" onclick="goStep(6)">Suivant →</button></div></div>`,
+  6:`<div class="card card-pad"><div class="card-hdr"><div class="card-title">Étape 6 — Récapitulatif & Confirmation</div><span class="badge b-ok">Prêt</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:var(--gray50);padding:12px;border-radius:var(--radius);border:1px solid var(--gray200)"><div style="font-size:10px;color:var(--gray500)">Société</div><div style="font-weight:700">Entreprise Nationale S.A.</div></div>
+      <div style="background:var(--gray50);padding:12px;border-radius:var(--radius);border:1px solid var(--gray200)"><div style="font-size:10px;color:var(--gray500)">NIF</div><div style="font-weight:700">HT-0042-2019</div></div>
+      <div style="background:var(--lpurp);padding:12px;border-radius:var(--radius);border:1px solid #DDD6FE"><div style="font-size:10px;color:var(--purple)">Domaine</div><div style="font-weight:700;color:var(--purple)" id="recap-d">Commerce & Distribution</div></div>
+      <div style="background:var(--lgreen);padding:12px;border-radius:var(--radius);border:1px solid #86EFAC"><div style="font-size:10px;color:var(--green)">Payroll</div><div style="font-weight:700;color:var(--green)">Double USD + HTG · G 132.50</div></div>
+      <div style="background:var(--lblue);padding:12px;border-radius:var(--radius);border:1px solid #BFDBFE"><div style="font-size:10px;color:var(--blue)">Admin</div><div style="font-weight:700;color:var(--blue)">Marie Celcis</div></div>
+      <div style="background:var(--lgreen);padding:12px;border-radius:var(--radius);border:1px solid #86EFAC"><div style="font-size:10px;color:var(--green)">Formulaires</div><div style="font-weight:700;color:var(--green)">27 universels + sectoriels activés</div></div>
     </div>
-    <div class="alert ok">Toutes les configurations sont valides. Cliquez "Lancer le système" pour initialiser.</div>
-    <div style="display:flex;justify-content:space-between"><button class="btn" onclick="gostep(5)">← Précédent</button><button class="btn btn-green" onclick="launchSystem()">🚀 Lancer le système →</button></div></div>`,
+    <div class="alert ok">✅ Toutes les configurations sont valides. Cliquez "Lancer" pour initialiser.</div>
+    <div style="display:flex;justify-content:space-between"><button class="btn" onclick="goStep(5)">← Précédent</button><button class="btn btn-green" onclick="launchSystem()">🚀 Lancer le système →</button></div></div>`,
 };
 
-function gostep(n) {
-  setupStep = n;
-  document.getElementById('setup-content').innerHTML = SETUP_STEPS[n] || '';
-  document.querySelectorAll('.st').forEach((s, i) => {
-    s.classList.remove('done', 'cur');
-    s.style.background = '';
-    s.style.color = '';
-    if (i + 1 < n) { s.classList.add('done'); }
-    else if (i + 1 === n) { s.classList.add('cur'); s.style.background = 'var(--purple)'; s.style.color = '#fff'; }
+function goStep(n){
+  setupStep=n;
+  document.getElementById('setup-content').innerHTML=SETUP_HTML[n]||'';
+  document.querySelectorAll('#setup-steps .pl-step').forEach((s,i)=>{
+    s.classList.remove('done','cur');s.style.background='';s.style.color='';
+    if(i+1<n){s.classList.add('done');}
+    else if(i+1===n){s.classList.add('cur');s.style.background='var(--purple)';s.style.color='#fff';}
+    else{s.classList.add('wait');s.style.color='var(--gray400)';}
   });
-  if (n === 3) buildDomGrid();
+  if(n===3) buildDomGrid();
 }
 
-function buildDomGrid() {
-  const g = document.getElementById('dom-g');
-  if (!g) return;
-  g.innerHTML = DOMAINES.map(d => `
-    <div class="dom-c ${d.id === selectedDom ? 'sel' : ''}" data-id="${d.id}" style="${d.id===selectedDom?'border-color:'+d.c+';background:'+d.c+'18':''}" onclick="selectDom('${d.id}')">
-      <span class="dom-ic">${d.ic}</span>
-      <div class="dom-lb">${d.lb}</div>
-    </div>`).join('');
-  showDomImpact(DOMAINES.find(d => d.id === selectedDom));
+function buildDomGrid(){
+  const g=document.getElementById('dom-g');
+  if(!g) return;
+  g.innerHTML=DOMS.map(d=>`<div class="dom-card ${d.id===selDom?'sel':''}" data-id="${d.id}" style="${d.id===selDom?`border-color:${d.c};background:${d.c}18`:''}" onclick="selDomain('${d.id}')"><span class="dom-ic" style="font-size:20px;display:block;margin-bottom:4px">${d.ic}</span><div class="dom-lb" style="font-size:10px;font-weight:600">${d.lb}</div></div>`).join('');
+  showDomImpact(DOMS.find(d=>d.id===selDom));
 }
-
-function selectDom(id) {
-  selectedDom = id;
-  const d = DOMAINES.find(x => x.id === id);
-  document.querySelectorAll('.dom-c').forEach(c => {
-    if (c.dataset.id === id) { c.classList.add('sel'); c.style.borderColor = d.c; c.style.background = d.c + '18'; }
-    else { c.classList.remove('sel'); c.style.borderColor = ''; c.style.background = ''; }
+function selDomain(id){
+  selDom=id;
+  const d=DOMS.find(x=>x.id===id);
+  document.querySelectorAll('.dom-card').forEach(c=>{
+    c.style.borderColor='';c.style.background='';c.classList.remove('sel');
+    if(c.dataset.id===id){c.classList.add('sel');c.style.borderColor=d.c;c.style.background=d.c+'18';}
   });
   showDomImpact(d);
-  const rd = document.getElementById('recap-dom');
-  if (rd) rd.textContent = d.lb;
+  const rd=document.getElementById('recap-d');
+  if(rd) rd.textContent=d.lb;
 }
-
-function showDomImpact(d) {
-  const box = document.getElementById('dom-impact');
-  if (!box) return;
-  box.style.display = 'block';
-  box.innerHTML = `
-    <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Impact automatique</div>
-    <div style="display:flex;flex-direction:column;gap:5px">
-      <div style="display:flex;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:var(--radius);font-size:12px;border-left:3px solid ${d.c}"><div>Référence formulaire : <strong>Form-Adm/Pers-005-${(d.id.toUpperCase().slice(0,3))}</strong></div></div>
-      <div style="display:flex;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:var(--radius);font-size:12px;border-left:3px solid ${d.c}"><div>Numéro de suivi : <strong>ATT-${d.id.toUpperCase().slice(0,3)}-2026-XXXX</strong></div></div>
-      <div style="display:flex;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:var(--radius);font-size:12px;border-left:3px solid ${d.c}"><div>Couleur accent du formulaire : <strong style="color:${d.c}">${d.c}</strong></div></div>
+function showDomImpact(d){
+  const b=document.getElementById('dom-imp');
+  if(!b) return;
+  b.style.display='block';
+  b.innerHTML=`<div style="font-size:11px;font-weight:600;color:var(--gray500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Impact automatique</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;gap:8px;padding:8px 12px;background:var(--gray50);border-radius:var(--radius);font-size:12px;border-left:3px solid ${d.c}">Référence formulaire : <strong>Form-Adm/Pers-005-${d.id.toUpperCase().slice(0,3)}</strong></div>
+      <div style="display:flex;gap:8px;padding:8px 12px;background:var(--gray50);border-radius:var(--radius);font-size:12px;border-left:3px solid ${d.c}">Numéro de suivi : <strong>ATT-${d.id.toUpperCase().slice(0,3)}-2026-XXXX</strong></div>
     </div>`;
 }
-
-function launchSystem() {
-  toast('🚀 Système lancé — Schéma PostgreSQL créé · Email envoyé à Marie Celcis avec mdp temporaire · Forçage changement mdp activé');
-}
+function launchSystem(){toast('🚀 Système lancé — Schéma PostgreSQL créé · Email envoyé à Marie Celcis avec mdp "admin" · Forçage changement mdp activé');}
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.innerHTML='<span style="font-size:16px">✓</span> <span>'+msg+'</span>';
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 4000);
+  setTimeout(()=>t.classList.remove('show'),4000);
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-buildRolePill();
-buildValList();
-gostep(3);
+document.addEventListener('click',function(e){
+  if(e.target===document.getElementById('modal-overlay')) closeModal();
+});
 </script>
 </body>
 </html>
